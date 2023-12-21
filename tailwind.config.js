@@ -5,7 +5,25 @@ export default {
 		'./src/**/*.{vue,js,ts,jsx,tsx}',
 	],
 	theme: {
-		extend: {},
+		extend: {
+			colors: {
+				primary: '#00b956',
+			},
+
+			backgroundImage: {
+				'header-gradient':
+					'linear-gradient(180deg, #00a44c 10%, rgba(0, 18, 86, 0.1) 100%)',
+			},
+
+			boxShadow: {
+				cards: '0 0 12px rgba(51, 51, 51, 0.2)',
+			},
+
+			animation: {
+				'waving-hand':
+					'wave 3s cubic-bezier(.17,.67,.83,.67) 10',
+			},
+		},
 	},
 	plugins: [],
 };
