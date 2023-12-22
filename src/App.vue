@@ -7,9 +7,9 @@ import FrontOff from './pages/front-off/FrontOff.vue';
 
 <template>
 	<section>
-		<FrontOff />
+		<!-- <FrontOff /> -->
 		<!-- <Admin /> -->
-		<!-- <AuthTabs /> -->
+		<AuthTabs />
 		<!-- <Header /> -->
 	</section>
 </template>
