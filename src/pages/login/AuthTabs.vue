@@ -16,28 +16,33 @@ const categories = {
 
 const getName = [
 	{
-		component: 'Login',
-		title: 'Login',
+		title: 'Вход',
 	},
 	{
-		component: 'Registration',
-		title: 'Registration',
+		title: 'Регистрация',
 	},
 ];
 </script>
 
 <template>
 	<section
-		class="bg-header-gradient w-full h-screen flex items-center justify-center p-5"
+		class="bg-hero-pattern bg-contain w-full h-screen flex items-center justify-center p-5"
 	>
 		<div
 			class="bg-white w-96 flex flex-col space-x-4 items-center border shadow-xl rounded-lg pl-4 pr-8 pt-4 pb-2"
 		>
-			<h1
-				class="text-2xl font-bold text-center border-b w-full leading-10"
+			<!-- logo -->
+			<div
+				class="flex items-center space-x-3 bg-white rounded-sm border-2 border-black w-40 px-1.5 py-1 mb-5 text-xl"
 			>
-				Mini CRM
-			</h1>
+				<p
+					class="bg-blue-10 text-white px-5 py-1.5"
+				>
+					MINI
+				</p>
+				<p class="font-black text-blue-10">CRM</p>
+			</div>
+			<!-- logo -->
 
 			<TabGroup>
 				<TabList class="w-full flex pb-3">
@@ -52,7 +57,7 @@ const getName = [
 							class="flex justify-center border-b-2 px-2 py-2 duration-200 outline-none"
 							:class="[
 								selected
-									? '!text-primary border-primary'
+									? '!text-blue-10 border-blue-10'
 									: '',
 							]"
 						>
@@ -91,7 +96,7 @@ const getName = [
 			</TabGroup>
 
 			<p
-				class="text-xs text-gray-400 text-center pt-4"
+				class="text-xs text-gray-500 text-center pt-4"
 			>
 				Welcome to the SRM page
 			</p>

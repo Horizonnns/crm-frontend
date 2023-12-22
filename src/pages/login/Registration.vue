@@ -2,29 +2,29 @@
 	<section>
 		<div class="flex flex-col space-y-2">
 			<div class="space-y-1">
-				<p>Login</p>
+				<p class="font-bold">Логин</p>
 				<input
 					type="text"
-					placeholder="Login"
-					class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-0 focus:border-primary placeholder:text-sm"
+					placeholder="Логин"
+					class="w-full border rounded-md p-3 focus:outline-none focus:ring-0 focus:border-blue-10 placeholder:text-sm"
 				/>
 			</div>
 
 			<div class="space-y-1">
-				<p>Password</p>
+				<p class="font-bold">Пароль</p>
 
 				<input
 					type="password"
-					placeholder="Password"
-					class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-0 focus:border-primary placeholder:text-sm"
+					placeholder="Пароль"
+					class="w-full border rounded-md p-3 focus:outline-none focus:ring-0 focus:border-blue-10 placeholder:text-sm"
 				/>
 			</div>
 		</div>
 
 		<button
-			class="w-full duration-300 hover:text-white hover:bg-primary border rounded-md px-5 py-2 mt-5"
+			class="w-full duration-300 hover:text-white hover:bg-blue-10 border rounded-md font-bold px-5 py-2 mt-5"
 		>
-			Registration
+			Регистрация
 		</button>
 	</section>
 </template>
