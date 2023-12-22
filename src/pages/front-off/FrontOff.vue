@@ -1,4 +1,21 @@
 <script setup>
+import { ref } from 'vue';
+import {
+	TransitionRoot,
+	TransitionChild,
+	Dialog,
+	DialogPanel,
+} from '@headlessui/vue';
+
+const isOpen = ref(false);
+
+function closeModal() {
+	isOpen.value = false;
+}
+function openModal() {
+	isOpen.value = true;
+}
+
 const applications = [
 	{
 		id: 1,
@@ -91,12 +108,150 @@ const applications = [
 					</p>
 
 					<button
+						@click="openModal"
 						type="submit"
 						class="bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 border rounded-full text-sm font-bold px-4 pt-1.5 pb-2"
 					>
 						Создать заявку
 					</button>
 				</div>
+
+				<TransitionRoot
+					appear
+					:show="isOpen"
+					as="template"
+				>
+					<Dialog
+						as="div"
+						@close="closeModal"
+						class="relative z-10"
+					>
+						<TransitionChild
+							as="template"
+							enter="duration-300 ease-out"
+							enter-from="opacity-0"
+							enter-to="opacity-100"
+							leave="duration-200 ease-in"
+							leave-from="opacity-100"
+							leave-to="opacity-0"
+						>
+							<div
+								class="fixed inset-0 bg-black/25"
+							/>
+						</TransitionChild>
+
+						<div
+							class="fixed inset-0 overflow-y-auto"
+						>
+							<div
+								class="flex min-h-full items-center justify-center p-4 text-center"
+							>
+								<TransitionChild
+									as="template"
+									enter="duration-300 ease-out"
+									enter-from="opacity-0 scale-95"
+									enter-to="opacity-100 scale-100"
+									leave="duration-200 ease-in"
+									leave-from="opacity-100 scale-100"
+									leave-to="opacity-0 scale-95"
+								>
+									<DialogPanel
+										class="w-full max-w-xl transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all"
+									>
+										<div
+											class="flex justify-between space-x-5 border-b-2 pb-3"
+										>
+											<div class="w-full">
+												<div class="space-y-1">
+													<p class="font-bold">
+														ФИО
+													</p>
+													<input
+														type="text"
+														placeholder="ФИО"
+														class="w-full border rounded-md p-3 focus:outline-none focus:ring-0 focus:border-blue-10 placeholder:text-sm"
+													/>
+												</div>
+
+												<div class="space-y-1">
+													<p class="font-bold">
+														Тема заявки
+													</p>
+													<input
+														type="text"
+														placeholder="Тема заявки"
+														class="w-full border rounded-md p-3 focus:outline-none focus:ring-0 focus:border-blue-10 placeholder:text-sm"
+													/>
+												</div>
+
+												<div class="space-y-1">
+													<p class="font-bold">
+														Выберите специалиста
+													</p>
+													<input
+														type="text"
+														placeholder="Выберите специалиста"
+														class="w-full border rounded-md p-3 focus:outline-none focus:ring-0 focus:border-blue-10 placeholder:text-sm"
+													/>
+												</div>
+											</div>
+
+											<div class="w-full">
+												<div class="space-y-1">
+													<p class="font-bold">
+														Номер
+													</p>
+													<input
+														type="text"
+														placeholder="Номер"
+														class="w-full border rounded-md p-3 focus:outline-none focus:ring-0 focus:border-blue-10 placeholder:text-sm"
+													/>
+												</div>
+
+												<div class="space-y-1">
+													<p class="font-bold">
+														Лицевой счет
+													</p>
+													<input
+														type="text"
+														placeholder="Лицевой счет"
+														class="w-full border rounded-md p-3 focus:outline-none focus:ring-0 focus:border-blue-10 placeholder:text-sm"
+													/>
+												</div>
+
+												<div class="space-y-1">
+													<p class="font-bold">
+														Дата обращения
+													</p>
+													<input
+														type="text"
+														placeholder="Дата обращения"
+														class="w-full border rounded-md p-3 focus:outline-none focus:ring-0 focus:border-blue-10 placeholder:text-sm"
+													/>
+												</div>
+											</div>
+										</div>
+
+										<div>
+											<textarea
+												class="p-2 w-full h-32 border mt-3"
+												placeholder="Коментарии"
+											></textarea>
+										</div>
+
+										<button
+											@click="closeModal"
+											type="submit"
+											class="bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 border rounded-full text-sm font-bold px-4 mt-5 pt-1.5 pb-2 w-full"
+										>
+											Создать заявку
+										</button>
+									</DialogPanel>
+								</TransitionChild>
+							</div>
+						</div>
+					</Dialog>
+				</TransitionRoot>
 
 				<table
 					class="min-w-full divide-y divide-gray-200"
