@@ -7,19 +7,24 @@ import {
 	TabPanel,
 } from '@headlessui/vue';
 import Login from './Login.vue';
+import Administrator from './Administrator.vue';
 import Registration from './Registration.vue';
 
 const categories = {
-	Login: Login,
 	Registration: Registration,
+	Login: Login,
+	Administrator: Administrator,
 };
 
 const getName = [
 	{
+		title: 'Регистрация',
+	},
+	{
 		title: 'Вход',
 	},
 	{
-		title: 'Регистрация',
+		title: 'Админ',
 	},
 ];
 </script>
@@ -98,7 +103,7 @@ const getName = [
 			<p
 				class="text-xs text-gray-500 text-center pt-4"
 			>
-				Welcome to the SRM page
+				Добро пожаловать в Mini CRM
 			</p>
 		</div>
 	</section>
