@@ -1,6 +1,12 @@
 <script setup>
 import { ref } from 'vue';
 import BaseSelect from '../../components/ui/BaseSelect.vue';
+import AppInput from '../../components/ui/AppInput.vue';
+
+const form = ref({
+	username: '',
+	password: '',
+});
 
 let role = ref();
 
@@ -17,22 +23,18 @@ const roleVariants = [
 <template>
 	<section>
 		<div class="flex flex-col space-y-2">
-			<div class="space-y-1">
-				<p class="font-bold">Логин</p>
-				<input
+			<div class="flex flex-col space-y-4">
+				<AppInput
 					type="text"
-					placeholder="Логин"
-					class="w-full border rounded-md p-3 focus:outline-none focus:ring-0 focus:border-blue-10 placeholder:text-sm"
+					title="Логин"
+					size="lg"
+					v-model="form.username"
 				/>
-			</div>
-
-			<div class="space-y-1">
-				<p class="font-bold">Пароль</p>
-
-				<input
+				<AppInput
 					type="password"
-					placeholder="Пароль"
-					class="w-full border rounded-md p-3 focus:outline-none focus:ring-0 focus:border-blue-10 placeholder:text-sm"
+					title="Пароль"
+					size="lg"
+					v-model="form.password"
 				/>
 			</div>
 

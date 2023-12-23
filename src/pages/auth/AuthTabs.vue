@@ -7,13 +7,13 @@ import {
 	TabPanel,
 } from '@headlessui/vue';
 import Login from './Login.vue';
-import Administrator from './Administrator.vue';
-import Registration from './Registration.vue';
+import AdminAuth from './AdminAuth.vue';
+import Auth from './Auth.vue';
 
 const categories = {
-	Registration: Registration,
+	Auth: Auth,
 	Login: Login,
-	Administrator: Administrator,
+	AdminAuth: AdminAuth,
 };
 
 const getName = [
