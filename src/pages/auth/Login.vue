@@ -12,15 +12,17 @@ const form = ref({
 	<section>
 		<div class="flex flex-col space-y-4">
 			<AppInput
+				size="lg"
 				type="text"
 				title="Логин"
-				size="lg"
+				placeholder="Введите логин"
 				v-model="form.username"
 			/>
 			<AppInput
-				type="password"
-				title="Пароль"
 				size="lg"
+				title="Пароль"
+				type="password"
+				placeholder="Введите пароль"
 				v-model="form.password"
 			/>
 		</div>
