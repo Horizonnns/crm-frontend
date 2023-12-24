@@ -6,6 +6,28 @@ import {
 	Dialog,
 	DialogPanel,
 } from '@headlessui/vue';
+import AppInput from '../../components/ui/AppInput.vue';
+import BaseSelect from '../../components/ui/BaseSelect.vue';
+
+const roleVariants = [
+	{
+		value: 'fshpd',
+		label: 'Инженер эксплуатации фшпд',
+	},
+	{ value: 'fshpd2', label: 'Фшпд маркетинг' },
+	{
+		value: 'razrabotka',
+		label: 'Фронтенд разработчик',
+	},
+	{
+		value: 'razrabotka2',
+		label: 'Бекэнд разработчик',
+	},
+	{
+		value: 'razrabotka3',
+		label: 'Ux/Ui Дизайн',
+	},
+];
 
 const isOpen = ref(false);
 
@@ -45,6 +67,22 @@ const applications = [
 			'Клиенту нужно сменит тариф домашнего интернета в течение 3 дней',
 	},
 ];
+
+const form = ref({
+	username: '',
+	topic: '',
+	jobеtitle: '',
+	phonenum: '',
+	ownacc: '',
+	createddate: '',
+});
+
+const hexTokens = {
+	F: {
+		pattern: /[0-9]/,
+		transform: (v) => v.toLocaleUpperCase(),
+	},
+};
 </script>
 
 <template>
@@ -158,75 +196,80 @@ const applications = [
 									<DialogPanel
 										class="w-full max-w-xl transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all"
 									>
-										<div
-											class="flex justify-between space-x-5 border-b-2 pb-3"
-										>
-											<div class="w-full">
-												<div class="space-y-1">
-													<p class="font-bold">
-														ФИО
-													</p>
-													<input
-														type="text"
-														placeholder="ФИО"
-														class="w-full border rounded-md p-3 focus:outline-none focus:ring-0 focus:border-blue-10 placeholder:text-sm"
-													/>
-												</div>
+										<div>
+											<h2
+												class="text-2xl font-bold text-center pb-2 mb-4 border-b-2"
+											>
+												Новая заявка
+											</h2>
 
-												<div class="space-y-1">
-													<p class="font-bold">
-														Тема заявки
-													</p>
-													<input
+											<div
+												class="flex justify-between space-x-5 border-b-2 pb-5"
+											>
+												<div
+													class="w-full space-y-4"
+												>
+													<AppInput
+														size="lg"
 														type="text"
-														placeholder="Тема заявки"
-														class="w-full border rounded-md p-3 focus:outline-none focus:ring-0 focus:border-blue-10 placeholder:text-sm"
+														title="ФИО"
+														placeholder="Иван Иванов"
+														v-model="
+															form.username
+														"
 													/>
-												</div>
 
-												<div class="space-y-1">
-													<p class="font-bold">
-														Выберите специалиста
-													</p>
-													<input
+													<AppInput
+														size="lg"
 														type="text"
+														title="Тема заявки"
+														placeholder="Сменить тариф"
+														v-model="form.topic"
+													/>
+
+													<BaseSelect
+														:class="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
+														v-model="
+															form.jobеtitle
+														"
+														:options="
+															roleVariants
+														"
 														placeholder="Выберите специалиста"
-														class="w-full border rounded-md p-3 focus:outline-none focus:ring-0 focus:border-blue-10 placeholder:text-sm"
-													/>
-												</div>
-											</div>
-
-											<div class="w-full">
-												<div class="space-y-1">
-													<p class="font-bold">
-														Номер
-													</p>
-													<input
-														type="text"
-														placeholder="Номер"
-														class="w-full border rounded-md p-3 focus:outline-none focus:ring-0 focus:border-blue-10 placeholder:text-sm"
 													/>
 												</div>
 
-												<div class="space-y-1">
-													<p class="font-bold">
-														Лицевой счет
-													</p>
-													<input
+												<div
+													class="w-full space-y-4"
+												>
+													<AppInput
+														size="lg"
 														type="text"
-														placeholder="Лицевой счет"
-														class="w-full border rounded-md p-3 focus:outline-none focus:ring-0 focus:border-blue-10 placeholder:text-sm"
+														:maska="'#########'"
+														title="Номер телефона"
+														placeholder="901000801"
+														v-model="
+															form.phonenum
+														"
 													/>
-												</div>
 
-												<div class="space-y-1">
-													<p class="font-bold">
-														Дата обращения
-													</p>
-													<input
+													<AppInput
+														size="lg"
 														type="text"
-														placeholder="Дата обращения"
-														class="w-full border rounded-md p-3 focus:outline-none focus:ring-0 focus:border-blue-10 placeholder:text-sm"
+														title="Лицевой счет"
+														placeholder="Ваш лицевой счет"
+														v-model="form.ownacc"
+													/>
+
+													<AppInput
+														size="lg"
+														type="text"
+														placeholder="01.12.2023"
+														:maska="'##.##.####'"
+														title="Дата обращения"
+														v-model="
+															form.createddate
+														"
 													/>
 												</div>
 											</div>
@@ -234,7 +277,7 @@ const applications = [
 
 										<div>
 											<textarea
-												class="p-2 w-full h-32 border mt-3"
+												class="p-2 w-full h-32 mt-5 border text-sm rounded-lg outline-none focus:outline-none focus:ring-0 focus:border-blue-10"
 												placeholder="Коментарии"
 											></textarea>
 										</div>
