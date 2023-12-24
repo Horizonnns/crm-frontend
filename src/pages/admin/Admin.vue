@@ -1,4 +1,61 @@
 <script setup>
+import { ref } from 'vue';
+import {
+	TransitionRoot,
+	TransitionChild,
+	Dialog,
+	DialogPanel,
+} from '@headlessui/vue';
+import AppInput from '../../components/ui/AppInput.vue';
+import BaseSelect from '../../components/ui/BaseSelect.vue';
+
+const jobеtitles = [
+	{
+		value: 'fshpd',
+		label: 'Инженер эксплуатации фшпд',
+	},
+	{ value: 'fshpd2', label: 'Фшпд маркетинг' },
+	{
+		value: 'razrabotka',
+		label: 'Фронтенд разработчик',
+	},
+	{
+		value: 'razrabotka2',
+		label: 'Бекэнд разработчик',
+	},
+	{
+		value: 'razrabotka3',
+		label: 'Ux/Ui Дизайн',
+	},
+];
+
+const isOpen = ref(false);
+
+function closeModal() {
+	isOpen.value = false;
+}
+function openModal() {
+	isOpen.value = true;
+}
+
+const form = ref({
+	username: '',
+	role: '',
+	jobеtitle: '',
+	phonenum: '',
+	ownacc: '',
+	createddate: '',
+});
+
+const roleVariants = [
+	{ value: 'admin', label: 'Админ' },
+	{ value: 'backoffice', label: 'Бэк-офис' },
+	{
+		value: 'frontoffice',
+		label: 'Фронт-офис',
+	},
+];
+
 const users = [
 	{
 		id: 1,
@@ -88,12 +145,153 @@ const users = [
 					</p>
 
 					<button
+						@click="openModal"
 						type="submit"
 						class="bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 border rounded-full text-sm font-bold px-4 pt-1.5 pb-2"
 					>
 						Создать пользователя
 					</button>
 				</div>
+
+				<TransitionRoot
+					appear
+					:show="isOpen"
+					as="template"
+				>
+					<Dialog
+						as="div"
+						@close="closeModal"
+						class="relative z-10"
+					>
+						<TransitionChild
+							as="template"
+							enter="duration-300 ease-out"
+							enter-from="opacity-0"
+							enter-to="opacity-100"
+							leave="duration-200 ease-in"
+							leave-from="opacity-100"
+							leave-to="opacity-0"
+						>
+							<div
+								class="fixed inset-0 bg-black/25"
+							/>
+						</TransitionChild>
+
+						<div
+							class="fixed inset-0 overflow-y-auto"
+						>
+							<div
+								class="flex min-h-full items-center justify-center p-4 text-center"
+							>
+								<TransitionChild
+									as="template"
+									enter="duration-300 ease-out"
+									enter-from="opacity-0 scale-95"
+									enter-to="opacity-100 scale-100"
+									leave="duration-200 ease-in"
+									leave-from="opacity-100 scale-100"
+									leave-to="opacity-0 scale-95"
+								>
+									<DialogPanel
+										class="w-full max-w-xl transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all"
+									>
+										<div>
+											<h2
+												class="text-2xl font-bold text-center pb-2 mb-4 border-b-2"
+											>
+												Новый пользователь
+											</h2>
+
+											<div
+												class="flex justify-between space-x-5 border-b-2 pb-5"
+											>
+												<div
+													class="w-full space-y-4"
+												>
+													<AppInput
+														size="lg"
+														type="text"
+														title="ФИО"
+														placeholder="Иван Иванов"
+														v-model="
+															form.username
+														"
+													/>
+
+													<AppInput
+														size="lg"
+														type="text"
+														title="Дата создания"
+														placeholder="Дата создания"
+														v-model="
+															form.createddate
+														"
+													/>
+
+													<BaseSelect
+														:class="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
+														v-model="form.role"
+														:options="
+															roleVariants
+														"
+														placeholder="Выберите роль"
+													/>
+												</div>
+
+												<div
+													class="w-full space-y-4"
+												>
+													<AppInput
+														size="lg"
+														type="text"
+														:maska="'#########'"
+														title="Номер телефона"
+														placeholder="901000801"
+														v-model="
+															form.phonenum
+														"
+													/>
+
+													<AppInput
+														size="lg"
+														type="text"
+														title="Лицевой счет"
+														placeholder="Ваш лицевой счет"
+														v-model="form.ownacc"
+													/>
+
+													<BaseSelect
+														:class="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
+														v-model="
+															form.jobеtitle
+														"
+														:options="jobеtitles"
+														placeholder="Выберите специалиста"
+													/>
+												</div>
+											</div>
+										</div>
+
+										<div>
+											<textarea
+												class="p-2 w-full h-32 mt-5 border text-sm rounded-lg outline-none focus:outline-none focus:ring-0 focus:border-blue-10"
+												placeholder="Коментарии"
+											></textarea>
+										</div>
+
+										<button
+											@click="closeModal"
+											type="submit"
+											class="bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 border rounded-full text-sm font-bold px-4 mt-5 pt-1.5 pb-2 w-full"
+										>
+											Создать пользователя
+										</button>
+									</DialogPanel>
+								</TransitionChild>
+							</div>
+						</div>
+					</Dialog>
+				</TransitionRoot>
 
 				<table
 					class="min-w-full divide-y divide-gray-200"
@@ -192,7 +390,7 @@ const users = [
 							</td>
 
 							<td
-								class="px-12 py-4 text-sm font-medium whitespace-nowrap"
+								class="px-7 py-4 text-sm font-medium whitespace-nowrap"
 							>
 								<div
 									class="inline px-3 py-1 text-sm font-normal rounded-full text-emerald-500 gap-x-2 bg-emerald-100/60"
@@ -201,14 +399,14 @@ const users = [
 								</div>
 							</td>
 							<td
-								class="px-4 py-4 text-sm whitespace-nowrap"
+								class="px-8 py-4 text-sm whitespace-nowrap"
 							>
 								<h4 class="flex text-gray-700">
 									{{ user.ownacc }}
 								</h4>
 							</td>
 							<td
-								class="px-4 py-4 text-sm whitespace-nowrap"
+								class="px-8 py-4 text-sm whitespace-nowrap"
 							>
 								<h4 class="flex text-gray-700">
 									{{ user.number }}
