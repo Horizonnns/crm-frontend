@@ -9,6 +9,10 @@ const props = defineProps({
 		type: String,
 		default: undefined,
 	},
+	placeholder: {
+		type: String,
+		default: undefined,
+	},
 	type: {
 		type: String,
 		default: 'text',
@@ -122,6 +126,16 @@ watch(showPassword, () => {
 		type.value = 'text';
 	}
 });
+
+const isFocused = ref(true);
+
+const handleFocus = () => {
+	isFocused.value = false;
+};
+
+const handleBlur = () => {
+	isFocused.value = true;
+};
 </script>
 
 <template>
@@ -136,6 +150,8 @@ watch(showPassword, () => {
 			:disabled="disabled"
 			:value="modelValue"
 			@input="updateValue"
+			@focus="handleFocus"
+			@blur="handleBlur"
 			:id="id.toString()"
 			:class="[
 				error &&
@@ -145,7 +161,7 @@ watch(showPassword, () => {
 				input,
 				size,
 			]"
-			placeholder=" "
+			:placeholder="isFocused ? '' : placeholder"
 		/>
 		<label
 			:for="id"
