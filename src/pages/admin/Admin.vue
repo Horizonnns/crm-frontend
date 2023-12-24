@@ -8,6 +8,7 @@ import {
 } from '@headlessui/vue';
 import AppInput from '../../components/ui/AppInput.vue';
 import BaseSelect from '../../components/ui/BaseSelect.vue';
+import IconLogout from '../../components/icons/IconLogout.vue';
 
 const jobеtitles = [
 	{
@@ -112,20 +113,7 @@ const users = [
 				</h2>
 
 				<button>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke-width="1.5"
-						stroke="currentColor"
-						class="w-10 h-10 rotate-180 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 rounded-full p-2"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
-						/>
-					</svg>
+					<IconLogout />
 				</button>
 			</div>
 		</div>
