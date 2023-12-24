@@ -76,13 +76,6 @@ const form = ref({
 	ownacc: '',
 	createddate: '',
 });
-
-const hexTokens = {
-	F: {
-		pattern: /[0-9]/,
-		transform: (v) => v.toLocaleUpperCase(),
-	},
-};
 </script>
 
 <template>
