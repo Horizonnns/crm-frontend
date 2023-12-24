@@ -5,6 +5,10 @@ import IconEyeOpen from '../icons/IconEyeOpen.vue';
 import IconEyeClose from '../icons/IconEyeClose.vue';
 
 const props = defineProps({
+	maska: {
+		type: String,
+		default: undefined,
+	},
 	type: {
 		type: String,
 		default: 'text',
@@ -123,6 +127,8 @@ watch(showPassword, () => {
 <template>
 	<div class="relative">
 		<input
+			v-maska
+			:data-maska="maska"
 			:inputmode="inputmode"
 			:autocomplete="autocomplete"
 			:maxlength="length"

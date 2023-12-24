@@ -1,5 +1,8 @@
 import { createApp } from 'vue';
 import './assets/css/main.css';
 import App from './App.vue';
+import { vMaska } from 'maska';
 
-createApp(App).mount('#app');
+createApp(App)
+	.directive('maska', vMaska)
+	.mount('#app');
