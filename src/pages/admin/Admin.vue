@@ -181,7 +181,7 @@ const users = [
 												class="flex justify-between items-center pb-2 mb-5 border-b-2"
 											>
 												<h2
-													class="text-2xl font-bold"
+													class="text-xl font-bold"
 												>
 													Новый менеджер
 												</h2>

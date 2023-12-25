@@ -9,6 +9,7 @@ import {
 import AppInput from '../../components/ui/AppInput.vue';
 import BaseSelect from '../../components/ui/BaseSelect.vue';
 import IconLogout from '../../components/icons/IconLogout.vue';
+import IconExit from '../../components/icons/IconExit.vue';
 
 const roleVariants = [
 	{
@@ -42,7 +43,7 @@ function openModal() {
 const applications = [
 	{
 		id: 1,
-		username: 'Провести домашный интернет',
+		title: 'Провести домашный интернет',
 		status: 'Ведуться работы',
 		number: '200202021',
 		job: 'Специалист Фшпд',
@@ -51,7 +52,7 @@ const applications = [
 	},
 	{
 		id: 2,
-		username: 'Починить кабель провода',
+		title: 'Починить кабель провода',
 		status: 'Пока не принято',
 		number: '001994418',
 		job: 'Инженер по части кабеля',
@@ -60,7 +61,7 @@ const applications = [
 	},
 	{
 		id: 3,
-		username: 'Сменить тариф домашного интернета',
+		title: 'Сменить тариф домашного интернета',
 		status: 'Завершена',
 		number: '010105001',
 		job: 'Менеджер Фшпд по тарифам',
@@ -123,7 +124,7 @@ const form = ref({
 					class="flex justify-between items-center px-3 border-b pb-3"
 				>
 					<p class="text-xl font-bold">
-						Список всех заявок
+						Список заявок
 					</p>
 
 					<button
@@ -140,11 +141,7 @@ const form = ref({
 					:show="isOpen"
 					as="template"
 				>
-					<Dialog
-						as="div"
-						@close="closeModal"
-						class="relative z-10"
-					>
+					<Dialog as="div" class="relative z-10">
 						<TransitionChild
 							as="template"
 							enter="duration-300 ease-out"
@@ -178,11 +175,19 @@ const form = ref({
 										class="w-full max-w-xl transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all"
 									>
 										<div>
-											<h2
-												class="text-2xl font-bold text-center pb-2 mb-4 border-b-2"
+											<div
+												class="flex justify-between items-center pb-2 mb-5 border-b-2"
 											>
-												Новая заявка
-											</h2>
+												<h2
+													class="text-xl font-bold"
+												>
+													Новая заявка
+												</h2>
+
+												<IconExit
+													@click="closeModal"
+												/>
+											</div>
 
 											<div
 												class="flex justify-between space-x-5 border-b-2 pb-5"
@@ -268,7 +273,7 @@ const form = ref({
 											type="submit"
 											class="bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 border rounded-full text-sm font-bold px-4 mt-5 pt-1.5 pb-2 w-full"
 										>
-											Создать заявку
+											Создать
 										</button>
 									</DialogPanel>
 								</TransitionChild>
@@ -335,7 +340,7 @@ const form = ref({
 
 							<th
 								scope="col"
-								class="px-4 py-3.5 text-sm text-left rtl:text-right font-bold"
+								class="px-2 py-3.5 text-sm text-left rtl:text-right font-bold"
 							>
 								Номер телефона
 							</th>
@@ -364,17 +369,17 @@ const form = ref({
 							:key="app.id"
 						>
 							<td
-								class="px-4 py-4 text-sm font-medium whitespace-nowrap"
+								class="px-4 py-4 whitespace-nowrap"
 							>
-								<h2
-									class="font-medium text-gray-700"
+								<h4
+									class="flex text-gray-700 w-40 whitespace-break-spaces font-bold text-sm"
 								>
-									{{ app.username }}
-								</h2>
+									{{ app.title }}
+								</h4>
 							</td>
 
 							<td
-								class="px-12 py-4 text-sm font-medium whitespace-nowrap"
+								class="px-4 py-4 font-medium whitespace-nowrap"
 							>
 								<div
 									class="inline px-3 py-1 text-sm font-normal rounded-full text-emerald-500 gap-x-2 bg-emerald-100/60"
@@ -390,7 +395,7 @@ const form = ref({
 								</h4>
 							</td>
 							<td
-								class="px-4 py-4 text-sm whitespace-nowrap"
+								class="px-8 py-4 text-sm whitespace-nowrap"
 							>
 								<h4 class="flex text-gray-700">
 									{{ app.number }}
