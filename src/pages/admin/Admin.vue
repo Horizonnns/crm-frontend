@@ -9,6 +9,7 @@ import {
 import AppInput from '../../components/ui/AppInput.vue';
 import BaseSelect from '../../components/ui/BaseSelect.vue';
 import IconLogout from '../../components/icons/IconLogout.vue';
+import IconExit from '../../components/icons/IconExit.vue';
 
 const jobеtitles = [
 	{
@@ -44,17 +45,13 @@ const form = ref({
 	role: '',
 	jobеtitle: '',
 	phonenum: '',
-	ownacc: '',
-	createddate: '',
+	email: '',
+	password: '',
 });
 
 const roleVariants = [
-	{ value: 'admin', label: 'Админ' },
 	{ value: 'backoffice', label: 'Бэк-офис' },
-	{
-		value: 'frontoffice',
-		label: 'Фронт-офис',
-	},
+	{ value: 'frontoffice', label: 'Фронт-офис' },
 ];
 
 const users = [
@@ -146,11 +143,7 @@ const users = [
 					:show="isOpen"
 					as="template"
 				>
-					<Dialog
-						as="div"
-						@close="closeModal"
-						class="relative z-10"
-					>
+					<Dialog as="div" class="relative z-10">
 						<TransitionChild
 							as="template"
 							enter="duration-300 ease-out"
@@ -184,11 +177,19 @@ const users = [
 										class="w-full max-w-xl transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all"
 									>
 										<div>
-											<h2
-												class="text-2xl font-bold text-center pb-2 mb-4 border-b-2"
+											<div
+												class="flex justify-between items-center pb-2 mb-5 border-b-2"
 											>
-												Новый пользователь
-											</h2>
+												<h2
+													class="text-2xl font-bold"
+												>
+													Новый менеджер
+												</h2>
+
+												<IconExit
+													@click="closeModal"
+												/>
+											</div>
 
 											<div
 												class="flex justify-between space-x-5 border-b-2 pb-5"
@@ -209,11 +210,9 @@ const users = [
 													<AppInput
 														size="lg"
 														type="text"
-														title="Дата создания"
-														placeholder="Дата создания"
-														v-model="
-															form.createddate
-														"
+														title="Email"
+														placeholder="Введите email"
+														v-model="form.email"
 													/>
 
 													<BaseSelect
@@ -242,10 +241,12 @@ const users = [
 
 													<AppInput
 														size="lg"
-														type="text"
-														title="Лицевой счет"
-														placeholder="Ваш лицевой счет"
-														v-model="form.ownacc"
+														type="password"
+														title="Пароль"
+														placeholder="Введите пароль"
+														v-model="
+															form.password
+														"
 													/>
 
 													<BaseSelect
@@ -254,17 +255,10 @@ const users = [
 															form.jobеtitle
 														"
 														:options="jobеtitles"
-														placeholder="Выберите специалиста"
+														placeholder="Выберите должность"
 													/>
 												</div>
 											</div>
-										</div>
-
-										<div>
-											<textarea
-												class="p-2 w-full h-32 mt-5 border text-sm rounded-lg outline-none focus:outline-none focus:ring-0 focus:border-blue-10"
-												placeholder="Коментарии"
-											></textarea>
 										</div>
 
 										<button
