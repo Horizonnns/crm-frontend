@@ -60,26 +60,26 @@ const roleVariants = [
 const users = [
 	{
 		id: 1,
-		username: 'Kosimjon Kosimov S',
-		status: 'front-office',
+		username: 'Косимджон Косимов С',
+		status: 'Фронт-офис',
 		number: '902000821',
-		ownacc: '58035',
+		created_at: '01.12.2023',
 		job: 'Фронтенд разработчик',
 	},
 	{
 		id: 2,
-		username: 'Aliakbar Boistov A',
-		status: 'back-office',
+		username: 'Алиакбар Боистов А',
+		status: 'Бэк-офис',
 		number: '901000891',
-		ownacc: '49738',
+		created_at: '10.12.2023',
 		job: 'Бекэнд разработчик',
 	},
 	{
 		id: 3,
-		username: 'Firuz Juraev S',
-		status: 'front-office',
+		username: 'Фируз Джураева С',
+		status: 'Фронт-офис',
 		number: '900001010',
-		ownacc: '51632',
+		created_at: '14.12.2023',
 		job: 'Фулстак разработчик',
 	},
 ];
@@ -129,7 +129,7 @@ const users = [
 					class="flex justify-between items-center px-3 border-b pb-3"
 				>
 					<p class="text-xl font-bold">
-						Список пользователей
+						Список менеджеров
 					</p>
 
 					<button
@@ -137,7 +137,7 @@ const users = [
 						type="submit"
 						class="bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 border rounded-full text-sm font-bold px-4 pt-1.5 pb-2"
 					>
-						Создать пользователя
+						Создать менеджера
 					</button>
 				</div>
 
@@ -272,7 +272,7 @@ const users = [
 											type="submit"
 											class="bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 border rounded-full text-sm font-bold px-4 mt-5 pt-1.5 pb-2 w-full"
 										>
-											Создать пользователя
+											Создать
 										</button>
 									</DialogPanel>
 								</TransitionChild>
@@ -293,7 +293,7 @@ const users = [
 								<button
 									class="flex items-center gap-x-3 focus:outline-none font-bold"
 								>
-									<span>Пользователи</span>
+									<span>Менеджер</span>
 
 									<svg
 										class="h-3"
@@ -327,14 +327,7 @@ const users = [
 								scope="col"
 								class="px-12 py-3.5 text-sm text-left rtl:text-right font-bold"
 							>
-								Статус
-							</th>
-
-							<th
-								scope="col"
-								class="px-4 py-3.5 text-sm text-left rtl:text-right font-bold"
-							>
-								Лицевой счет
+								Роль
 							</th>
 
 							<th
@@ -346,9 +339,16 @@ const users = [
 
 							<th
 								scope="col"
-								class="px-4 py-3.5 text-sm text-left rtl:text-right font-bold"
+								class="px-10 py-3.5 text-sm text-left rtl:text-right font-bold"
 							>
 								Должность
+							</th>
+
+							<th
+								scope="col"
+								class="px-4 py-3.5 text-sm text-left rtl:text-right font-bold"
+							>
+								Дата создания
 							</th>
 
 							<th
@@ -386,13 +386,7 @@ const users = [
 									{{ user.status }}
 								</div>
 							</td>
-							<td
-								class="px-8 py-4 text-sm whitespace-nowrap"
-							>
-								<h4 class="flex text-gray-700">
-									{{ user.ownacc }}
-								</h4>
-							</td>
+
 							<td
 								class="px-8 py-4 text-sm whitespace-nowrap"
 							>
@@ -406,6 +400,14 @@ const users = [
 							>
 								<h4 class="flex text-gray-700">
 									{{ user.job }}
+								</h4>
+							</td>
+
+							<td
+								class="px-8 py-4 text-sm whitespace-nowrap"
+							>
+								<h4 class="flex text-gray-700">
+									{{ user.created_at }}
 								</h4>
 							</td>
 
