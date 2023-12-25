@@ -7,25 +7,16 @@ import {
 	TabPanel,
 } from '@headlessui/vue';
 import Login from './Login.vue';
-import AdminAuth from './AdminAuth.vue';
 import Auth from './Auth.vue';
 
 const categories = {
 	Auth: Auth,
 	Login: Login,
-	AdminAuth: AdminAuth,
 };
 
 const getName = [
-	{
-		title: 'Регистрация',
-	},
-	{
-		title: 'Вход',
-	},
-	{
-		title: 'Админ',
-	},
+	{ title: 'Регистрация' },
+	{ title: 'Вход' },
 ];
 </script>
 

@@ -4,20 +4,11 @@ import BaseSelect from '../../components/ui/BaseSelect.vue';
 import AppInput from '../../components/ui/AppInput.vue';
 
 const form = ref({
-	username: '',
+	email: '',
 	password: '',
+	password_confirmation: '',
 });
 
-let role = ref();
-
-const roleVariants = [
-	{ value: 'admin', label: 'Админ' },
-	{ value: 'backoffice', label: 'Бэк-офис' },
-	{
-		value: 'frontoffice',
-		label: 'Фронт-офис',
-	},
-];
 </script>
 
 <template>
@@ -29,7 +20,7 @@ const roleVariants = [
 					type="text"
 					title="Логин"
 					placeholder="Введите логин"
-					v-model="form.username"
+					v-model="form.email"
 				/>
 				<AppInput
 					size="lg"
@@ -38,14 +29,14 @@ const roleVariants = [
 					placeholder="Введите пароль"
 					v-model="form.password"
 				/>
+				<AppInput
+					size="lg"
+					type="password"
+					title="Повторите пароль"
+					placeholder="Повторите пароль"
+					v-model="form.password_confirmation"
+				/>
 			</div>
-
-			<BaseSelect
-				:class="'p-3 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
-				v-model="role"
-				:options="roleVariants"
-				placeholder="Выберите роль"
-			/>
 		</div>
 
 		<button
