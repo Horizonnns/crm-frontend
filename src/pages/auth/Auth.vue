@@ -4,6 +4,7 @@ import BaseSelect from '../../components/ui/BaseSelect.vue';
 import AppInput from '../../components/ui/AppInput.vue';
 
 const form = ref({
+	name: '',
 	email: '',
 	password: '',
 	password_confirmation: '',
@@ -18,8 +19,15 @@ const form = ref({
 				<AppInput
 					size="lg"
 					type="text"
-					title="Логин"
-					placeholder="Введите логин"
+					title="Имя"
+					placeholder="Введите имя"
+					v-model="form.name"
+				/>
+				<AppInput
+					size="lg"
+					type="text"
+					title="Email"
+					placeholder="Введите email"
 					v-model="form.email"
 				/>
 				<AppInput
@@ -28,13 +36,6 @@ const form = ref({
 					title="Пароль"
 					placeholder="Введите пароль"
 					v-model="form.password"
-				/>
-				<AppInput
-					size="lg"
-					type="password"
-					title="Повторите пароль"
-					placeholder="Повторите пароль"
-					v-model="form.password_confirmation"
 				/>
 			</div>
 		</div>
