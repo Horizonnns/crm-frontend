@@ -1,15 +1,27 @@
 <script setup>
 import { ref } from 'vue';
-import BaseSelect from '../../components/ui/BaseSelect.vue';
+import axios from 'axios';
 import AppInput from '../../components/ui/AppInput.vue';
+
+const emit = defineEmits(['changeTab']);
 
 const form = ref({
 	name: '',
 	email: '',
 	password: '',
-	password_confirmation: '',
 });
 
+async function auth() {
+	await axios
+		.post(
+			'http://127.0.0.1:8000/api/register',
+			form.value
+		)
+		.then((res) => {
+			console.log(res, 'res');
+			emit('changeTab', 1);
+		});
+}
 </script>
 
 <template>
@@ -41,6 +53,7 @@ const form = ref({
 		</div>
 
 		<button
+			@click="auth"
 			class="w-full duration-300 hover:text-white hover:bg-blue-10 border rounded-md font-bold px-5 py-2 mt-5"
 		>
 			Регистрация
