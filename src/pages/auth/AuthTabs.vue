@@ -6,18 +6,20 @@ import {
 	TabPanels,
 	TabPanel,
 } from '@headlessui/vue';
+import { ref } from 'vue';
 import Login from './Login.vue';
 import Auth from './Auth.vue';
 
 const categories = {
-	Auth: Auth,
-	Login: Login,
+	Регистрация: Auth,
+	Вход: Login,
 };
 
-const getName = [
-	{ title: 'Регистрация' },
-	{ title: 'Вход' },
-];
+const selectedTab = ref(0);
+
+function changeTab(index) {
+	selectedTab.value = index;
+}
 </script>
 
 <template>
@@ -40,13 +42,19 @@ const getName = [
 			</div>
 			<!-- logo -->
 
-			<TabGroup>
+			<TabGroup
+				@change="changeTab"
+				:selectedIndex="selectedTab"
+			>
 				<TabList class="w-full flex pb-3">
 					<Tab
+						ref="index"
 						class="w-full"
-						v-for="item in getName"
+						v-for="category in Object.keys(
+							categories
+						)"
 						as="template"
-						:key="item"
+						:key="category"
 						v-slot="{ selected }"
 					>
 						<button
@@ -57,7 +65,7 @@ const getName = [
 									: '',
 							]"
 						>
-							{{ item.title }}
+							{{ category }}
 						</button>
 					</Tab>
 				</TabList>
@@ -67,7 +75,10 @@ const getName = [
 						v-for="(posts, idx) in categories"
 						:key="idx"
 					>
-						<component :is="posts" />
+						<component
+							:is="posts"
+							@changeTab="changeTab"
+						/>
 						<div v-if="posts.length > 1">
 							<TabGroup>
 								<TabPanels>
