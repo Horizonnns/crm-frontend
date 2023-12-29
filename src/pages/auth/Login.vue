@@ -8,13 +8,28 @@ const form = ref({
 	password: '',
 });
 
+const token = ref('');
+
+
 async function login() {
 	await axios
 		.get('http://127.0.0.1:8000/api/login', {
 			params: form.value,
 		})
-		.then((res) => {
-			console.log(res, 'res');
+		.then((response) => {
+			if (response.data.accessToken) {
+				token.value = `Bearer ${response.data.accessToken}`;
+
+				localStorage.setItem(
+					'user',
+					JSON.stringify(
+						response.data.accessToken
+					)
+				);
+				console.log(token.value, 'token');
+			}
+
+			getUser();
 		});
 }
 </script>
