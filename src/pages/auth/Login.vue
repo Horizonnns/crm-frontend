@@ -10,6 +10,17 @@ const form = ref({
 
 const token = ref('');
 
+const getUser = async () => {
+	await axios
+		.get('http://127.0.0.1:8000/api/user', {
+			headers: {
+				Authorization: token.value,
+			},
+		})
+		.then((res) => {
+			console.log(res, 'user');
+		});
+};
 
 async function login() {
 	await axios
