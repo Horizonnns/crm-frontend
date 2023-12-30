@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 import {
 	TransitionRoot,
 	TransitionChild,
@@ -93,6 +95,14 @@ async function authUser() {
 			closeModal();
 		});
 }
+
+async function logout() {
+	await axios.post(
+		'http://127.0.0.1:8000/api/logout',
+		localStorage.removeItem('user'),
+		router.push('/register')
+	);
+}
 </script>
 
 <template>
@@ -122,7 +132,7 @@ async function authUser() {
 					Админ
 				</h2>
 
-				<button>
+				<button @click="logout">
 					<IconLogout />
 				</button>
 			</div>
