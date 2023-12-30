@@ -2,6 +2,8 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import AppInput from '../../components/ui/AppInput.vue';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
 const form = ref({
 	email: '',
@@ -18,7 +20,17 @@ const getUser = async () => {
 			},
 		})
 		.then((res) => {
-			console.log(res, 'user');
+			// console.log(res.data, 'res');
+			const role = res.data.role;
+			console.log(role, 'role');
+
+			if (role === 'admin') {
+				router.push('/admin');
+			} else if (role === 'front-office') {
+				router.push('/frontoff');
+			} else if (role === 'back-office') {
+				router.push('/backoff');
+			}
 		});
 };
 
