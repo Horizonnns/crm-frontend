@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import axios from 'axios';
 import {
 	TransitionRoot,
 	TransitionChild,
@@ -41,17 +42,17 @@ function openModal() {
 }
 
 const form = ref({
-	username: '',
+	name: '',
 	role: '',
-	jobеtitle: '',
+	// jobеtitle: '',
 	phonenum: '',
 	email: '',
 	password: '',
 });
 
 const roleVariants = [
-	{ value: 'backoffice', label: 'Бэк-офис' },
-	{ value: 'frontoffice', label: 'Фронт-офис' },
+	{ value: 'back-office', label: 'Бэк-офис' },
+	{ value: 'front-office', label: 'Фронт-офис' },
 ];
 
 const users = [
@@ -80,6 +81,18 @@ const users = [
 		job: 'Фулстак разработчик',
 	},
 ];
+
+async function authUser() {
+	await axios
+		.post(
+			'http://127.0.0.1:8000/api/authUser',
+			form.value
+		)
+		.then((res) => {
+			console.log(res, 'res');
+			closeModal();
+		});
+}
 </script>
 
 <template>
@@ -202,9 +215,7 @@ const users = [
 														type="text"
 														title="ФИО"
 														placeholder="Иван Иванов"
-														v-model="
-															form.username
-														"
+														v-model="form.name"
 													/>
 
 													<AppInput
@@ -262,7 +273,7 @@ const users = [
 										</div>
 
 										<button
-											@click="closeModal"
+											@click="authUser"
 											type="submit"
 											class="bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 border rounded-full text-sm font-bold px-4 mt-5 pt-1.5 pb-2 w-full"
 										>
