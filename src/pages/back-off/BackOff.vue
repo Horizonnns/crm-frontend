@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
+import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-const router = useRouter();
 import {
 	TransitionRoot,
 	TransitionChild,
@@ -13,6 +13,9 @@ import AppInput from '../../components/ui/AppInput.vue';
 import BaseSelect from '../../components/ui/BaseSelect.vue';
 import IconLogout from '../../components/icons/IconLogout.vue';
 import IconExit from '../../components/icons/IconExit.vue';
+
+const store = useStore();
+const router = useRouter();
 
 const roleVariants = [
 	{
@@ -82,10 +85,11 @@ const form = ref({
 	createddate: '',
 });
 
-async function logout() {
+async function logOut() {
+	store.commit('logout');
+
 	await axios.post(
 		'http://127.0.0.1:8000/api/logout',
-		localStorage.removeItem('user'),
 		router.push('/register')
 	);
 }
@@ -118,7 +122,7 @@ async function logout() {
 					Фронт-офис
 				</h2>
 
-				<button @click="logout">
+				<button @click="logOut">
 					<IconLogout />
 				</button>
 			</div>

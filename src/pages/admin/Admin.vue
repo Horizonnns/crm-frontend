@@ -96,10 +96,11 @@ async function authUser() {
 		});
 }
 
-async function logout() {
+async function logOut() {
+	store.commit('logout');
+
 	await axios.post(
 		'http://127.0.0.1:8000/api/logout',
-		localStorage.removeItem('user'),
 		router.push('/register')
 	);
 }
