@@ -164,6 +164,15 @@ function saveEditedUser() {
 			store.commit('setUsers', data.users);
 			editingUser.value = null;
 
+			if (data.user.role !== 'admin') {
+				const adminCount = data.users.filter(
+					(user) => user.role === 'admin'
+				).length;
+
+				if (adminCount === 0) {
+					logOut();
+				}
+			}
 		})
 		.catch((error) => {
 			console.error(
