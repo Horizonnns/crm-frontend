@@ -39,12 +39,19 @@ const jobеtitles = [
 ];
 
 const isOpen = ref(false);
-
 function closeModal() {
 	isOpen.value = false;
 }
 function openModal() {
 	isOpen.value = true;
+}
+
+const isEditOpen = ref(false);
+function closeEditModal() {
+	isEditOpen.value = false;
+}
+function openEditModal() {
+	isEditOpen.value = true;
 }
 
 const form = ref({
@@ -178,6 +185,7 @@ async function logOut() {
 					</button>
 				</div>
 
+				<!-- create user -->
 				<TransitionRoot
 					appear
 					:show="isOpen"
@@ -492,6 +500,138 @@ async function logOut() {
 						</tr>
 					</tbody>
 				</table>
+
+				<!-- edit user -->
+				<TransitionRoot
+					appear
+					:show="isEditOpen"
+					as="template"
+				>
+					<Dialog as="div" class="relative z-10">
+						<TransitionChild
+							as="template"
+							enter="duration-300 ease-out"
+							enter-from="opacity-0"
+							enter-to="opacity-100"
+							leave="duration-200 ease-in"
+							leave-from="opacity-100"
+							leave-to="opacity-0"
+						>
+							<div
+								class="fixed inset-0 bg-black/25"
+							/>
+						</TransitionChild>
+
+						<div
+							class="fixed inset-0 overflow-y-auto"
+						>
+							<div
+								class="flex min-h-full items-center justify-center p-4 text-center"
+							>
+								<TransitionChild
+									as="template"
+									enter="duration-300 ease-out"
+									enter-from="opacity-0 scale-95"
+									enter-to="opacity-100 scale-100"
+									leave="duration-200 ease-in"
+									leave-from="opacity-100 scale-100"
+									leave-to="opacity-0 scale-95"
+								>
+									<DialogPanel
+										class="w-full max-w-xl transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all"
+									>
+										<div>
+											<div
+												class="flex justify-between items-center pb-2 mb-5 border-b-2"
+											>
+												<h2
+													class="text-xl font-bold"
+												>
+													Изменить пользователя
+												</h2>
+
+												<IconExit
+													@click="cancelEdit"
+												/>
+											</div>
+
+											<div
+												class="flex justify-between space-x-5 border-b-2 pb-5"
+											>
+												<div
+													class="w-full space-y-4"
+												>
+													<AppInput
+														size="lg"
+														type="text"
+														title="ФИО"
+														placeholder="Иван Иванов"
+														v-model="
+															editedUser.name
+														"
+													/>
+
+													<AppInput
+														size="lg"
+														type="text"
+														title="Email"
+														placeholder="Введите email"
+														v-model="
+															editedUser.email
+														"
+													/>
+
+													<BaseSelect
+														:class="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
+														v-model="
+															editedUser.role
+														"
+														:options="
+															roleVariants
+														"
+														placeholder="Выберите роль"
+													/>
+												</div>
+
+												<div
+													class="w-full space-y-4"
+												>
+													<AppInput
+														size="lg"
+														type="text"
+														:maska="'#########'"
+														title="Номер телефона"
+														placeholder="901000801"
+														v-model="
+															editedUser.phonenum
+														"
+													/>
+
+													<BaseSelect
+														:class="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
+														v-model="
+															form.jobеtitle
+														"
+														:options="jobеtitles"
+														placeholder="Выберите должность"
+													/>
+												</div>
+											</div>
+										</div>
+
+										<button
+											@click="saveEditedUser"
+											type="submit"
+											class="bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 border rounded-full text-sm font-bold px-4 mt-5 pt-1.5 pb-2 w-full"
+										>
+											Изменить
+										</button>
+									</DialogPanel>
+								</TransitionChild>
+							</div>
+						</div>
+					</Dialog>
+				</TransitionRoot>
 			</div>
 		</div>
 	</section>

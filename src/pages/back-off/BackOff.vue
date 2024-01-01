@@ -119,7 +119,7 @@ async function logOut() {
 				<h2
 					class="border rounded-full text-blue-10 bg-emerald-100/60 font-bold px-6 pb-1.5 pt-1"
 				>
-					Фронт-офис
+					Бэк-офис
 				</h2>
 
 				<button @click="logOut">
