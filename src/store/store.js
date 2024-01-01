@@ -27,6 +27,19 @@ export default createStore({
 			);
 		},
 
+		deleteUser(state, userId) {
+			const index = state.users.findIndex(
+				(user) => user.id === userId
+			);
+			if (index !== -1) {
+				state.users.splice(index, 1);
+				localStorage.setItem(
+					'users',
+					JSON.stringify(state.users)
+				);
+			}
+		},
+
 		logout(state) {
 			state.user = null;
 			state.users = null;

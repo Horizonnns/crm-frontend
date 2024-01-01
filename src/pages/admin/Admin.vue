@@ -75,6 +75,43 @@ async function authUser() {
 		});
 }
 
+async function deleteUser(userId) {
+	try {
+		const response = await fetch(
+			`http://127.0.0.1:8000/api/deleteUser/${userId}`,
+			{
+				method: 'DELETE',
+			}
+		);
+
+		if (response.ok) {
+			store.commit('deleteUser', userId);
+
+			if (store.state.users.length === 0) {
+				logOut();
+			} else {
+				const adminUsers =
+					store.state.users.filter(
+						(user) => user.role === 'admin'
+					);
+				if (adminUsers.length === 0) {
+					logOut();
+				}
+			}
+		} else {
+			console.error(
+				'Ошибка при удалении пользователя:',
+				response.statusText
+			);
+		}
+	} catch (error) {
+		console.error(
+			'Ошибка при удалении пользователя:',
+			error.message
+		);
+	}
+}
+
 async function logOut() {
 	store.commit('logout');
 
@@ -432,6 +469,7 @@ async function logOut() {
 								</button>
 
 								<button
+									@click="deleteUser(user.id)"
 									title="Удалить пользователя"
 									class="rounded-lg text-red-500 p-2 bg-white hover:bg-gray-100 border"
 								>
