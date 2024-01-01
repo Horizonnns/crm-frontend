@@ -1,8 +1,11 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-import AppInput from '../../components/ui/AppInput.vue';
+import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import AppInput from '../../components/ui/AppInput.vue';
+
+const store = useStore();
 const router = useRouter();
 
 const form = ref({
@@ -17,18 +20,33 @@ async function login() {
 		})
 		.then((response) => {
 			if (response.data.accessToken) {
-				token.value = `Bearer ${response.data.accessToken}`;
-
+				// save the token in localStorage
 				localStorage.setItem(
-					'user',
-					JSON.stringify(
-						response.data.accessToken
-					)
+					'token',
+					`Bearer ${response.data.accessToken}`
 				);
-				console.log(token.value, 'token');
-			}
 
-			getUser();
+				// save user data in store
+				store.commit(
+					'setUser',
+					response.data.user
+				);
+
+				store.commit(
+					'setUsers',
+					response.data.users
+				);
+
+				// redirect to page depending on role
+				const role = response.data.user.role;
+				if (role === 'admin') {
+					router.push('/admin');
+				} else if (role === 'front-office') {
+					router.push('/frontoff');
+				} else if (role === 'back-office') {
+					router.push('/backoff');
+				}
+			}
 		});
 }
 </script>
