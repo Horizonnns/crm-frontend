@@ -368,7 +368,7 @@ async function logOut() {
 								<h2
 									class="font-medium text-gray-700"
 								>
-									{{ user.username }}
+									{{ user.name }}
 								</h2>
 							</td>
 
@@ -378,7 +378,7 @@ async function logOut() {
 								<div
 									class="inline px-3 py-1 text-sm font-normal rounded-full text-emerald-500 gap-x-2 bg-emerald-100/60"
 								>
-									{{ user.status }}
+									{{ user.role }}
 								</div>
 							</td>
 
@@ -386,7 +386,7 @@ async function logOut() {
 								class="px-8 py-4 text-sm whitespace-nowrap"
 							>
 								<h4 class="flex text-gray-700">
-									{{ user.number }}
+									{{ user.phonenum }}
 								</h4>
 							</td>
 
@@ -394,7 +394,7 @@ async function logOut() {
 								class="px-4 py-4 text-sm whitespace-nowrap"
 							>
 								<h4 class="flex text-gray-700">
-									{{ user.job }}
+									<!-- {{ user.job }} -->
 								</h4>
 							</td>
 
