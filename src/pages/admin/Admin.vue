@@ -119,6 +119,67 @@ async function deleteUser(userId) {
 	}
 }
 
+const editingUser = ref(null);
+const editedUser = ref({
+	name: '',
+	email: '',
+	phonenum: '',
+	role: '',
+});
+
+async function editUser(userId) {
+	openEditModal();
+	const userToEdit = users.value.find(
+		(user) => user.id === userId
+	);
+
+	if (userToEdit) {
+		editedUser.value = { ...userToEdit };
+		editingUser.value = userId;
+	}
+}
+
+function saveEditedUser() {
+	fetch(
+		`http://127.0.0.1:8000/api/updateUser/${editingUser.value}`,
+		{
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(editedUser.value),
+		}
+	)
+		.then((response) => {
+			if (response.ok) {
+				return response.json();
+			} else {
+				console.error(
+					'Ошибка при редактировании пользователя:',
+					response.statusText
+				);
+			}
+		})
+		.then((data) => {
+			store.commit('setUsers', data.users);
+			editingUser.value = null;
+
+		})
+		.catch((error) => {
+			console.error(
+				'Ошибка при редактировании пользователя:',
+				error.message
+			);
+		});
+
+	closeEditModal();
+}
+
+function cancelEdit() {
+	editingUser.value = null;
+	closeEditModal();
+}
+
 async function logOut() {
 	store.commit('logout');
 
@@ -456,6 +517,7 @@ async function logOut() {
 								class="pl-7 pr-4 py-4 whitespace-nowrap space-x-2"
 							>
 								<button
+									@click="editUser(user.id)"
 									title="Изменить пользователя"
 									class="rounded-lg text-red-500 p-2 bg-white hover:bg-gray-100 border"
 								>
