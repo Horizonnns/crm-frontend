@@ -10,30 +10,6 @@ const form = ref({
 	password: '',
 });
 
-const token = ref('');
-
-const getUser = async () => {
-	await axios
-		.get('http://127.0.0.1:8000/api/user', {
-			headers: {
-				Authorization: token.value,
-			},
-		})
-		.then((res) => {
-			// console.log(res.data, 'res');
-			const role = res.data.role;
-			console.log(role, 'role');
-
-			if (role === 'admin') {
-				router.push('/admin');
-			} else if (role === 'front-office') {
-				router.push('/frontoff');
-			} else if (role === 'back-office') {
-				router.push('/backoff');
-			}
-		});
-};
-
 async function login() {
 	await axios
 		.get('http://127.0.0.1:8000/api/login', {
