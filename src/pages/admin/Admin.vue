@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import axios from 'axios';
+import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-const router = useRouter();
 import {
 	TransitionRoot,
 	TransitionChild,
@@ -13,6 +13,10 @@ import AppInput from '../../components/ui/AppInput.vue';
 import BaseSelect from '../../components/ui/BaseSelect.vue';
 import IconLogout from '../../components/icons/IconLogout.vue';
 import IconExit from '../../components/icons/IconExit.vue';
+
+const store = useStore();
+const router = useRouter();
+const users = computed(() => store.state.users);
 
 const jobеtitles = [
 	{
@@ -65,6 +69,8 @@ async function authUser() {
 		)
 		.then((res) => {
 			console.log(res, 'res');
+			store.commit('setUsers', res.data.users);
+
 			closeModal();
 		});
 }
@@ -106,7 +112,7 @@ async function logOut() {
 					Админ
 				</h2>
 
-				<button @click="logout">
+				<button @click="logOut">
 					<IconLogout />
 				</button>
 			</div>
