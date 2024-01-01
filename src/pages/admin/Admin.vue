@@ -57,33 +57,6 @@ const roleVariants = [
 	{ value: 'front-office', label: 'Фронт-офис' },
 ];
 
-const users = [
-	{
-		id: 1,
-		username: 'Косимджон Косимов С',
-		status: 'Фронт-офис',
-		number: '902000821',
-		created_at: '01.12.2023',
-		job: 'Фронтенд разработчик',
-	},
-	{
-		id: 2,
-		username: 'Алиакбар Боистов А',
-		status: 'Бэк-офис',
-		number: '901000891',
-		created_at: '10.12.2023',
-		job: 'Бекэнд разработчик',
-	},
-	{
-		id: 3,
-		username: 'Фируз Джураева С',
-		status: 'Фронт-офис',
-		number: '900001010',
-		created_at: '14.12.2023',
-		job: 'Фулстак разработчик',
-	},
-];
-
 async function authUser() {
 	await axios
 		.post(
