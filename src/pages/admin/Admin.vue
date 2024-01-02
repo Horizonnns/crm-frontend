@@ -20,20 +20,23 @@ const users = computed(() => store.state.users);
 
 const jobеtitles = [
 	{
-		value: 'fshpd',
+		value: 'Инженер эксплуатации фшпд',
 		label: 'Инженер эксплуатации фшпд',
 	},
-	{ value: 'fshpd2', label: 'Фшпд маркетинг' },
 	{
-		value: 'razrabotka',
+		value: 'Фшпд маркетинг',
+		label: 'Фшпд маркетинг',
+	},
+	{
+		value: 'Фронтенд разработчик',
 		label: 'Фронтенд разработчик',
 	},
 	{
-		value: 'razrabotka2',
+		value: 'Бекэнд разработчик',
 		label: 'Бекэнд разработчик',
 	},
 	{
-		value: 'razrabotka3',
+		value: 'Ux/Ui Дизайн',
 		label: 'Ux/Ui Дизайн',
 	},
 ];
@@ -57,7 +60,7 @@ function openEditModal() {
 const form = ref({
 	name: '',
 	role: '',
-	// jobеtitle: '',
+	job_title: '',
 	phonenum: '',
 	email: '',
 	password: '',
@@ -368,7 +371,7 @@ async function logOut() {
 													<BaseSelect
 														:class="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
 														v-model="
-															form.jobеtitle
+															form.job_title
 														"
 														:options="jobеtitles"
 														placeholder="Выберите должность"
@@ -509,7 +512,7 @@ async function logOut() {
 								class="px-4 py-4 text-sm whitespace-nowrap"
 							>
 								<h4 class="flex text-gray-700">
-									<!-- {{ user.job }} -->
+									{{ user.job_title }}
 								</h4>
 							</td>
 
@@ -681,7 +684,7 @@ async function logOut() {
 													<BaseSelect
 														:class="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
 														v-model="
-															form.jobеtitle
+															editedUser.job_title
 														"
 														:options="jobеtitles"
 														placeholder="Выберите должность"
