@@ -112,6 +112,25 @@ async function logOut() {
 		router.push('/register')
 	);
 }
+
+const searchTerm = ref('');
+const apps = ref([]);
+const errorMessage = ref('');
+
+const searchApplications = async () => {
+	try {
+		const response = await axios.post(
+			'http://127.0.0.1:8000/api/searchApps',
+			{ search_term: searchTerm.value }
+		);
+		apps.value = response.data.applications;
+		errorMessage.value = '';
+	} catch (error) {
+		apps.value = [];
+		errorMessage.value =
+			'Такой заявки не существует...';
+	}
+};
 </script>
 
 <template>
