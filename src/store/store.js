@@ -53,10 +53,6 @@ export default createStore({
 			);
 		},
 
-		addApplication(state, application) {
-			state.applications.push(application);
-		},
-
 		deleteApp(state, appId) {
 			const index = state.applications.findIndex(
 				(app) => app.id === appId
@@ -76,6 +72,7 @@ export default createStore({
 			localStorage.removeItem('token');
 			localStorage.removeItem('user');
 			localStorage.removeItem('users');
+			localStorage.removeItem('applications');
 		},
 	},
 });

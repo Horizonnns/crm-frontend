@@ -64,20 +64,23 @@ async function deleteApp(appId) {
 
 const roleVariants = [
 	{
-		value: 'fshpd',
+		value: 'Инженер эксплуатации фшпд',
 		label: 'Инженер эксплуатации фшпд',
 	},
-	{ value: 'fshpd2', label: 'Фшпд маркетинг' },
 	{
-		value: 'razrabotka',
+		value: 'Фшпд маркетинг',
+		label: 'Фшпд маркетинг',
+	},
+	{
+		value: 'Фронтенд разработчик',
 		label: 'Фронтенд разработчик',
 	},
 	{
-		value: 'razrabotka2',
+		value: 'Бекэнд разработчик',
 		label: 'Бекэнд разработчик',
 	},
 	{
-		value: 'razrabotka3',
+		value: 'Ux/Ui Дизайн',
 		label: 'Ux/Ui Дизайн',
 	},
 ];
@@ -90,36 +93,6 @@ function closeModal() {
 function openModal() {
 	isOpen.value = true;
 }
-
-// const applications = [
-// 	{
-// 		id: 1,
-// 		title: 'Провести домашный интернет',
-// 		status: 'Ведуться работы',
-// 		number: '200202021',
-// 		job: 'Специалист Фшпд',
-// 		descr:
-// 			'Необходимо провести домашный интернет по адрессу г.Душанбе, ул.Хувайдуллоева 11а',
-// 	},
-// 	{
-// 		id: 2,
-// 		title: 'Починить кабель провода',
-// 		status: 'Пока не принято',
-// 		number: '001994418',
-// 		job: 'Инженер по части кабеля',
-// 		descr:
-// 			'Кабель провода не работает. Нужно заменить провод и проверить работоспособность',
-// 	},
-// 	{
-// 		id: 3,
-// 		title: 'Сменить тариф домашного интернета',
-// 		status: 'Завершена',
-// 		number: '010105001',
-// 		job: 'Менеджер Фшпд по тарифам',
-// 		descr:
-// 			'Клиенту нужно сменит тариф домашнего интернета в течение 3 дней',
-// 	},
-// ];
 
 const form = ref({
 	specialist_name: '',
@@ -426,103 +399,9 @@ async function logOut() {
 					</thead>
 
 					<tbody
+						v-if="applications.length > 0"
 						class="bg-white divide-y divide-gray-200"
 					>
-						<!-- <tr
-							v-for="app in applications"
-							:key="app.id"
-						>
-							<td
-								class="px-4 py-4 whitespace-nowrap"
-							>
-								<h4
-									class="flex text-gray-700 w-40 whitespace-break-spaces font-bold text-sm"
-								>
-									{{ app.title }}
-								</h4>
-							</td>
-
-							<td
-								class="px-4 py-4 font-medium whitespace-nowrap"
-							>
-								<div
-									class="inline px-3 py-1 text-sm font-normal rounded-full text-emerald-500 gap-x-2 bg-emerald-100/60"
-								>
-									{{ app.status }}
-								</div>
-							</td>
-							<td
-								class="px-4 py-4 text-sm whitespace-nowrap"
-							>
-								<h4 class="flex text-gray-700">
-									{{ app.job }}
-								</h4>
-							</td>
-							<td
-								class="px-8 py-4 text-sm whitespace-nowrap"
-							>
-								<h4 class="flex text-gray-700">
-									{{ app.number }}
-								</h4>
-							</td>
-
-							<td
-								class="px-4 py-4 text-sm whitespace-nowrap"
-							>
-								<h4
-									class="flex text-gray-700 w-48 h-16 whitespace-break-spaces text-xs font-mono"
-								>
-									{{ app.descr }}
-								</h4>
-							</td>
-
-							<td
-								scope="row"
-								class="pl-7 pr-4 py-4 whitespace-nowrap space-x-2"
-							>
-								<button
-									title="Изменить пользователя"
-									class="rounded-lg text-red-500 p-2 bg-white hover:bg-gray-100 border"
-								>
-									<svg
-										width="20"
-										height="20"
-										viewBox="0 0 20 20"
-										fill="none"
-										xmlns="http://www.w3.org/2000/svg"
-									>
-										<path
-											d="M10 18.1213H19M14.5 1.62132C14.8978 1.2235 15.4374 1 16 1C16.2786 1 16.5544 1.05487 16.8118 1.16148C17.0692 1.26808 17.303 1.42434 17.5 1.62132C17.697 1.8183 17.8532 2.05216 17.9598 2.30953C18.0665 2.5669 18.1213 2.84274 18.1213 3.12132C18.1213 3.3999 18.0665 3.67574 17.9598 3.93312C17.8532 4.19049 17.697 4.42434 17.5 4.62132L5 17.1213L1 18.1213L2 14.1213L14.5 1.62132Z"
-											stroke="#00B956"
-											stroke-width="2"
-											stroke-linecap="round"
-											stroke-linejoin="round"
-										/>
-									</svg>
-								</button>
-
-								<button
-									title="Удалить пользователя"
-									class="rounded-lg text-red-500 p-2 bg-white hover:bg-gray-100 border"
-								>
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke-width="1.5"
-										stroke="currentColor"
-										class="w-5 h-5"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-										/>
-									</svg>
-								</button>
-							</td>
-						</tr> -->
-
 						<tr
 							v-for="app in applications"
 							:key="app.id"
@@ -544,6 +423,7 @@ async function logOut() {
 									class="inline px-3 py-1 text-sm font-normal rounded-full text-emerald-500 gap-x-2 bg-emerald-100/60"
 								>
 									<!-- {{ app }} -->
+									Статус
 								</div>
 							</td>
 							<td
@@ -561,41 +441,18 @@ async function logOut() {
 								</h4>
 							</td>
 
-							<td
-								class="px-4 py-4 text-sm whitespace-nowrap"
-							>
-								<h4
-									class="flex text-gray-700 w-48 h-16 whitespace-break-spaces text-xs font-mono"
+							<td class="px-4 py-4 text-sm">
+								<span
+									class="flex text-gray-700 text-center max-w-40 max-h-20 whitespace-normal truncate border opacity-60 hover:opacity-100 duration-100 px-3 py-2 select-none cursor-pointer rounded-full text-xs font-mono"
 								>
 									{{ app.comment }}
-								</h4>
+								</span>
 							</td>
 
 							<td
 								scope="row"
 								class="pl-7 pr-4 py-4 whitespace-nowrap space-x-2"
 							>
-								<button
-									title="Изменить пользователя"
-									class="rounded-lg text-red-500 p-2 bg-white hover:bg-gray-100 border"
-								>
-									<svg
-										width="20"
-										height="20"
-										viewBox="0 0 20 20"
-										fill="none"
-										xmlns="http://www.w3.org/2000/svg"
-									>
-										<path
-											d="M10 18.1213H19M14.5 1.62132C14.8978 1.2235 15.4374 1 16 1C16.2786 1 16.5544 1.05487 16.8118 1.16148C17.0692 1.26808 17.303 1.42434 17.5 1.62132C17.697 1.8183 17.8532 2.05216 17.9598 2.30953C18.0665 2.5669 18.1213 2.84274 18.1213 3.12132C18.1213 3.3999 18.0665 3.67574 17.9598 3.93312C17.8532 4.19049 17.697 4.42434 17.5 4.62132L5 17.1213L1 18.1213L2 14.1213L14.5 1.62132Z"
-											stroke="#00B956"
-											stroke-width="2"
-											stroke-linecap="round"
-											stroke-linejoin="round"
-										/>
-									</svg>
-								</button>
-
 								<button
 									@click="deleteApp(app.id)"
 									title="Удалить пользователя"
@@ -620,6 +477,17 @@ async function logOut() {
 						</tr>
 					</tbody>
 				</table>
+
+				<div
+					v-if="applications.length === 0"
+					class="bg-white border-y border-gray-200"
+				>
+					<p
+						class="text-center text-lg mx-auto p-4"
+					>
+						Список заявок пуст...
+					</p>
+				</div>
 			</div>
 		</div>
 	</section>
