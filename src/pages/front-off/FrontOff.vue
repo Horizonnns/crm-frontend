@@ -20,6 +20,17 @@ const applications = computed(
 	() => store.state.applications
 );
 
+function resetModalApp() {
+	form.value = {
+		specialist_name: '',
+		topic: '',
+		job_title: '',
+		phonenum: '',
+		createddate: '',
+		comment: '',
+	};
+}
+
 async function createApp() {
 	await axios
 		.post(
