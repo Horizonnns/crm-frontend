@@ -44,8 +44,8 @@ async function createApp() {
 				res.data.applications
 			);
 
-			form.value = '';
 			closeModal();
+			resetModalApp();
 		});
 }
 
@@ -105,6 +105,7 @@ function closeModal() {
 function openModal() {
 	isOpen.value = true;
 	generateRandomNum();
+	setCurrentDate();
 }
 
 const form = ref({
@@ -122,6 +123,21 @@ function generateRandomNum() {
 		Math.floor(Math.random() * 90000) + 10000;
 	form.value.account_number =
 		randomNumber.toString();
+}
+
+function setCurrentDate() {
+	const currentDate = new Date();
+	const formattedDate =
+		currentDate.toLocaleString('ru-RU', {
+			year: 'numeric',
+			day: '2-digit',
+			month: '2-digit',
+		});
+
+	form.value.createddate = formattedDate.replace(
+		/\./g,
+		''
+	);
 }
 
 async function logOut() {
@@ -326,6 +342,7 @@ const searchApplications = async () => {
 													<AppInput
 														size="lg"
 														type="text"
+														disabled="true"
 														placeholder="01.12.2023"
 														:maska="'##.##.####'"
 														title="Дата обращения"
