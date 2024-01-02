@@ -33,6 +33,7 @@ async function createApp() {
 				res.data.applications
 			);
 
+			form.value = '';
 			closeModal();
 		});
 }
@@ -135,7 +136,7 @@ const searchApplications = async () => {
 
 <template>
 	<section
-		class="w-full h-screen bg-hero-pattern"
+		class="w-full h-screen overflow-scroll bg-hero-pattern"
 	>
 		<div
 			class="bg-white flex items-center justify-between px-4 py-2"
@@ -345,6 +346,13 @@ const searchApplications = async () => {
 						<tr>
 							<th
 								scope="col"
+								class="px-12 py-3.5 text-sm text-left rtl:text-right font-bold"
+							>
+								ФИО
+							</th>
+
+							<th
+								scope="col"
 								class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right"
 							>
 								<button
@@ -382,7 +390,14 @@ const searchApplications = async () => {
 
 							<th
 								scope="col"
-								class="px-12 py-3.5 text-sm text-left rtl:text-right font-bold"
+								class="px-1 py-3.5 text-sm text-left rtl:text-right font-bold"
+							>
+								Лицевой счёт
+							</th>
+
+							<th
+								scope="col"
+								class="px-6 py-3.5 text-sm text-left rtl:text-right font-bold"
 							>
 								Статус
 							</th>
@@ -403,7 +418,7 @@ const searchApplications = async () => {
 
 							<th
 								scope="col"
-								class="px-4 py-3.5 text-sm text-left rtl:text-right font-bold"
+								class="px-8 py-3.5 text-sm text-left rtl:text-right font-bold"
 							>
 								Коментарии
 							</th>
@@ -428,10 +443,26 @@ const searchApplications = async () => {
 							<td
 								class="px-4 py-4 whitespace-nowrap"
 							>
+								{{ app.specialist_name }}
+							</td>
+
+							<td
+								class="px-4 py-4 whitespace-nowrap"
+							>
 								<h4
 									class="flex text-gray-700 w-40 whitespace-break-spaces font-bold text-sm"
 								>
 									{{ app.topic }}
+								</h4>
+							</td>
+
+							<td
+								class="px-4 py-4 whitespace-nowrap"
+							>
+								<h4
+									class="flex text-gray-700 w-40 whitespace-break-spaces font-bold text-sm"
+								>
+									{{ app.account_number }}
 								</h4>
 							</td>
 
@@ -462,7 +493,7 @@ const searchApplications = async () => {
 
 							<td class="px-4 py-4 text-sm">
 								<span
-									class="flex text-gray-700 text-center max-w-40 max-h-20 whitespace-normal truncate border opacity-60 hover:opacity-100 duration-100 px-3 py-2 select-none cursor-pointer rounded-full text-xs font-mono"
+									class="flex text-gray-700 text-center max-w-40 max-h-16 overflow-y-auto whitespace-normal border opacity-60 hover:opacity-100 duration-100 px-3 py-2 select-none cursor-pointer rounded-full text-xs font-mono"
 								>
 									{{ app.comment }}
 								</span>
@@ -470,7 +501,7 @@ const searchApplications = async () => {
 
 							<td
 								scope="row"
-								class="pl-7 pr-4 py-4 whitespace-nowrap space-x-2"
+								class="pl-12 pr-4 py-4 whitespace-nowrap space-x-2"
 							>
 								<button
 									@click="deleteApp(app.id)"
@@ -511,7 +542,9 @@ const searchApplications = async () => {
 
 			<!-- Search apps -->
 			<div class="bg-white rounded-lg p-5 mt-5">
-				<label for="searchTerm" class="font-bold"
+				<label
+					for="searchTerm"
+					class="text-xl font-bold"
 					>Поиск:</label
 				>
 
@@ -529,7 +562,7 @@ const searchApplications = async () => {
 						class="absolute top-6 right-3"
 					>
 						<svg
-							class="w-9 h-9"
+							class="w-9 h-9 border rounded-full p-2 bg-gray-50 hover:bg-gray-100 active:bg-gray-200 duration-200"
 							aria-hidden="true"
 							fill="none"
 							stroke-width="1.5"
@@ -598,14 +631,14 @@ const searchApplications = async () => {
 
 							<th
 								scope="col"
-								class="px-12 py-3.5 text-sm text-left rtl:text-right font-bold"
+								class="px-1 py-3.5 text-sm text-left rtl:text-right font-bold"
 							>
 								Лицевой счёт
 							</th>
 
 							<th
 								scope="col"
-								class="px-12 py-3.5 text-sm text-left rtl:text-right font-bold"
+								class="px-6 py-3.5 text-sm text-left rtl:text-right font-bold"
 							>
 								Статус
 							</th>
@@ -626,14 +659,14 @@ const searchApplications = async () => {
 
 							<th
 								scope="col"
-								class="px-4 py-3.5 text-sm text-left rtl:text-right font-bold"
+								class="px-12 py-3.5 text-sm text-left rtl:text-right font-bold"
 							>
 								Коментарии
 							</th>
 
 							<th
 								scope="col"
-								class="px-4 py-3.5 text-sm text-left rtl:text-right font-bold"
+								class="px-2 py-3.5 text-sm text-left rtl:text-right font-bold"
 							>
 								Редактировать
 							</th>
@@ -699,7 +732,7 @@ const searchApplications = async () => {
 
 							<td
 								scope="row"
-								class="pl-7 pr-4 py-4 whitespace-nowrap space-x-2"
+								class="pl-12 pr-4 py-4 whitespace-nowrap space-x-2"
 							>
 								<button
 									@click="deleteApp(app.id)"
