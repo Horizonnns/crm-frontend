@@ -93,6 +93,7 @@ function closeModal() {
 }
 function openModal() {
 	isOpen.value = true;
+	generateRandomNum();
 }
 
 const form = ref({
@@ -104,6 +105,13 @@ const form = ref({
 	createddate: '',
 	comment: '',
 });
+
+function generateRandomNum() {
+	const randomNumber =
+		Math.floor(Math.random() * 90000) + 10000;
+	form.value.account_number =
+		randomNumber.toString();
+}
 
 async function logOut() {
 	store.commit('logout');
@@ -297,6 +305,7 @@ const searchApplications = async () => {
 														size="lg"
 														type="text"
 														title="Лицевой счет"
+														disabled="true"
 														placeholder="Ваш лицевой счет"
 														v-model="
 															form.account_number
