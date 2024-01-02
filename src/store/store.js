@@ -9,6 +9,11 @@ export default createStore({
 		users:
 			JSON.parse(localStorage.getItem('users')) ||
 			[],
+
+		applications:
+			JSON.parse(
+				localStorage.getItem('applications')
+			) || [],
 	},
 	mutations: {
 		setUser(state, user) {
@@ -36,6 +41,31 @@ export default createStore({
 				localStorage.setItem(
 					'users',
 					JSON.stringify(state.users)
+				);
+			}
+		},
+
+		setApplications(state, applications) {
+			state.applications = applications;
+			localStorage.setItem(
+				'applications',
+				JSON.stringify(applications)
+			);
+		},
+
+		addApplication(state, application) {
+			state.applications.push(application);
+		},
+
+		deleteApp(state, appId) {
+			const index = state.applications.findIndex(
+				(app) => app.id === appId
+			);
+			if (index !== -1) {
+				state.applications.splice(index, 1);
+				localStorage.setItem(
+					'applications',
+					JSON.stringify(state.applications)
 				);
 			}
 		},
