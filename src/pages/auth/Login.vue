@@ -13,12 +13,24 @@ const form = ref({
 	password: '',
 });
 
+async function getApps() {
+	const applicationsResponse = await axios.get(
+		'http://127.0.0.1:8000/api/getAllApps'
+	);
+
+	store.commit(
+		'setApplications',
+		applicationsResponse.data.applications
+	);
+}
+
 async function login() {
 	await axios
 		.get('http://127.0.0.1:8000/api/login', {
 			params: form.value,
 		})
 		.then((response) => {
+			getApps();
 			if (response.data.accessToken) {
 				// save the token in localStorage
 				localStorage.setItem(
