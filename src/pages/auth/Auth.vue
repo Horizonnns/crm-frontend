@@ -11,16 +11,27 @@ const form = ref({
 	password: '',
 });
 
+const errors = ref({
+	name: [],
+	email: [],
+	password: [],
+});
+
 async function auth() {
-	await axios
-		.post(
+	try {
+		const response = await axios.post(
 			'http://127.0.0.1:8000/api/authAdmin',
 			form.value
-		)
-		.then((res) => {
-			console.log(res, 'res');
-			emit('changeTab', 1);
-		});
+		);
+		console.log(response, 'response');
+		emit('changeTab', 1);
+	} catch (error) {
+		if (error.response.data.error) {
+			const backendError =
+				error.response.data.error;
+			errors.value = backendError;
+		}
+	}
 }
 </script>
 
@@ -28,27 +39,38 @@ async function auth() {
 	<section>
 		<div class="flex flex-col space-y-2">
 			<div class="flex flex-col space-y-4">
-				<AppInput
-					size="lg"
-					type="text"
-					title="Имя"
-					placeholder="Введите имя"
-					v-model="form.name"
-				/>
-				<AppInput
-					size="lg"
-					type="text"
-					title="Email"
-					placeholder="Введите email"
-					v-model="form.email"
-				/>
-				<AppInput
-					size="lg"
-					type="password"
-					title="Пароль"
-					placeholder="Введите пароль"
-					v-model="form.password"
-				/>
+				<div class="space-y-1">
+					<AppInput
+						size="lg"
+						type="text"
+						title="Имя"
+						placeholder="Введите имя"
+						v-model="form.name"
+						:error="errors.name[0]"
+					/>
+				</div>
+
+				<div class="space-y-1">
+					<AppInput
+						size="lg"
+						type="text"
+						title="Email"
+						placeholder="Введите email"
+						v-model="form.email"
+						:error="errors.email[0]"
+					/>
+				</div>
+
+				<div class="space-y-1">
+					<AppInput
+						size="lg"
+						type="password"
+						title="Пароль"
+						placeholder="Введите пароль"
+						v-model="form.password"
+						:error="errors.password[0]"
+					/>
+				</div>
 			</div>
 		</div>
 

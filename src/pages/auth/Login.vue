@@ -11,6 +11,12 @@ const router = useRouter();
 const form = ref({
 	email: '',
 	password: '',
+	message: '',
+});
+
+const errors = ref({
+	email: [],
+	password: [],
 });
 
 async function getApps() {
@@ -25,61 +31,75 @@ async function getApps() {
 }
 
 async function login() {
-	await axios
-		.get('http://127.0.0.1:8000/api/login', {
-			params: form.value,
-		})
-		.then((response) => {
-			getApps();
-			if (response.data.accessToken) {
-				// save the token in localStorage
-				localStorage.setItem(
-					'token',
-					`Bearer ${response.data.accessToken}`
-				);
-
-				// save user data in store
-				store.commit(
-					'setUser',
-					response.data.user
-				);
-
-				store.commit(
-					'setUsers',
-					response.data.users
-				);
-
-				// redirect to page depending on role
-				const role = response.data.user.role;
-				if (role === 'admin') {
-					router.push('/admin');
-				} else if (role === 'front-office') {
-					router.push('/frontoff');
-				} else if (role === 'back-office') {
-					router.push('/backoff');
-				}
+	try {
+		const response = await axios.get(
+			'http://127.0.0.1:8000/api/login',
+			{
+				params: form.value,
 			}
-		});
+		);
+
+		getApps();
+
+		if (response.data.accessToken) {
+			// save the token in localStorage
+			localStorage.setItem(
+				'token',
+				`Bearer ${response.data.accessToken}`
+			);
+
+			// save user data in store
+			store.commit('setUser', response.data.user);
+
+			store.commit(
+				'setUsers',
+				response.data.users
+			);
+
+			// redirect to page depending on role
+			const role = response.data.user.role;
+			if (role === 'admin') {
+				router.push('/admin');
+			} else if (role === 'front-office') {
+				router.push('/frontoff');
+			} else if (role === 'back-office') {
+				router.push('/backoff');
+			}
+		}
+	} catch (error) {
+		if (error.response.data.error) {
+			const backendError =
+				error.response.data.error;
+			errors.value = backendError;
+		}
+	}
 }
 </script>
 
 <template>
 	<section>
 		<div class="flex flex-col space-y-4">
-			<AppInput
-				size="lg"
-				type="text"
-				title="Email"
-				placeholder="Введите email"
-				v-model="form.email"
-			/>
-			<AppInput
-				size="lg"
-				title="Пароль"
-				type="password"
-				placeholder="Введите пароль"
-				v-model="form.password"
-			/>
+			<div class="space-y-1">
+				<AppInput
+					size="lg"
+					type="text"
+					title="Email"
+					placeholder="Введите email"
+					v-model="form.email"
+					:error="errors.email[0]"
+				/>
+			</div>
+
+			<div class="space-y-1">
+				<AppInput
+					size="lg"
+					title="Пароль"
+					type="password"
+					placeholder="Введите пароль"
+					v-model="form.password"
+					:error="errors.password[0]"
+				/>
+			</div>
 		</div>
 
 		<button
