@@ -463,18 +463,18 @@ const searchApplications = async () => {
 		class="bg-gray-50 w-full h-screen overflow-scroll"
 	>
 		<div
-			class="bg-blue-10 flex items-center justify-between shadow-md px-4 py-[3px]"
+			class="bg-blue-10 flex items-center justify-between shadow-md px-4"
 		>
 			<!-- logo -->
 			<div
-				class="cursor-pointer select-none flex items-center space-x-3 bg-white rounded-sm w-36 px-1 py-1"
+				class="flex items-center bg-white rounded-sm font-black"
 			>
 				<p
-					class="bg-blue-10 text-white px-5 py-1.5"
+					class="bg-blue-10 text-white px-5 py-1 my-0.5"
 				>
 					MINI
 				</p>
-				<p class="font-black text-blue-10">CRM</p>
+				<p class="text-blue-10 pl-4 mr-4">CRM</p>
 			</div>
 			<!-- logo -->
 
