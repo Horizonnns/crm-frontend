@@ -460,14 +460,14 @@ const searchApplications = async () => {
 	<!-- Search apps -->
 
 	<section
-		class="w-full h-screen overflow-scroll bg-hero-pattern"
+		class="bg-gray-50 w-full h-screen overflow-scroll"
 	>
 		<div
-			class="bg-white flex items-center justify-between px-4 py-2"
+			class="bg-blue-10 flex items-center justify-between shadow-md px-4 py-[3px]"
 		>
 			<!-- logo -->
 			<div
-				class="cursor-pointer select-none flex items-center space-x-3 bg-white rounded-sm border-2 border-black w-36 px-1 py-1"
+				class="cursor-pointer select-none flex items-center space-x-3 bg-white rounded-sm w-36 px-1 py-1"
 			>
 				<p
 					class="bg-blue-10 text-white px-5 py-1.5"
@@ -487,11 +487,11 @@ const searchApplications = async () => {
 					<input
 						type="text"
 						placeholder="Поиск заявок"
-						class="border rounded-full text-sm px-2.5 py-1.5 appearance-none focus:outline-none focus:ring-0 focus:border-blue-10"
+						class="border rounded-full text-sm px-3 py-[7px] appearance-none focus:outline-none focus:ring-0 focus:border-blue-10"
 					/>
 
 					<button
-						class="absolute top-[21px] right-2"
+						class="absolute top-[23px] right-2.5"
 					>
 						<svg
 							class="w-6 h-6 border rounded-full p-1 bg-gray-50 hover:bg-gray-100 active:bg-gray-200 duration-200"
@@ -513,7 +513,7 @@ const searchApplications = async () => {
 
 				<div class="flex space-x-2 items-center">
 					<h2
-						class="border rounded-full text-blue-10 bg-emerald-100/60 font-bold px-6 pb-1.5 pt-1"
+						class="border rounded-full text-blue-10 bg-white font-bold px-6 pb-1.5 pt-1"
 					>
 						Фронт-офис
 					</h2>
@@ -530,7 +530,7 @@ const searchApplications = async () => {
 			class="inline-block min-w-full align-middle md:px-6 lg:px-8 mt-6"
 		>
 			<div
-				class="px-2 py-3 space-y-4 bg-white overflow-hidden border border-gray-200 md:rounded-lg"
+				class="shadow-md px-2 py-3 space-y-4 bg-white overflow-hidden border border-gray-200 md:rounded-lg"
 			>
 				<div
 					class="flex justify-between items-center px-3 border-b pb-3"
