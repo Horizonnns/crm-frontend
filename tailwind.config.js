@@ -13,14 +13,6 @@ export default {
 				},
 			},
 
-			backgroundImage: {
-				'header-gradient':
-					'linear-gradient(180deg, #00a44c 10%, rgba(0, 18, 86, 0.1) 100%)',
-
-				'hero-pattern':
-					"url('./src/assets/img/background.jpg')",
-			},
-
 			boxShadow: {
 				cards: '0 0 12px rgba(51, 51, 51, 0.2)',
 			},
