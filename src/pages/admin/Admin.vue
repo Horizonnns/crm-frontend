@@ -44,6 +44,7 @@ const jobеtitles = [
 const isOpen = ref(false);
 function closeModal() {
 	isOpen.value = false;
+	form.value = '';
 }
 function openModal() {
 	isOpen.value = true;
@@ -203,15 +204,13 @@ async function logOut() {
 </script>
 
 <template>
-	<section
-		class="w-full h-screen bg-hero-pattern"
-	>
+	<section class="bg-gray-50 w-full h-screen">
 		<div
-			class="bg-white flex items-center justify-between px-4 py-2"
+			class="bg-blue-10 flex items-center justify-between shadow-md px-4 py-3"
 		>
 			<!-- logo -->
 			<div
-				class="cursor-pointer select-none flex items-center space-x-3 bg-white rounded-sm border-2 border-black w-36 px-1 py-1"
+				class="cursor-pointer select-none flex items-center space-x-3 bg-white rounded-sm w-36 px-1 py-1"
 			>
 				<p
 					class="bg-blue-10 text-white px-5 py-1.5"
@@ -224,7 +223,7 @@ async function logOut() {
 
 			<div class="flex space-x-2 items-center">
 				<h2
-					class="border rounded-full text-blue-10 bg-emerald-100/60 font-bold px-6 pb-1.5 pt-1"
+					class="border rounded-full text-blue-10 bg-white font-bold px-6 pb-1.5 pt-1"
 				>
 					Админ
 				</h2>
@@ -240,7 +239,7 @@ async function logOut() {
 			class="inline-block min-w-full align-middle md:px-6 lg:px-8 mt-6"
 		>
 			<div
-				class="px-2 py-3 space-y-4 bg-white overflow-hidden border border-gray-200 md:rounded-lg"
+				class="shadow-md px-2 py-3 space-y-4 bg-white overflow-hidden border border-gray-200 md:rounded-lg"
 			>
 				<div
 					class="flex justify-between items-center px-3 border-b pb-3"

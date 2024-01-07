@@ -3,9 +3,9 @@
 		xmlns="http://www.w3.org/2000/svg"
 		fill="none"
 		viewBox="0 0 24 24"
-		stroke-width="1.5"
+		stroke-width="1.9"
 		stroke="currentColor"
-		class="w-10 h-10 rotate-180 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 rounded-full p-2"
+		class="w-9 h-9 rotate-180 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 rounded-full p-1.5"
 	>
 		<path
 			stroke-linecap="round"
