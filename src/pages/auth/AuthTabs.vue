@@ -24,7 +24,7 @@ function changeTab(index) {
 
 <template>
 	<section
-		class="bg-hero-pattern bg-contain w-full h-screen flex items-center justify-center p-5"
+		class="bg-gray-50 bg-contain w-full h-screen flex items-center justify-center p-5"
 	>
 		<div
 			class="bg-white w-96 flex flex-col space-x-4 items-center border shadow-xl rounded-lg pl-4 pr-8 pt-4 pb-2"

@@ -11,7 +11,6 @@ const router = useRouter();
 const form = ref({
 	email: '',
 	password: '',
-	message: '',
 });
 
 const errors = ref({
