@@ -13,6 +13,7 @@ import AppInput from '../../components/ui/AppInput.vue';
 import BaseSelect from '../../components/ui/BaseSelect.vue';
 import IconLogout from '../../components/icons/IconLogout.vue';
 import IconExit from '../../components/icons/IconExit.vue';
+import IconLogo from '../../components/icons/IconLogo.vue';
 
 const store = useStore();
 const router = useRouter();
@@ -465,18 +466,7 @@ const searchApplications = async () => {
 		<div
 			class="bg-blue-10 flex items-center justify-between shadow-md px-4"
 		>
-			<!-- logo -->
-			<div
-				class="flex items-center bg-white rounded-sm font-black"
-			>
-				<p
-					class="bg-blue-10 text-white px-5 py-1 my-0.5"
-				>
-					MINI
-				</p>
-				<p class="text-blue-10 pl-4 mr-4">CRM</p>
-			</div>
-			<!-- logo -->
+			<IconLogo />
 
 			<div class="flex items-center space-x-3">
 				<!-- Search apps -->
