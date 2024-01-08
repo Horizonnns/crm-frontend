@@ -1,12 +1,13 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-import AppInput from '../../components/ui/AppInput.vue';
 import { useStore } from 'vuex';
 import { notify } from '../../composables/notify';
+import AppInput from '../../components/ui/AppInput.vue';
+import IconProcessing from '../../components/icons/IconProcessing.vue';
 
 const store = useStore();
-
+const loading = ref(false);
 const emit = defineEmits(['changeTab']);
 
 const form = ref({
@@ -23,6 +24,8 @@ const errors = ref({
 
 async function auth() {
 	try {
+		loading.value = true;
+
 		const response = await axios.post(
 			'http://127.0.0.1:8000/api/authAdmin',
 			form.value
@@ -33,9 +36,12 @@ async function auth() {
 			response.data.success
 		);
 		notify();
-
 		emit('changeTab', 1);
+
+		loading.value = false;
 	} catch (error) {
+		loading.value = false;
+
 		if (error.response.data.error) {
 			const backendError =
 				error.response.data.error;
@@ -86,9 +92,14 @@ async function auth() {
 
 		<button
 			@click="auth"
-			class="w-full duration-300 hover:text-white hover:bg-blue-10 border rounded-md font-bold px-5 py-2 mt-5"
+			:disabled="loading"
+			:class="{
+				'bg-blue-10 opacity-80': loading,
+			}"
+			class="w-full flex justify-center duration-300 hover:text-white hover:bg-blue-10 border rounded-md font-bold px-5 py-2 mt-5"
 		>
-			Регистрация
+			<IconProcessing v-if="loading" />
+			<p v-else>Регистрация</p>
 		</button>
 	</section>
 </template>
