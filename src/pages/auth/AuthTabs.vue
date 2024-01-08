@@ -7,8 +7,10 @@ import {
 	TabPanel,
 } from '@headlessui/vue';
 import { ref } from 'vue';
-import Login from './Login.vue';
 import Auth from './Auth.vue';
+import Login from './Login.vue';
+import IconLoginLogo from '../../components/icons/IconLoginLogo.vue';
+import Notify from '../../components/ui/Notify.vue';
 
 const categories = {
 	Регистрация: Auth,
@@ -23,28 +25,15 @@ function changeTab(index) {
 </script>
 
 <template>
+	<Notify />
+
 	<section
 		class="bg-gray-50 bg-contain w-full h-screen flex items-center justify-center p-5"
 	>
 		<div
 			class="bg-white w-96 flex flex-col space-x-4 items-center border shadow-xl rounded-lg pl-4 pr-8 pt-4 pb-2"
 		>
-			<!-- logo -->
-			<div
-				class="flex items-center bg-white rounded-sm font-black text-xl w-40 px-1.5 py-1 mb-5"
-			>
-				<p
-					class="bg-blue-10 text-white px-5 py-1.5"
-				>
-					MINI
-				</p>
-				<p
-					class="text-blue-10 px-5 py-1.5 bg-gray-100"
-				>
-					CRM
-				</p>
-			</div>
-			<!-- logo -->
+			<IconLoginLogo />
 
 			<TabGroup
 				@change="changeTab"

@@ -2,6 +2,10 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import AppInput from '../../components/ui/AppInput.vue';
+import { useStore } from 'vuex';
+import { notify } from '../../composables/notify';
+
+const store = useStore();
 
 const emit = defineEmits(['changeTab']);
 
@@ -23,7 +27,13 @@ async function auth() {
 			'http://127.0.0.1:8000/api/authAdmin',
 			form.value
 		);
-		console.log(response, 'response');
+
+		store.commit(
+			'setNotify',
+			response.data.success
+		);
+		notify();
+
 		emit('changeTab', 1);
 	} catch (error) {
 		if (error.response.data.error) {
