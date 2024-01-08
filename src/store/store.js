@@ -1,6 +1,6 @@
 import { createStore } from 'vuex';
 
-export default createStore({
+const store = createStore({
 	state: {
 		user:
 			JSON.parse(localStorage.getItem('user')) ||
@@ -14,8 +14,14 @@ export default createStore({
 			JSON.parse(
 				localStorage.getItem('applications')
 			) || [],
+
+		notify: null,
 	},
 	mutations: {
+		setNotify(state, status) {
+			state.notify = status;
+		},
+
 		setUser(state, user) {
 			state.user = user;
 			localStorage.setItem(
@@ -76,3 +82,4 @@ export default createStore({
 		},
 	},
 });
+export default store;
