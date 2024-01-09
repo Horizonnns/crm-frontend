@@ -43,7 +43,7 @@ async function auth() {
 		loading.value = false;
 
 		if (error.response.data.error) {
-			const backendError =
+			errors.value = error.response.data.error;
 				error.response.data.error;
 			errors.value = backendError;
 		}
@@ -63,7 +63,7 @@ async function auth() {
 						:disabled="loading"
 						placeholder="Введите имя"
 						v-model="form.name"
-						:error="errors.name[0]"
+						:error="errors.name"
 					/>
 				</div>
 
@@ -75,7 +75,7 @@ async function auth() {
 						:disabled="loading"
 						placeholder="Введите email"
 						v-model="form.email"
-						:error="errors.email[0]"
+						:error="errors.email"
 					/>
 				</div>
 
@@ -87,7 +87,7 @@ async function auth() {
 						:disabled="loading"
 						placeholder="Введите пароль"
 						v-model="form.password"
-						:error="errors.password[0]"
+						:error="errors.password"
 					/>
 				</div>
 			</div>
