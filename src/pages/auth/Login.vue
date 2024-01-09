@@ -3,7 +3,9 @@ import { ref } from 'vue';
 import axios from 'axios';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import { notify } from '../../composables/notify';
 import AppInput from '../../components/ui/AppInput.vue';
+import Notify from '../../components/ui/Notify.vue';
 import IconProcessing from '../../components/icons/IconProcessing.vue';
 
 const store = useStore();
@@ -43,6 +45,9 @@ async function login() {
 		getApps();
 
 		if (response.data.accessToken) {
+			store.commit('setNotify', 'success');
+			notify();
+
 			// save the token in localStorage
 			store.commit(
 				'setToken',
@@ -77,15 +82,21 @@ async function login() {
 		loading.value = false;
 
 		if (error.response.data.error) {
-			const backendError =
-				error.response.data.error;
-			errors.value = backendError;
+			errors.value = error.response.data.error;
+
+			store.commit('setNotify', 'error');
+			notify();
 		}
 	}
 }
 </script>
 
 <template>
+	<Notify
+		ifSuccess="Вы успешно вошли в систему!"
+		ifError="Неправильный email или пароль"
+	/>
+
 	<section>
 		<div class="flex flex-col space-y-4">
 			<div class="space-y-1">
@@ -95,6 +106,7 @@ async function login() {
 					title="Email"
 					placeholder="Введите email"
 					v-model="form.email"
+					:error="errors.email"
 				/>
 			</div>
 
@@ -105,6 +117,7 @@ async function login() {
 					type="password"
 					placeholder="Введите пароль"
 					v-model="form.password"
+					:error="errors.password"
 				/>
 			</div>
 		</div>
