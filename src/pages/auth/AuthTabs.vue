@@ -25,7 +25,10 @@ function changeTab(index) {
 </script>
 
 <template>
-	<Notify />
+	<Notify
+		ifSuccess="Вы успешно зарегистрировались"
+		ifError="Произошла ошибка при регистрации"
+	/>
 
 	<section
 		class="bg-gray-50 bg-contain w-full h-screen flex items-center justify-center p-5"
