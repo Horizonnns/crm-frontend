@@ -10,7 +10,6 @@ import { ref } from 'vue';
 import Auth from './Auth.vue';
 import Login from './Login.vue';
 import IconLoginLogo from '../../components/icons/IconLoginLogo.vue';
-import Notify from '../../components/ui/Notify.vue';
 
 const categories = {
 	Регистрация: Auth,
@@ -25,11 +24,6 @@ function changeTab(index) {
 </script>
 
 <template>
-	<Notify
-		ifSuccess="Вы успешно зарегистрировались"
-		ifError="Произошла ошибка при регистрации"
-	/>
-
 	<section
 		class="bg-gray-50 bg-contain w-full h-screen flex items-center justify-center p-5"
 	>

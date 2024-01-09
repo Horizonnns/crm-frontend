@@ -5,6 +5,7 @@ import { useStore } from 'vuex';
 import { notify } from '../../composables/notify';
 import AppInput from '../../components/ui/AppInput.vue';
 import IconProcessing from '../../components/icons/IconProcessing.vue';
+import Notify from '../../components/ui/Notify.vue';
 
 const store = useStore();
 const loading = ref(false);
@@ -49,6 +50,11 @@ async function auth() {
 </script>
 
 <template>
+	<Notify
+		ifSuccess="Вы успешно зарегистрировались"
+		ifError="Произошла ошибка при регистрации"
+	/>
+
 	<section>
 		<div class="flex flex-col space-y-2">
 			<div class="flex flex-col space-y-4">

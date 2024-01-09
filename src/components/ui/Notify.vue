@@ -39,7 +39,7 @@ const slideDown = {
 				'bg-blue-100 text-blue-10':
 					store.state.notify === 'success',
 			}"
-			class="flex items-center px-3 py-1.5 rounded-md text-sm fixed top-10 right-5"
+			class="flex items-center px-3 py-1.5 z-50 rounded-md text-sm fixed top-10 right-5"
 		>
 			<IconNotify />
 			<p>
