@@ -7,14 +7,7 @@ const store = useStore();
 
 <template>
 	<section>
-		<div
-			v-show="store.state.token"
-			class="fixed top-20 z-20"
-		>
-			<Notify
-				ifSuccess="Вы успешно вошли в систему!"
-			/>
-		</div>
+		<Notify class="fixed top-16 z-20" />
 
 		<router-view />
 	</section>

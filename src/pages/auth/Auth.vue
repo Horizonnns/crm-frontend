@@ -1,13 +1,10 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-import { useStore } from 'vuex';
 import { notify } from '../../composables/notify';
 import AppInput from '../../components/ui/AppInput.vue';
 import IconProcessing from '../../components/icons/IconProcessing.vue';
-import Notify from '../../components/ui/Notify.vue';
 
-const store = useStore();
 const loading = ref(false);
 const emit = defineEmits(['changeTab']);
 
@@ -32,8 +29,11 @@ async function auth() {
 			form.value
 		);
 
-		store.commit('setNotify', 'success');
-		notify();
+		notify(
+			'message',
+			'Вы успешно зарегистрировались!'
+		);
+
 		emit('changeTab', 1);
 
 		loading.value = false;
@@ -42,19 +42,17 @@ async function auth() {
 
 		if (error.response.data.error) {
 			errors.value = error.response.data.error;
-			store.commit('setNotify', 'error');
-			notify();
+
+			notify(
+				'error',
+				'Произошла ошибка при регистрации!'
+			);
 		}
 	}
 }
 </script>
 
 <template>
-	<Notify
-		ifSuccess="Вы успешно зарегистрировались"
-		ifError="Произошла ошибка при регистрации"
-	/>
-
 	<section>
 		<div class="flex flex-col space-y-2">
 			<div class="flex flex-col space-y-4">

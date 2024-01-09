@@ -5,7 +5,6 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { notify } from '../../composables/notify';
 import AppInput from '../../components/ui/AppInput.vue';
-import Notify from '../../components/ui/Notify.vue';
 import IconProcessing from '../../components/icons/IconProcessing.vue';
 
 const store = useStore();
@@ -45,10 +44,12 @@ async function login() {
 		getApps();
 
 		if (response.data.accessToken) {
-			store.commit('setNotify', 'success');
-			notify();
+			notify(
+				'message',
+				'Вы успешно вошли в систему!'
+			);
 
-			// save the token in localStorage
+			// save the token in localStorage and store
 			store.commit(
 				'setToken',
 				response.data.accessToken
@@ -84,19 +85,16 @@ async function login() {
 		if (error.response.data.error) {
 			errors.value = error.response.data.error;
 
-			store.commit('setNotify', 'error');
-			notify();
+			notify(
+				'error',
+				'Неправильный email или пароль!'
+			);
 		}
 	}
 }
 </script>
 
 <template>
-	<Notify
-		ifSuccess="Вы успешно вошли в систему!"
-		ifError="Неправильный email или пароль"
-	/>
-
 	<section>
 		<div class="flex flex-col space-y-4">
 			<div class="space-y-1">
