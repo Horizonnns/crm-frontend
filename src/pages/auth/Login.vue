@@ -4,9 +4,11 @@ import axios from 'axios';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import AppInput from '../../components/ui/AppInput.vue';
+import IconProcessing from '../../components/icons/IconProcessing.vue';
 
 const store = useStore();
 const router = useRouter();
+const loading = ref(false);
 
 const form = ref({
 	email: '',
@@ -31,11 +33,11 @@ async function getApps() {
 
 async function login() {
 	try {
+		loading.value = true;
+
 		const response = await axios.get(
 			'http://127.0.0.1:8000/api/login',
-			{
-				params: form.value,
-			}
+			{ params: form.value }
 		);
 
 		getApps();
@@ -69,7 +71,11 @@ async function login() {
 				router.push('/backoff');
 			}
 		}
+
+		loading.value = false;
 	} catch (error) {
+		loading.value = false;
+
 		if (error.response.data.error) {
 			const backendError =
 				error.response.data.error;
@@ -105,9 +111,14 @@ async function login() {
 
 		<button
 			@click="login"
-			class="w-full duration-300 hover:text-white hover:bg-blue-10 border rounded-md font-bold px-5 py-2 mt-5"
+			:disabled="loading"
+			:class="{
+				'bg-blue-10 opacity-80': loading,
+			}"
+			class="w-full flex justify-center duration-300 hover:text-white hover:bg-blue-10 border rounded-md font-bold px-5 py-2 mt-5"
 		>
-			Вход
+			<IconProcessing v-if="loading" />
+			<p v-else>Вход</p>
 		</button>
 	</section>
 </template>
