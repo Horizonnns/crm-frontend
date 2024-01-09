@@ -15,18 +15,12 @@ const store = createStore({
 				localStorage.getItem('applications')
 			) || [],
 
-		notify: null,
-
 		token:
 			localStorage.getItem('accessToken') || null,
 	},
 	mutations: {
 		setToken(state, status) {
 			state.token = status;
-		},
-
-		setNotify(state, status) {
-			state.notify = status;
 		},
 
 		setUser(state, user) {

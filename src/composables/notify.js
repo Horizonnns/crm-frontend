@@ -1,15 +1,16 @@
 import { ref } from 'vue';
-import store from '../store/store';
-const notifyStatus = ref(false);
 
-const notify = () => {
-	store.state.notify !== null
-		? (notifyStatus.value = true)
-		: (notifyStatus.value = false);
+const notifyStatus = ref(false);
+const notifyMessage = ref({ type: '', text: '' });
+
+const notify = (type, message) => {
+	notifyStatus.value = true;
+	notifyMessage.value = { type, text: message };
 
 	return setTimeout(() => {
+		notifyMessage.value = { type: '', text: '' };
 		notifyStatus.value = false;
 	}, 3000);
 };
 
-export { notify, notifyStatus };
+export { notify, notifyStatus, notifyMessage };
