@@ -26,15 +26,12 @@ async function auth() {
 	try {
 		loading.value = true;
 
-		const response = await axios.post(
+		await axios.post(
 			'http://127.0.0.1:8000/api/authAdmin',
 			form.value
 		);
 
-		store.commit(
-			'setNotify',
-			response.data.success
-		);
+		store.commit('setNotify', 'success');
 		notify();
 		emit('changeTab', 1);
 
@@ -44,8 +41,8 @@ async function auth() {
 
 		if (error.response.data.error) {
 			errors.value = error.response.data.error;
-				error.response.data.error;
-			errors.value = backendError;
+			store.commit('setNotify', 'error');
+			notify();
 		}
 	}
 }
