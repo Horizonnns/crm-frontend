@@ -42,6 +42,10 @@ async function login() {
 
 		if (response.data.accessToken) {
 			// save the token in localStorage
+			store.commit(
+				'setToken',
+				response.data.accessToken
+			);
 			localStorage.setItem(
 				'token',
 				`Bearer ${response.data.accessToken}`
