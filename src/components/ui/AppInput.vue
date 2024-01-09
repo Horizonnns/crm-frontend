@@ -136,6 +136,13 @@ const handleFocus = () => {
 const handleBlur = () => {
 	isFocused.value = true;
 };
+
+const hasErrors = computed(() => {
+	return (
+		Array.isArray(props.error) &&
+		props.error.length > 0
+	);
+});
 </script>
 
 <template>
@@ -154,7 +161,7 @@ const handleBlur = () => {
 			@blur="handleBlur"
 			:id="id.toString()"
 			:class="[
-				error &&
+				hasErrors &&
 					'!border-red-500 !text-red-600 !placeholder-red-700',
 				disabled &&
 					'!bg-gray-50 cursor-not-allowed',
@@ -166,7 +173,7 @@ const handleBlur = () => {
 		<label
 			:for="id"
 			:class="[
-				error && '!text-red-500',
+				hasErrors && '!text-red-500',
 				disabled
 					? '!bg-gray-50 text-gray-10 cursor-not-allowed'
 					: 'bg-white text-gray-10 ',
@@ -186,10 +193,11 @@ const handleBlur = () => {
 			<IconEyeClose v-show="showPassword" />
 		</button>
 	</div>
+
 	<p
-		v-show="error"
+		v-if="hasErrors"
 		class="text-xs text-red-500 leading-3"
 	>
-		{{ error }}
+		{{ error.join(', ') }}
 	</p>
 </template>
