@@ -103,6 +103,7 @@ async function login() {
 					type="text"
 					title="Email"
 					placeholder="Введите email"
+					:disabled="loading"
 					v-model="form.email"
 					:error="errors.email"
 				/>
@@ -114,6 +115,7 @@ async function login() {
 					title="Пароль"
 					type="password"
 					placeholder="Введите пароль"
+					:disabled="loading"
 					v-model="form.password"
 					:error="errors.password"
 				/>

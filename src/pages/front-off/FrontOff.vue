@@ -616,7 +616,7 @@ const searchApplications = async () => {
 													/>
 
 													<BaseSelect
-														:class="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
+														:classes="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
 														v-model="
 															form.job_title
 														"
