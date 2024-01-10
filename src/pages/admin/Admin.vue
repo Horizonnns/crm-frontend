@@ -14,6 +14,7 @@ import BaseSelect from '../../components/ui/BaseSelect.vue';
 import IconLogout from '../../components/icons/IconLogout.vue';
 import IconExit from '../../components/icons/IconExit.vue';
 import IconLogo from '../../components/icons/IconLogo.vue';
+import IconProcessing from '../../components/icons/IconProcessing.vue';
 
 const store = useStore();
 const router = useRouter();
@@ -73,18 +74,17 @@ const roleVariants = [
 	{ value: 'front-office', label: 'Фронт-офис' },
 ];
 
+const loading = ref(false);
+
 async function authUser() {
-	await axios
-		.post(
+		loading.value = true;
+
+		const response = await axios.post(
 			'http://127.0.0.1:8000/api/authUser',
 			form.value
-		)
-		.then((res) => {
-			console.log(res, 'res');
-			store.commit('setUsers', res.data.users);
+		);
 
-			closeModal();
-		});
+		loading.value = false;
 }
 
 async function deleteUser(userId) {
@@ -371,10 +371,18 @@ async function logOut() {
 
 										<button
 											@click="authUser"
-											type="submit"
-											class="bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 border rounded-full text-sm font-bold px-4 mt-5 pt-1.5 pb-2 w-full"
+											:disabled="loading"
+											:class="{
+												'bg-blue-10 opacity-80':
+													loading,
+											}"
+											class="flex justify-center bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 border rounded-full text-sm font-bold px-4 mt-5 pt-1.5 pb-2 w-full"
 										>
-											Создать
+											<IconProcessing
+												class="fill-blue-10"
+												v-if="loading"
+											/>
+											<p v-else>Создать</p>
 										</button>
 									</DialogPanel>
 								</TransitionChild>
