@@ -9,6 +9,7 @@ import {
 	Dialog,
 	DialogPanel,
 } from '@headlessui/vue';
+import { notify } from '../../composables/notify';
 import AppInput from '../../components/ui/AppInput.vue';
 import BaseSelect from '../../components/ui/BaseSelect.vue';
 import IconLogout from '../../components/icons/IconLogout.vue';
@@ -38,8 +39,8 @@ const jobеtitles = [
 		label: 'Бекэнд разработчик',
 	},
 	{
-		value: 'Ux/Ui Дизайн',
-		label: 'Ux/Ui Дизайн',
+		value: 'Ux/Ui Дизайн',
+		label: 'Ux/Ui Дизайн',
 	},
 ];
 
@@ -69,6 +70,14 @@ const form = ref({
 	password: '',
 });
 
+const errors = ref({
+	name: [],
+	email: [],
+	job_title: [],
+	phonenum: [],
+	password: [],
+});
+
 const roleVariants = [
 	{ value: 'back-office', label: 'Бэк-офис' },
 	{ value: 'front-office', label: 'Фронт-офис' },
@@ -77,6 +86,7 @@ const roleVariants = [
 const loading = ref(false);
 
 async function authUser() {
+	try {
 		loading.value = true;
 
 		const response = await axios.post(
@@ -84,7 +94,26 @@ async function authUser() {
 			form.value
 		);
 
+		store.commit('setUsers', response.data.users);
+		notify(
+			'message',
+			'Менеджер успешно зарегистрирован!'
+		);
+
+		closeModal();
+
 		loading.value = false;
+	} catch (error) {
+		loading.value = false;
+
+		if (error.response.data.error) {
+			errors.value = error.response.data.error;
+			notify(
+				'error',
+				'Заполните правильно все поля!'
+			);
+		}
+	}
 }
 
 async function deleteUser(userId) {
@@ -307,24 +336,34 @@ async function logOut() {
 												<div
 													class="w-full space-y-4"
 												>
-													<AppInput
-														size="lg"
-														type="text"
-														title="ФИО"
-														placeholder="Иван Иванов"
-														v-model="form.name"
-													/>
+													<div class="space-y-1">
+														<AppInput
+															size="lg"
+															type="text"
+															title="ФИО"
+															placeholder="Иван Иванов"
+															:disabled="loading"
+															v-model="form.name"
+															:error="errors.name"
+														/>
+													</div>
 
-													<AppInput
-														size="lg"
-														type="text"
-														title="Email"
-														placeholder="Введите email"
-														v-model="form.email"
-													/>
+													<div class="space-y-1">
+														<AppInput
+															size="lg"
+															type="text"
+															title="Email"
+															placeholder="Введите email"
+															:disabled="loading"
+															v-model="form.email"
+															:error="
+																errors.email
+															"
+														/>
+													</div>
 
 													<BaseSelect
-														:class="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
+														:classes="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
 														v-model="form.role"
 														:options="
 															roleVariants
@@ -336,33 +375,49 @@ async function logOut() {
 												<div
 													class="w-full space-y-4"
 												>
-													<AppInput
-														size="lg"
-														type="text"
-														:maska="'#########'"
-														title="Номер телефона"
-														placeholder="901000801"
-														v-model="
-															form.phonenum
-														"
-													/>
+													<div class="space-y-1">
+														<AppInput
+															size="lg"
+															type="text"
+															:maska="'#########'"
+															title="Номер телефона"
+															placeholder="901000801"
+															:disabled="loading"
+															v-model="
+																form.phonenum
+															"
+															:error="
+																errors.phonenum
+															"
+														/>
+													</div>
 
-													<AppInput
-														size="lg"
-														type="password"
-														title="Пароль"
-														placeholder="Введите пароль"
-														v-model="
-															form.password
-														"
-													/>
+													<div class="space-y-1">
+														<AppInput
+															size="lg"
+															type="password"
+															title="Пароль"
+															placeholder="Введите пароль"
+															:disabled="loading"
+															v-model="
+																form.password
+															"
+															:error="
+																errors.password
+															"
+														/>
+													</div>
 
 													<BaseSelect
 														:classes="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
+														:disabled="loading"
 														v-model="
 															form.job_title
 														"
 														:options="jobеtitles"
+														:error="
+															errors.job_title
+														"
 														placeholder="Выберите должность"
 													/>
 												</div>
