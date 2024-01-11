@@ -364,11 +364,13 @@ async function logOut() {
 
 													<BaseSelect
 														:classes="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
+														:disabled="loading"
 														v-model="form.role"
 														:options="
 															roleVariants
 														"
 														placeholder="Выберите роль"
+														:error="errors.role"
 													/>
 												</div>
 
