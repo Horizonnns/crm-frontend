@@ -9,11 +9,13 @@ import {
 	Dialog,
 	DialogPanel,
 } from '@headlessui/vue';
+import { notify } from '../../composables/notify';
 import AppInput from '../../components/ui/AppInput.vue';
 import BaseSelect from '../../components/ui/BaseSelect.vue';
 import IconLogout from '../../components/icons/IconLogout.vue';
 import IconExit from '../../components/icons/IconExit.vue';
 import IconLogo from '../../components/icons/IconLogo.vue';
+import IconProcessing from '../../components/icons/IconProcessing.vue';
 
 const store = useStore();
 const router = useRouter();
@@ -21,33 +23,85 @@ const applications = computed(
 	() => store.state.applications
 );
 
+const form = ref({
+	specialist_name: '',
+	topic: '',
+	job_title: '',
+	status: '',
+	phonenum: '',
+	account_number: '',
+	createddate: '',
+	comment: '',
+});
+
+const errors = ref({
+	specialist_name: '',
+	topic: '',
+	job_title: '',
+	status: '',
+	phonenum: '',
+	comment: '',
+});
+
 function resetModalApp() {
 	form.value = {
 		specialist_name: '',
 		topic: '',
 		job_title: '',
+		status: '',
 		phonenum: '',
 		createddate: '',
 		comment: '',
 	};
+
+	errors.value = {
+		specialist_name: '',
+		topic: '',
+		job_title: '',
+		status: '',
+		phonenum: '',
+		comment: '',
+	};
 }
 
+const loading = ref(false);
 async function createApp() {
-	await axios
-		.post(
-			'http://127.0.0.1:8000/api/createApp',
-			form.value
-		)
-		.then((res) => {
-			console.log(res, 'res');
-			store.commit(
-				'setApplications',
-				res.data.applications
-			);
+	try {
+		loading.value = true;
 
-			closeModal();
-			resetModalApp();
-		});
+		await axios
+			.post(
+				'http://127.0.0.1:8000/api/createApp',
+				form.value
+			)
+			.then((res) => {
+				console.log(res, 'res');
+				store.commit(
+					'setApplications',
+					res.data.applications
+				);
+
+				closeModal();
+
+				notify(
+					'message',
+					'Заявка успешно создана!'
+				);
+			});
+
+		loading.value = false;
+	} catch (error) {
+		loading.value = false;
+
+		if (error.response.data.error) {
+			errors.value = error.response.data.error;
+
+			notify(
+				'error',
+				'Проверьте корректность введенных данных!'
+			);
+		}
+	}
 }
 
 async function deleteApp(appId) {
@@ -126,6 +180,7 @@ function closeSearch() {
 const isOpen = ref(false);
 function closeModal() {
 	isOpen.value = false;
+	resetModalApp();
 }
 function openModal() {
 	isOpen.value = true;
@@ -144,15 +199,7 @@ function openEditModal() {
 	setCurrentDate();
 }
 
-const form = ref({
-	specialist_name: '',
-	topic: '',
-	job_title: '',
-	phonenum: '',
-	account_number: '',
-	createddate: '',
-	comment: '',
-});
+const status = ref([]);
 
 function generateRandomNum() {
 	const randomNumber =
@@ -190,6 +237,7 @@ const editedApp = ref({
 	specialist_name: '',
 	topic: '',
 	job_title: '',
+	status: '',
 	phonenum: '',
 	comment: '',
 });
@@ -207,12 +255,18 @@ async function editApp(appId) {
 }
 
 async function saveEditedApp() {
+	// try {
 	await axios
 		.put(
 			`http://127.0.0.1:8000/api/updateApp/${editingApp.value}`,
 			editedApp.value
 		)
 		.then((res) => {
+			notify(
+				'message',
+				'Заявка успешно обновлена!'
+			);
+
 			store.commit(
 				'setApplications',
 				res.data.applications
@@ -226,6 +280,16 @@ async function saveEditedApp() {
 			closeEditModal();
 			resetModalApp();
 		});
+	// } catch (error) {
+	// 	if (error.response.data.status) {
+	// 		status.value = error.response.data.status;
+
+	// 		notify(
+	// 			'error',
+	// 			'Проверьте корректность введенных данных!'
+	// 		);
+	// 	}
+	// }
 }
 
 function cancelEdit() {
@@ -684,31 +748,47 @@ const searchApplications = async () => {
 												<div
 													class="w-full space-y-4"
 												>
-													<AppInput
-														size="lg"
-														type="text"
-														title="ФИО"
-														placeholder="Иван Иванов"
-														v-model="
-															form.specialist_name
-														"
-													/>
+													<div class="space-y-1">
+														<AppInput
+															size="lg"
+															type="text"
+															title="ФИО"
+															placeholder="Иван Иванов"
+															:disabled="loading"
+															v-model="
+																form.specialist_name
+															"
+															:error="
+																errors.specialist_name
+															"
+														/>
+													</div>
 
-													<AppInput
-														size="lg"
-														type="text"
-														title="Тема заявки"
-														placeholder="Сменить тариф"
-														v-model="form.topic"
-													/>
+													<div class="space-y-1">
+														<AppInput
+															size="lg"
+															type="text"
+															title="Тема заявки"
+															placeholder="Сменить тариф"
+															:disabled="loading"
+															v-model="form.topic"
+															:error="
+																errors.topic
+															"
+														/>
+													</div>
 
 													<BaseSelect
 														:classes="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
+														:disabled="loading"
 														v-model="
 															form.job_title
 														"
 														:options="
 															roleVariants
+														"
+														:error="
+															errors.job_title
 														"
 														placeholder="Выберите специалиста"
 													/>
@@ -728,16 +808,22 @@ const searchApplications = async () => {
 												<div
 													class="w-full space-y-4"
 												>
-													<AppInput
-														size="lg"
-														type="text"
-														:maska="'#########'"
-														title="Номер телефона"
-														placeholder="901000801"
-														v-model="
-															form.phonenum
-														"
-													/>
+													<div class="space-y-1">
+														<AppInput
+															size="lg"
+															type="text"
+															:maska="'#########'"
+															title="Номер телефона"
+															placeholder="901000801"
+															:disabled="loading"
+															v-model="
+																form.phonenum
+															"
+															:error="
+																errors.phonenum
+															"
+														/>
+													</div>
 
 													<AppInput
 														size="lg"
@@ -765,20 +851,43 @@ const searchApplications = async () => {
 											</div>
 										</div>
 
-										<div>
+										<div class="space-y-1">
 											<textarea
 												v-model="form.comment"
+												:disabled="loading"
+												:class="{
+													'!bg-gray-50 cursor-not-allowed':
+														loading,
+
+													'!border-red-500 !text-red-600 !placeholder-red-700':
+														errors.comment,
+												}"
 												class="p-2 w-full h-32 mt-5 border text-sm rounded-lg outline-none focus:outline-none focus:ring-0 focus:border-blue-10"
 												placeholder="Коментарии"
 											></textarea>
+
+											<p
+												v-if="errors.comment"
+												class="text-red-500 text-xs"
+											>
+												{{ errors.comment[0] }}
+											</p>
 										</div>
 
 										<button
 											@click="createApp"
-											type="submit"
-											class="bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 border rounded-full text-sm font-bold px-4 mt-5 pt-1.5 pb-2 w-full"
+											:disabled="loading"
+											:class="{
+												'bg-blue-10 opacity-80':
+													loading,
+											}"
+											class="flex justify-center bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 border rounded-full text-sm font-bold px-4 mt-5 pt-1.5 pb-2 w-full"
 										>
-											Создать
+											<IconProcessing
+												class="fill-blue-10"
+												v-if="loading"
+											/>
+											<p v-else>Создать</p>
 										</button>
 									</DialogPanel>
 								</TransitionChild>
@@ -1103,6 +1212,29 @@ const searchApplications = async () => {
 												:options="roleVariants"
 												placeholder="Выберите специалиста"
 											/>
+
+											<div class="space-y-1">
+												<BaseSelect
+													:classes="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
+													v-model="
+														editedApp.status
+													"
+													:options="
+														statusVariants
+													"
+													placeholder="Статус заявки"
+												/>
+
+												<div
+													v-if="status.length > 0"
+												>
+													<p
+														class="text-red-500 text-xs"
+													>
+														{{ status }}
+													</p>
+												</div>
+											</div>
 										</div>
 
 										<div class="w-full space-y-4">
