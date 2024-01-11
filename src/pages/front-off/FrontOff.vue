@@ -26,6 +26,7 @@ function resetModalApp() {
 		specialist_name: '',
 		topic: '',
 		job_title: '',
+		status: 'В процессе',
 		phonenum: '',
 		createddate: '',
 		comment: '',
@@ -33,21 +34,11 @@ function resetModalApp() {
 }
 
 async function createApp() {
-	await axios
-		.post(
-			'http://127.0.0.1:8000/api/createApp',
-			form.value
-		)
-		.then((res) => {
-			console.log(res, 'res');
-			store.commit(
-				'setApplications',
-				res.data.applications
-			);
+		loading.value = true;
 
-			closeModal();
-			resetModalApp();
-		});
+
+		loading.value = false;
+	} catch (error) {
 }
 
 async function deleteApp(appId) {
@@ -597,26 +588,12 @@ const searchApplications = async () => {
 												<div
 													class="w-full space-y-4"
 												>
-													<AppInput
-														size="lg"
-														type="text"
-														title="ФИО"
-														placeholder="Иван Иванов"
-														v-model="
-															form.specialist_name
-														"
-													/>
-
-													<AppInput
-														size="lg"
-														type="text"
-														title="Тема заявки"
-														placeholder="Сменить тариф"
-														v-model="form.topic"
-													/>
+															:disabled="loading"
+															:disabled="loading"
 
 													<BaseSelect
 														:classes="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
+														:disabled="loading"
 														v-model="
 															form.job_title
 														"
@@ -630,16 +607,7 @@ const searchApplications = async () => {
 												<div
 													class="w-full space-y-4"
 												>
-													<AppInput
-														size="lg"
-														type="text"
-														:maska="'#########'"
-														title="Номер телефона"
-														placeholder="901000801"
-														v-model="
-															form.phonenum
-														"
-													/>
+															:disabled="loading"
 
 													<AppInput
 														size="lg"
@@ -670,6 +638,7 @@ const searchApplications = async () => {
 										<div>
 											<textarea
 												v-model="form.comment"
+												:disabled="loading"
 												class="p-2 w-full h-32 mt-5 border text-sm rounded-lg outline-none focus:outline-none focus:ring-0 focus:border-blue-10"
 												placeholder="Коментарии"
 											></textarea>
@@ -677,10 +646,18 @@ const searchApplications = async () => {
 
 										<button
 											@click="createApp"
-											type="submit"
-											class="bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 border rounded-full text-sm font-bold px-4 mt-5 pt-1.5 pb-2 w-full"
+											:disabled="loading"
+											:class="{
+												'bg-blue-10 opacity-80':
+													loading,
+											}"
+											class="flex justify-center bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 border rounded-full text-sm font-bold px-4 mt-5 pt-1.5 pb-2 w-full"
 										>
-											Создать
+											<IconProcessing
+												class="fill-blue-10"
+												v-if="loading"
+											/>
+											<p v-else>Создать</p>
 										</button>
 									</DialogPanel>
 								</TransitionChild>
