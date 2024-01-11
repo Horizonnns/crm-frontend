@@ -98,6 +98,22 @@ const roleVariants = [
 	},
 ];
 
+// Status variants
+const statusVariants = [
+	{
+		value: 'В процессе',
+		label: 'В процессе',
+	},
+	{
+		value: 'Передан специалисту',
+		label: 'Передан специалисту',
+	},
+	{
+		value: 'Завершен',
+		label: 'Завершен',
+	},
+];
+
 const isSearchOpen = ref(false);
 function openSearch() {
 	isSearchOpen.value = true;
@@ -695,6 +711,17 @@ const searchApplications = async () => {
 															roleVariants
 														"
 														placeholder="Выберите специалиста"
+													/>
+
+													<BaseSelect
+														:classes="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
+														:disabled="loading"
+														v-model="form.status"
+														:options="
+															statusVariants
+														"
+														:error="errors.status"
+														placeholder="Статус заявки"
 													/>
 												</div>
 
