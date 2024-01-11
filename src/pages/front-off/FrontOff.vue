@@ -373,10 +373,22 @@ const searchApplications = async () => {
 												class="px-4 py-4 font-medium whitespace-nowrap"
 											>
 												<div
-													class="inline px-3 py-1 text-sm font-normal rounded-full text-emerald-500 gap-x-2 bg-emerald-100/60"
+													:class="{
+														'bg-yellow-300 text-white':
+															app.status ==
+															'В процессе',
+
+														' bg-secondary text-white':
+															app.status ==
+															'Передан специалисту',
+
+														'bg-emerald-100/60 text-emerald-500':
+															app.status ==
+															'Завершен',
+													}"
+													class="inline px-3 py-1 text-sm font-normal rounded-full gap-x-2"
 												>
-													<!-- {{ app }} -->
-													Статус
+													{{ app.status }}
 												</div>
 											</td>
 
@@ -797,10 +809,20 @@ const searchApplications = async () => {
 								class="px-4 py-4 font-medium whitespace-nowrap"
 							>
 								<div
-									class="inline px-3 py-1 text-sm font-normal rounded-full text-emerald-500 gap-x-2 bg-emerald-100/60"
+									:class="{
+										'bg-yellow-300 text-white':
+											app.status == 'В процессе',
+
+										' bg-secondary text-white':
+											app.status ==
+											'Передан специалисту',
+
+										'bg-emerald-100/60 text-emerald-500':
+											app.status == 'Завершен',
+									}"
+									class="inline px-3 py-1 text-sm font-normal rounded-full gap-x-2"
 								>
-									<!-- {{ app }} -->
-									Статус
+									{{ app.status }}
 								</div>
 							</td>
 							<td
