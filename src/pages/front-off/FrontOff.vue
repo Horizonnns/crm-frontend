@@ -23,6 +23,25 @@ const applications = computed(
 	() => store.state.applications
 );
 
+const form = ref({
+	specialist_name: '',
+	topic: '',
+	job_title: '',
+	status: 'В процессе',
+	phonenum: '',
+	account_number: '',
+	createddate: '',
+	comment: '',
+});
+
+const errors = ref({
+	name: [],
+	email: [],
+	job_title: [],
+	phonenum: [],
+	password: [],
+});
+
 function resetForm() {
 	form.value = {
 		specialist_name: '',
@@ -151,16 +170,6 @@ function openModal() {
 	generateRandomNum();
 	setCurrentDate();
 }
-
-const form = ref({
-	specialist_name: '',
-	topic: '',
-	job_title: '',
-	phonenum: '',
-	account_number: '',
-	createddate: '',
-	comment: '',
-});
 
 function generateRandomNum() {
 	const randomNumber =
