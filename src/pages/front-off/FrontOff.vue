@@ -9,6 +9,7 @@ import {
 	Dialog,
 	DialogPanel,
 } from '@headlessui/vue';
+import { notify } from '../../composables/notify';
 import AppInput from '../../components/ui/AppInput.vue';
 import BaseSelect from '../../components/ui/BaseSelect.vue';
 import IconLogout from '../../components/icons/IconLogout.vue';
@@ -63,6 +64,10 @@ async function createApp() {
 				closeModal();
 				resetForm();
 
+				notify(
+					'message',
+					'Заявка успешно создана!'
+				);
 			});
 
 		loading.value = false;
@@ -72,6 +77,10 @@ async function createApp() {
 		if (error.response.data.error) {
 			errors.value = error.response.data.error;
 
+			notify(
+				'error',
+				'Проверьте корректность введенных данных!'
+			);
 		}
 	}
 }
