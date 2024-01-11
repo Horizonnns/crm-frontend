@@ -48,6 +48,7 @@ const isOpen = ref(false);
 function closeModal() {
 	isOpen.value = false;
 	form.value = '';
+	errors.value = '';
 }
 function openModal() {
 	isOpen.value = true;
@@ -71,11 +72,11 @@ const form = ref({
 });
 
 const errors = ref({
-	name: [],
-	email: [],
-	job_title: [],
-	phonenum: [],
-	password: [],
+	name: '',
+	email: '',
+	job_title: '',
+	phonenum: '',
+	password: '',
 });
 
 const roleVariants = [

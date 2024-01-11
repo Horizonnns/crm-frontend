@@ -35,11 +35,12 @@ const form = ref({
 });
 
 const errors = ref({
-	name: [],
-	email: [],
-	job_title: [],
-	phonenum: [],
-	password: [],
+	name: '',
+	email: '',
+	role: '',
+	job_title: '',
+	phonenum: '',
+	password: '',
 });
 
 function resetForm() {
@@ -54,16 +55,15 @@ function resetForm() {
 	};
 
 	errors.value = {
-		name: [],
-		email: [],
-		job_title: [],
-		phonenum: [],
-		password: [],
+		name: '',
+		email: '',
+		job_title: '',
+		phonenum: '',
+		password: '',
 	};
 }
 
 const loading = ref(false);
-
 async function createApp() {
 	try {
 		loading.value = true;
@@ -81,7 +81,6 @@ async function createApp() {
 				);
 
 				closeModal();
-				resetForm();
 
 				notify(
 					'message',
@@ -164,6 +163,7 @@ function closeSearch() {
 const isOpen = ref(false);
 function closeModal() {
 	isOpen.value = false;
+	resetForm();
 }
 function openModal() {
 	isOpen.value = true;
