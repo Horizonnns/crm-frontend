@@ -14,6 +14,7 @@ import BaseSelect from '../../components/ui/BaseSelect.vue';
 import IconLogout from '../../components/icons/IconLogout.vue';
 import IconExit from '../../components/icons/IconExit.vue';
 import IconLogo from '../../components/icons/IconLogo.vue';
+import IconProcessing from '../../components/icons/IconProcessing.vue';
 
 const store = useStore();
 const router = useRouter();
@@ -21,7 +22,7 @@ const applications = computed(
 	() => store.state.applications
 );
 
-function resetModalApp() {
+function resetForm() {
 	form.value = {
 		specialist_name: '',
 		topic: '',
@@ -31,14 +32,48 @@ function resetModalApp() {
 		createddate: '',
 		comment: '',
 	};
+
+	errors.value = {
+		name: [],
+		email: [],
+		job_title: [],
+		phonenum: [],
+		password: [],
+	};
 }
 
+const loading = ref(false);
+
 async function createApp() {
+	try {
 		loading.value = true;
 
+		await axios
+			.post(
+				'http://127.0.0.1:8000/api/createApp',
+				form.value
+			)
+			.then((res) => {
+				console.log(res, 'res');
+				store.commit(
+					'setApplications',
+					res.data.applications
+				);
+
+				closeModal();
+				resetForm();
+
+			});
 
 		loading.value = false;
 	} catch (error) {
+		loading.value = false;
+
+		if (error.response.data.error) {
+			errors.value = error.response.data.error;
+
+		}
+	}
 }
 
 async function deleteApp(appId) {
@@ -600,8 +635,35 @@ const searchApplications = async () => {
 												<div
 													class="w-full space-y-4"
 												>
+													<div class="space-y-1">
+														<AppInput
+															size="lg"
+															type="text"
+															title="ФИО"
+															placeholder="Иван Иванов"
 															:disabled="loading"
+															v-model="
+																form.specialist_name
+															"
+															:error="
+																errors.specialist_name
+															"
+														/>
+													</div>
+
+													<div class="space-y-1">
+														<AppInput
+															size="lg"
+															type="text"
+															title="Тема заявки"
+															placeholder="Сменить тариф"
 															:disabled="loading"
+															v-model="form.topic"
+															:error="
+																errors.topic
+															"
+														/>
+													</div>
 
 													<BaseSelect
 														:classes="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
@@ -612,6 +674,9 @@ const searchApplications = async () => {
 														:options="
 															roleVariants
 														"
+														:error="
+															errors.job_title
+														"
 														placeholder="Выберите специалиста"
 													/>
 												</div>
@@ -619,7 +684,22 @@ const searchApplications = async () => {
 												<div
 													class="w-full space-y-4"
 												>
+													<div class="space-y-1">
+														<AppInput
+															size="lg"
+															type="text"
+															:maska="'#########'"
+															title="Номер телефона"
+															placeholder="901000801"
 															:disabled="loading"
+															v-model="
+																form.phonenum
+															"
+															:error="
+																errors.phonenum
+															"
+														/>
+													</div>
 
 													<AppInput
 														size="lg"
@@ -647,13 +727,27 @@ const searchApplications = async () => {
 											</div>
 										</div>
 
-										<div>
+										<div class="space-y-1">
 											<textarea
 												v-model="form.comment"
 												:disabled="loading"
+												:class="{
+													'!bg-gray-50 cursor-not-allowed':
+														loading,
+
+													'!border-red-500 !text-red-600 !placeholder-red-700':
+														errors.comment,
+												}"
 												class="p-2 w-full h-32 mt-5 border text-sm rounded-lg outline-none focus:outline-none focus:ring-0 focus:border-blue-10"
 												placeholder="Коментарии"
 											></textarea>
+
+											<p
+												v-if="errors.comment"
+												class="text-red-500 text-xs"
+											>
+												{{ errors.comment[0] }}
+											</p>
 										</div>
 
 										<button
