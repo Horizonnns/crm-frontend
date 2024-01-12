@@ -231,10 +231,17 @@ const searchApplications = async () => {
 		);
 		apps.value = response.data.applications;
 		errorMessage.value = '';
+
+		notify('message', 'Заявка успешно найдена!');
 	} catch (error) {
 		apps.value = [];
 		errorMessage.value =
 			'Такой заявки не существует...';
+
+		notify(
+			'error',
+			'Такой заявки не существует!'
+		);
 	}
 };
 </script>
