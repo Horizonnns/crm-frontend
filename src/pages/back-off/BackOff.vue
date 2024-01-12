@@ -190,6 +190,8 @@ function openSearch() {
 function closeSearch() {
 	isSearchOpen.value = false;
 	searchTerm.value = '';
+	apps.value = '';
+	errorMessage.value = '';
 }
 
 const isOpen = ref(false);
@@ -206,7 +208,6 @@ function openModal() {
 const isEditOpen = ref(false);
 function closeEditModal() {
 	isEditOpen.value = false;
-	// resetModalApp();
 }
 function openEditModal() {
 	isEditOpen.value = true;

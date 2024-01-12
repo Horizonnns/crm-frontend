@@ -173,6 +173,8 @@ function openSearch() {
 function closeSearch() {
 	isSearchOpen.value = false;
 	searchTerm.value = '';
+	apps.value = '';
+	errorMessage.value = '';
 }
 
 const isOpen = ref(false);
