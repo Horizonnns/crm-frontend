@@ -5,6 +5,10 @@ import IconEyeOpen from '../icons/IconEyeOpen.vue';
 import IconEyeClose from '../icons/IconEyeClose.vue';
 
 const props = defineProps({
+	keyPress: {
+		type: Function,
+		default: () => {},
+	},
 	maska: {
 		type: String,
 		default: undefined,
@@ -149,6 +153,7 @@ const hasErrors = computed(() => {
 	<div class="relative">
 		<input
 			v-maska
+			@keypress="props.keyPress"
 			:data-maska="maska"
 			:inputmode="inputmode"
 			:autocomplete="autocomplete"

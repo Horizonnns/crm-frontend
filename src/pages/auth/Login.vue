@@ -115,6 +115,9 @@ async function login() {
 					title="Пароль"
 					type="password"
 					placeholder="Введите пароль"
+					:keyPress="
+						(e) => e.key === 'Enter' && login()
+					"
 					:disabled="loading"
 					v-model="form.password"
 					:error="errors.password"
