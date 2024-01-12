@@ -16,11 +16,16 @@ const store = createStore({
 			) || [],
 
 		token:
-			localStorage.getItem('accessToken') || null,
+			localStorage.getItem('accessToken') || [],
 	},
 	mutations: {
-		setToken(state, status) {
-			state.token = status;
+		setToken(state, token) {
+			state.token = token;
+
+			localStorage.setItem(
+				'token',
+				JSON.stringify(token)
+			);
 		},
 
 		setUser(state, user) {
