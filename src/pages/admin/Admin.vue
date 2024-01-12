@@ -47,8 +47,7 @@ const jobеtitles = [
 const isOpen = ref(false);
 function closeModal() {
 	isOpen.value = false;
-	form.value = '';
-	errors.value = '';
+	resetModalApp();
 }
 function openModal() {
 	isOpen.value = true;
@@ -78,6 +77,27 @@ const errors = ref({
 	phonenum: '',
 	password: '',
 });
+
+function resetModalApp() {
+	form.value = {
+		specialist_name: '',
+		topic: '',
+		job_title: '',
+		status: '',
+		phonenum: '',
+		createddate: '',
+		comment: '',
+	};
+
+	errors.value = {
+		specialist_name: '',
+		topic: '',
+		job_title: '',
+		status: '',
+		phonenum: '',
+		comment: '',
+	};
+}
 
 const roleVariants = [
 	{ value: 'back-office', label: 'Бэк-офис' },
@@ -256,7 +276,7 @@ async function logOut() {
 
 		<!-- User list table -->
 		<div
-			class="inline-block min-w-full align-middle md:px-6 lg:px-8 mt-6"
+			class="inline-block min-w-full align-middle px-4 mt-6"
 		>
 			<div
 				class="shadow-md px-2 py-3 space-y-4 bg-white overflow-hidden border border-gray-200 md:rounded-lg"
