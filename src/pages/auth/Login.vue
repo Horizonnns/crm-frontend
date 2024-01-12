@@ -21,17 +21,6 @@ const errors = ref({
 	password: [],
 });
 
-async function getApps() {
-	const applicationsResponse = await axios.get(
-		'http://127.0.0.1:8000/api/getAllApps'
-	);
-
-	store.commit(
-		'setApplications',
-		applicationsResponse.data.applications
-	);
-}
-
 async function login() {
 	try {
 		loading.value = true;
@@ -40,8 +29,6 @@ async function login() {
 			'http://127.0.0.1:8000/api/login',
 			{ params: form.value }
 		);
-
-		getApps();
 
 		if (response.data.accessToken) {
 			notify(
@@ -53,10 +40,6 @@ async function login() {
 			store.commit(
 				'setToken',
 				response.data.accessToken
-			);
-			localStorage.setItem(
-				'token',
-				`Bearer ${response.data.accessToken}`
 			);
 
 			// save user data in store
