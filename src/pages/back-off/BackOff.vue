@@ -254,42 +254,48 @@ async function editApp(appId) {
 	}
 }
 
+const loadingEdit = ref(false);
 async function saveEditedApp() {
-	// try {
-	await axios
-		.put(
-			`http://127.0.0.1:8000/api/updateApp/${editingApp.value}`,
-			editedApp.value
-		)
-		.then((res) => {
+	try {
+		loadingEdit.value = true;
+
+		await axios
+			.put(
+				`http://127.0.0.1:8000/api/updateApp/${editingApp.value}`,
+				editedApp.value
+			)
+			.then((res) => {
+				notify(
+					'message',
+					'Заявка успешно обновлена!'
+				);
+
+				store.commit(
+					'setApplications',
+					res.data.applications
+				);
+
+				console.log(
+					res.data.application,
+					'data.application'
+				);
+
+				closeEditModal();
+				resetModalApp();
+			});
+		loadingEdit.value = false;
+	} catch (error) {
+		loadingEdit.value = false;
+
+		if (error.response.data.error) {
+			errors.value = error.response.data.error;
+
 			notify(
-				'message',
-				'Заявка успешно обновлена!'
+				'error',
+				'Проверьте корректность введенных данных!'
 			);
-
-			store.commit(
-				'setApplications',
-				res.data.applications
-			);
-
-			console.log(
-				res.data.application,
-				'data.application'
-			);
-
-			closeEditModal();
-			resetModalApp();
-		});
-	// } catch (error) {
-	// 	if (error.response.data.status) {
-	// 		status.value = error.response.data.status;
-
-	// 		notify(
-	// 			'error',
-	// 			'Проверьте корректность введенных данных!'
-	// 		);
-	// 	}
-	// }
+		}
+	}
 }
 
 function cancelEdit() {
@@ -1072,7 +1078,7 @@ const searchApplications = async () => {
 							>
 								<button
 									@click="editApp(app.id)"
-									title="Изменить пользователя"
+									title="Изменить заявку"
 									class="rounded-lg text-red-500 p-2 bg-white hover:bg-gray-100 border"
 								>
 									<svg
@@ -1094,7 +1100,7 @@ const searchApplications = async () => {
 
 								<button
 									@click="deleteApp(app.id)"
-									title="Удалить пользователя"
+									title="Удалить заявку"
 									class="rounded-lg text-red-500 p-2 bg-white hover:bg-gray-100 border"
 								>
 									<svg
@@ -1186,68 +1192,72 @@ const searchApplications = async () => {
 										class="flex justify-between space-x-5 border-b-2 pb-5"
 									>
 										<div class="w-full space-y-4">
-											<AppInput
-												size="lg"
-												type="text"
-												title="ФИО"
-												placeholder="Иван Иванов"
-												v-model="
-													editedApp.specialist_name
-												"
-											/>
+											<div class="space-y-1">
+												<AppInput
+													size="lg"
+													type="text"
+													title="ФИО"
+													placeholder="Иван Иванов"
+													:disabled="loadingEdit"
+													v-model="
+														editedApp.specialist_name
+													"
+													:error="
+														errors.specialist_name
+													"
+												/>
+											</div>
 
-											<AppInput
-												size="lg"
-												type="text"
-												title="Тема заявки"
-												placeholder="Сменить тариф"
-												v-model="editedApp.topic"
-											/>
+											<div class="space-y-1">
+												<AppInput
+													size="lg"
+													type="text"
+													title="Тема заявки"
+													placeholder="Сменить тариф"
+													:disabled="loadingEdit"
+													v-model="
+														editedApp.topic
+													"
+													:error="errors.topic"
+												/>
+											</div>
 
 											<BaseSelect
 												:classes="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
+												:disabled="loadingEdit"
 												v-model="
 													editedApp.job_title
 												"
 												:options="roleVariants"
+												:error="errors.job_title"
 												placeholder="Выберите специалиста"
 											/>
 
-											<div class="space-y-1">
-												<BaseSelect
-													:classes="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
-													v-model="
-														editedApp.status
-													"
-													:options="
-														statusVariants
-													"
-													placeholder="Статус заявки"
-												/>
-
-												<div
-													v-if="status.length > 0"
-												>
-													<p
-														class="text-red-500 text-xs"
-													>
-														{{ status }}
-													</p>
-												</div>
-											</div>
+											<BaseSelect
+												:classes="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
+												:disabled="loadingEdit"
+												v-model="editedApp.status"
+												:options="statusVariants"
+												:error="errors.status"
+												placeholder="Статус заявки"
+											/>
 										</div>
 
 										<div class="w-full space-y-4">
-											<AppInput
-												size="lg"
-												type="text"
-												:maska="'#########'"
-												title="Номер телефона"
-												placeholder="901000801"
-												v-model="
-													editedApp.phonenum
-												"
-											/>
+											<div class="space-y-1">
+												<AppInput
+													size="lg"
+													type="text"
+													:maska="'#########'"
+													title="Номер телефона"
+													placeholder="901000801"
+													:disabled="loadingEdit"
+													v-model="
+														editedApp.phonenum
+													"
+													:error="errors.phonenum"
+												/>
+											</div>
 
 											<AppInput
 												size="lg"
@@ -1273,20 +1283,43 @@ const searchApplications = async () => {
 									</div>
 								</div>
 
-								<div>
+								<div class="space-y-1">
 									<textarea
 										v-model="editedApp.comment"
+										:disabled="loadingEdit"
+										:class="{
+											'!bg-gray-50 cursor-not-allowed':
+												loadingEdit,
+
+											'!border-red-500 !text-red-600 !placeholder-red-700':
+												errors.comment,
+										}"
 										class="p-2 w-full h-32 mt-5 border text-sm rounded-lg outline-none focus:outline-none focus:ring-0 focus:border-blue-10"
 										placeholder="Коментарии"
 									></textarea>
+
+									<p
+										v-if="errors.comment"
+										class="text-red-500 text-xs"
+									>
+										{{ errors.comment[0] }}
+									</p>
 								</div>
 
 								<button
 									@click="saveEditedApp"
-									type="submit"
-									class="bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 border rounded-full text-sm font-bold px-4 mt-5 pt-1.5 pb-2 w-full"
+									:disabled="loadingEdit"
+									:class="{
+										'bg-blue-10 opacity-80':
+											loadingEdit,
+									}"
+									class="flex justify-center bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 border rounded-full text-sm font-bold px-4 mt-5 pt-1.5 pb-2 w-full"
 								>
-									Изменить
+									<IconProcessing
+										class="fill-blue-10"
+										v-if="loadingEdit"
+									/>
+									<p v-else>Изменить</p>
 								</button>
 							</DialogPanel>
 						</TransitionChild>
