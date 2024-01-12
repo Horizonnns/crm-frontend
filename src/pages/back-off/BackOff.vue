@@ -267,6 +267,10 @@ async function editApp(appId) {
 	}
 }
 
+const token = JSON.parse(
+	localStorage.getItem('token')
+);
+
 const loadingEdit = ref(false);
 async function saveEditedApp() {
 	try {
@@ -275,7 +279,12 @@ async function saveEditedApp() {
 		await axios
 			.put(
 				`http://127.0.0.1:8000/api/updateApp/${editingApp.value}`,
-				editedApp.value
+				editedApp.value,
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
 			)
 			.then((res) => {
 				notify(
@@ -687,7 +696,7 @@ const searchApplications = async () => {
 
 		<!-- User list table -->
 		<div
-			class="inline-block min-w-full align-middle md:px-6 lg:px-8 mt-6"
+			class="inline-block min-w-full align-middle px-4 mt-6"
 		>
 			<div
 				class="shadow-md px-2 py-3 space-y-4 bg-white overflow-hidden border border-gray-200 md:rounded-lg"
