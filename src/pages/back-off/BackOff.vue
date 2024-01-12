@@ -330,8 +330,11 @@ const searchTerm = ref('');
 const apps = ref([]);
 const errorMessage = ref('');
 
+const loadingSearch = ref(false);
 const searchApplications = async () => {
 	try {
+		loadingSearch.value = true;
+
 		const response = await axios.post(
 			'http://127.0.0.1:8000/api/searchApps',
 			{ search_term: searchTerm.value }
@@ -340,7 +343,11 @@ const searchApplications = async () => {
 		errorMessage.value = '';
 
 		notify('message', 'Заявка успешно найдена!');
+
+		loadingSearch.value = false;
 	} catch (error) {
+		loadingSearch.value = false;
+
 		apps.value = [];
 		errorMessage.value =
 			'Такой заявки не существует...';
@@ -408,6 +415,7 @@ const searchApplications = async () => {
 											title="Поиск заявок"
 											placeholder="По Фио, по номеру, по лиц/счет"
 											v-model="searchTerm"
+											:disabled="loadingSearch"
 										/>
 
 										<button
