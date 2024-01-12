@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
@@ -22,6 +22,21 @@ const router = useRouter();
 const applications = computed(
 	() => store.state.applications
 );
+
+async function getApps() {
+	const applicationsResponse = await axios.get(
+		'http://127.0.0.1:8000/api/getAllApps'
+	);
+
+	store.commit(
+		'setApplications',
+		applicationsResponse.data.applications
+	);
+}
+
+onMounted(() => {
+	getApps();
+});
 
 const form = ref({
 	specialist_name: '',
@@ -573,7 +588,7 @@ const searchApplications = async () => {
 
 		<!-- User list table -->
 		<div
-			class="inline-block min-w-full align-middle md:px-6 lg:px-8 mt-6"
+			class="inline-block min-w-full align-middle px-4 mt-6"
 		>
 			<div
 				class="shadow-md px-2 py-3 space-y-4 bg-white overflow-hidden border border-gray-200 md:rounded-lg"

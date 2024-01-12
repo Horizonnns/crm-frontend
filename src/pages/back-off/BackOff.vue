@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
@@ -22,6 +22,21 @@ const router = useRouter();
 const applications = computed(
 	() => store.state.applications
 );
+
+async function getApps() {
+	const applicationsResponse = await axios.get(
+		'http://127.0.0.1:8000/api/getAllApps'
+	);
+
+	store.commit(
+		'setApplications',
+		applicationsResponse.data.applications
+	);
+}
+
+onMounted(() => {
+	getApps();
+});
 
 const form = ref({
 	specialist_name: '',
@@ -198,8 +213,6 @@ function openEditModal() {
 	generateRandomNum();
 	setCurrentDate();
 }
-
-const status = ref([]);
 
 function generateRandomNum() {
 	const randomNumber =
