@@ -6,6 +6,7 @@ import AuthTabs from './pages/auth/AuthTabs.vue';
 import Admin from './pages/admin/Admin.vue';
 import FrontOff from './pages/front-off/FrontOff.vue';
 import BackOff from './pages/back-off/BackOff.vue';
+import Application from './pages/application/Application.vue';
 
 const routes = [
 	{
@@ -30,6 +31,13 @@ const routes = [
 		path: '/backoff',
 		component: BackOff,
 		meta: { requiresAuth: true },
+	},
+	{
+		name: 'app',
+		path: '/app/:app',
+		component: Application,
+		meta: { requiresAuth: true },
+		props: true,
 	},
 ];
 

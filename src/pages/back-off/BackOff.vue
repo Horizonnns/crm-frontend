@@ -358,6 +358,24 @@ const searchApplications = async () => {
 		);
 	}
 };
+
+const getApplication = (app) => {
+	router.push({
+		name: 'app',
+		params: { app: app.account_number },
+
+		query: {
+			id: app.id,
+			name: app.specialist_name,
+			topic: app.topic,
+			account_number: app.account_number,
+			status: app.status,
+			job_title: app.job_title,
+			phonenum: app.phonenum,
+			comment: app.comment,
+		},
+	});
+};
 </script>
 
 <template>
@@ -1038,8 +1056,10 @@ const searchApplications = async () => {
 						class="bg-white divide-y divide-gray-200"
 					>
 						<tr
+							@click="getApplication(app)"
 							v-for="app in applications"
 							:key="app.id"
+							class="cursor-pointer hover:bg-gray-50 active:bg-gray-100 duration-100"
 						>
 							<td
 								class="px-4 py-4 whitespace-nowrap"
