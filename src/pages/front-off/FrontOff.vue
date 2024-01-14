@@ -125,15 +125,19 @@ async function deleteApp(appId) {
 
 		if (response.ok) {
 			store.commit('deleteApp', appId);
-		} else {
-			console.error(
-				'Ошибка при удалении пользователя:',
-				response.statusText
+			notify(
+				'message',
+				'Заявка успешно удалена!'
 			);
 		}
 	} catch (error) {
+		notify(
+			'error',
+			'Ошибка при удалении заявки!'
+		);
+
 		console.error(
-			'Ошибка при удалении пользователя:',
+			'Ошибка при удалении заявки:',
 			error.message
 		);
 	}

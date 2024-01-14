@@ -128,18 +128,17 @@ async function deleteApp(appId) {
 
 		if (response.ok) {
 			store.commit('deleteApp', appId);
-		} else {
 			notify(
-				'error',
-				'Ошибка при удалении заявки!'
-			);
-
-			console.error(
-				'Ошибка при удалении заявки:',
-				response.statusText
+				'message',
+				'Заявка успешно удалена!'
 			);
 		}
 	} catch (error) {
+		notify(
+			'error',
+			'Ошибка при удалении заявки!'
+		);
+
 		console.error(
 			'Ошибка при удалении заявки:',
 			error.message

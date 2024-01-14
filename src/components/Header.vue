@@ -259,7 +259,7 @@ async function saveEditedApp() {
 
 async function deleteApp(appId) {
 	try {
-		await fetch(
+		const response = await fetch(
 			`http://127.0.0.1:8000/api/deleteApp/${appId}`,
 			{
 				method: 'DELETE',
@@ -272,11 +272,6 @@ async function deleteApp(appId) {
 			notify(
 				'message',
 				'Заявка успешно удалена!'
-			);
-		} else {
-			console.error(
-				'Ошибка при удалении заявки:',
-				response.statusText
 			);
 		}
 	} catch (error) {
