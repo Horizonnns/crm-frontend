@@ -555,7 +555,7 @@ function setCurrentDate() {
 									class="px-8 py-4 text-sm whitespace-nowrap"
 								>
 									<h4 class="flex text-gray-700">
-										{{ app.phonenum }}
+										+992-{{ app.phonenum }}
 									</h4>
 								</td>
 

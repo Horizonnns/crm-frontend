@@ -562,6 +562,9 @@ function formatTime(createdAt) {
 									class="px-9 py-4 text-sm whitespace-nowrap"
 								>
 									<h4 class="flex text-gray-700">
+										<p v-if="user.phonenum">
+											+992-
+										</p>
 										{{ user.phonenum }}
 									</h4>
 								</td>
@@ -662,11 +665,15 @@ function formatTime(createdAt) {
 										{{ user.role }}
 									</p>
 
-									<p
-										class="px-2 py-0.5 text-gray-400"
+									<h4
+										class="whitespace-nowrap px-2 py-0.5 text-gray-400"
 									>
-										{{ user.phonenum }}
-									</p>
+										<span v-if="user.phonenum">
+											+992-</span
+										><span>
+											{{ user.phonenum }}
+										</span>
+									</h4>
 								</td>
 
 								<td

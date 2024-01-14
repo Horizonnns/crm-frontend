@@ -129,14 +129,19 @@ async function deleteApp(appId) {
 		if (response.ok) {
 			store.commit('deleteApp', appId);
 		} else {
+			notify(
+				'error',
+				'Ошибка при удалении заявки!'
+			);
+
 			console.error(
-				'Ошибка при удалении пользователя:',
+				'Ошибка при удалении заявки:',
 				response.statusText
 			);
 		}
 	} catch (error) {
 		console.error(
-			'Ошибка при удалении пользователя:',
+			'Ошибка при удалении заявки:',
 			error.message
 		);
 	}
@@ -849,11 +854,11 @@ const getApplication = (app) => {
 								>
 									<div
 										:class="{
-											'bg-yellow-300 text-white':
+											'bg-yellow-100/60 text-yellow-500':
 												app.status ==
 												'В процессе',
 
-											' bg-secondary text-white':
+											'bg-purple-100/60 text-secondary':
 												app.status ==
 												'Передан специалисту',
 
@@ -876,7 +881,7 @@ const getApplication = (app) => {
 									class="px-8 py-4 text-sm whitespace-nowrap"
 								>
 									<h4 class="flex text-gray-700">
-										{{ app.phonenum }}
+										+992-{{ app.phonenum }}
 									</h4>
 								</td>
 
