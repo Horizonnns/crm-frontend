@@ -195,6 +195,7 @@ function openModal() {
 const isEditOpen = ref(false);
 function closeEditModal() {
 	isEditOpen.value = false;
+	resetModalApp();
 }
 function openEditModal() {
 	isEditOpen.value = true;
@@ -282,7 +283,6 @@ async function saveEditedApp() {
 				);
 
 				closeEditModal();
-				resetModalApp();
 			});
 		loadingEdit.value = false;
 	} catch (error) {
@@ -496,6 +496,190 @@ const getApplication = (app) => {
 									v-if="loading"
 								/>
 								<p v-else>Создать</p>
+							</button>
+						</DialogPanel>
+					</TransitionChild>
+				</div>
+			</div>
+		</Dialog>
+	</TransitionRoot>
+
+	<!-- edit app -->
+	<TransitionRoot
+		appear
+		:show="isEditOpen"
+		as="template"
+	>
+		<Dialog as="div" class="relative z-10">
+			<TransitionChild
+				as="template"
+				enter="duration-300 ease-out"
+				enter-from="opacity-0"
+				enter-to="opacity-100"
+				leave="duration-200 ease-in"
+				leave-from="opacity-100"
+				leave-to="opacity-0"
+			>
+				<div class="fixed inset-0 bg-black/25" />
+			</TransitionChild>
+
+			<div class="fixed inset-0 overflow-y-auto">
+				<div
+					class="flex min-h-full items-center justify-center p-4 text-center"
+				>
+					<TransitionChild
+						as="template"
+						enter="duration-300 ease-out"
+						enter-from="opacity-0 scale-95"
+						enter-to="opacity-100 scale-100"
+						leave="duration-200 ease-in"
+						leave-from="opacity-100 scale-100"
+						leave-to="opacity-0 scale-95"
+					>
+						<DialogPanel
+							class="w-full max-w-xl transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all"
+						>
+							<div>
+								<div
+									class="flex justify-between items-center pb-2 mb-5 border-b-2"
+								>
+									<h2 class="text-xl font-bold">
+										Изменить заявку
+									</h2>
+
+									<IconExit @click="cancelEdit" />
+								</div>
+
+								<div
+									class="flex flex-col sm:flex-row justify-between sm:space-x-5 space-y-5 sm:space-y-0 border-b-2 pb-5"
+								>
+									<div class="w-full space-y-4">
+										<div class="space-y-1">
+											<AppInput
+												size="lg"
+												type="text"
+												title="ФИО"
+												placeholder="Иван Иванов"
+												:disabled="loadingEdit"
+												v-model="
+													editedApp.specialist_name
+												"
+												:error="
+													errors.specialist_name
+												"
+											/>
+										</div>
+
+										<div class="space-y-1">
+											<AppInput
+												size="lg"
+												type="text"
+												title="Тема заявки"
+												placeholder="Сменить тариф"
+												:disabled="loadingEdit"
+												v-model="editedApp.topic"
+												:error="errors.topic"
+											/>
+										</div>
+
+										<BaseSelect
+											:classes="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
+											:disabled="loadingEdit"
+											v-model="
+												editedApp.job_title
+											"
+											:options="roleVariants"
+											:error="errors.job_title"
+											placeholder="Выберите специалиста"
+										/>
+
+										<BaseSelect
+											:classes="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
+											:disabled="loadingEdit"
+											v-model="editedApp.status"
+											:options="statusVariants"
+											:error="errors.status"
+											placeholder="Статус заявки"
+										/>
+									</div>
+
+									<div class="w-full space-y-4">
+										<div class="space-y-1">
+											<AppInput
+												size="lg"
+												type="text"
+												:maska="'#########'"
+												title="Номер телефона"
+												placeholder="901000801"
+												:disabled="loadingEdit"
+												v-model="
+													editedApp.phonenum
+												"
+												:error="errors.phonenum"
+											/>
+										</div>
+
+										<AppInput
+											size="lg"
+											type="text"
+											title="Лицевой счет"
+											:disabled="true"
+											placeholder="Ваш лицевой счет"
+											v-model="
+												form.account_number
+											"
+										/>
+
+										<AppInput
+											size="lg"
+											type="text"
+											:disabled="true"
+											placeholder="01.12.2023"
+											:maska="'##.##.####'"
+											title="Дата обращения"
+											v-model="form.createddate"
+										/>
+									</div>
+								</div>
+							</div>
+
+							<div class="space-y-1">
+								<textarea
+									v-model="editedApp.comment"
+									:disabled="loadingEdit"
+									:class="{
+										'!bg-gray-50 cursor-not-allowed':
+											loadingEdit,
+
+										'!border-red-500 !text-red-600 !placeholder-red-700':
+											errors.comment,
+									}"
+									class="p-2 w-full h-32 mt-5 border text-sm rounded-lg outline-none focus:outline-none focus:ring-0 focus:border-blue-10"
+									placeholder="Коментарии"
+								></textarea>
+
+								<p
+									v-if="errors.comment"
+									class="text-red-500 text-xs"
+								>
+									{{ errors.comment[0] }}
+								</p>
+							</div>
+
+							<button
+								@click="saveEditedApp"
+								:disabled="loadingEdit"
+								:class="{
+									'bg-blue-10 opacity-80':
+										loadingEdit,
+								}"
+								class="flex justify-center bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 border rounded-full text-sm font-bold px-4 mt-5 pt-1.5 pb-2 w-full"
+							>
+								<IconProcessing
+									class="fill-blue-10"
+									v-if="loadingEdit"
+								/>
+								<p v-else>Изменить</p>
 							</button>
 						</DialogPanel>
 					</TransitionChild>
@@ -902,197 +1086,5 @@ const getApplication = (app) => {
 				</div>
 			</div>
 		</div>
-
-		<!-- edit app -->
-		<TransitionRoot
-			appear
-			:show="isEditOpen"
-			as="template"
-		>
-			<Dialog as="div" class="relative z-10">
-				<TransitionChild
-					as="template"
-					enter="duration-300 ease-out"
-					enter-from="opacity-0"
-					enter-to="opacity-100"
-					leave="duration-200 ease-in"
-					leave-from="opacity-100"
-					leave-to="opacity-0"
-				>
-					<div
-						class="fixed inset-0 bg-black/25"
-					/>
-				</TransitionChild>
-
-				<div
-					class="fixed inset-0 overflow-y-auto"
-				>
-					<div
-						class="flex min-h-full items-center justify-center p-4 text-center"
-					>
-						<TransitionChild
-							as="template"
-							enter="duration-300 ease-out"
-							enter-from="opacity-0 scale-95"
-							enter-to="opacity-100 scale-100"
-							leave="duration-200 ease-in"
-							leave-from="opacity-100 scale-100"
-							leave-to="opacity-0 scale-95"
-						>
-							<DialogPanel
-								class="w-full max-w-xl transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all"
-							>
-								<div>
-									<div
-										class="flex justify-between items-center pb-2 mb-5 border-b-2"
-									>
-										<h2 class="text-xl font-bold">
-											Изменить заявку
-										</h2>
-
-										<IconExit
-											@click="cancelEdit"
-										/>
-									</div>
-
-									<div
-										class="flex flex-col sm:flex-row justify-between sm:space-x-5 space-y-5 sm:space-y-0 border-b-2 pb-5"
-									>
-										<div class="w-full space-y-4">
-											<div class="space-y-1">
-												<AppInput
-													size="lg"
-													type="text"
-													title="ФИО"
-													placeholder="Иван Иванов"
-													:disabled="loadingEdit"
-													v-model="
-														editedApp.specialist_name
-													"
-													:error="
-														errors.specialist_name
-													"
-												/>
-											</div>
-
-											<div class="space-y-1">
-												<AppInput
-													size="lg"
-													type="text"
-													title="Тема заявки"
-													placeholder="Сменить тариф"
-													:disabled="loadingEdit"
-													v-model="
-														editedApp.topic
-													"
-													:error="errors.topic"
-												/>
-											</div>
-
-											<BaseSelect
-												:classes="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
-												:disabled="loadingEdit"
-												v-model="
-													editedApp.job_title
-												"
-												:options="roleVariants"
-												:error="errors.job_title"
-												placeholder="Выберите специалиста"
-											/>
-
-											<BaseSelect
-												:classes="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
-												:disabled="loadingEdit"
-												v-model="editedApp.status"
-												:options="statusVariants"
-												:error="errors.status"
-												placeholder="Статус заявки"
-											/>
-										</div>
-
-										<div class="w-full space-y-4">
-											<div class="space-y-1">
-												<AppInput
-													size="lg"
-													type="text"
-													:maska="'#########'"
-													title="Номер телефона"
-													placeholder="901000801"
-													:disabled="loadingEdit"
-													v-model="
-														editedApp.phonenum
-													"
-													:error="errors.phonenum"
-												/>
-											</div>
-
-											<AppInput
-												size="lg"
-												type="text"
-												title="Лицевой счет"
-												:disabled="true"
-												placeholder="Ваш лицевой счет"
-												v-model="
-													form.account_number
-												"
-											/>
-
-											<AppInput
-												size="lg"
-												type="text"
-												:disabled="true"
-												placeholder="01.12.2023"
-												:maska="'##.##.####'"
-												title="Дата обращения"
-												v-model="form.createddate"
-											/>
-										</div>
-									</div>
-								</div>
-
-								<div class="space-y-1">
-									<textarea
-										v-model="editedApp.comment"
-										:disabled="loadingEdit"
-										:class="{
-											'!bg-gray-50 cursor-not-allowed':
-												loadingEdit,
-
-											'!border-red-500 !text-red-600 !placeholder-red-700':
-												errors.comment,
-										}"
-										class="p-2 w-full h-32 mt-5 border text-sm rounded-lg outline-none focus:outline-none focus:ring-0 focus:border-blue-10"
-										placeholder="Коментарии"
-									></textarea>
-
-									<p
-										v-if="errors.comment"
-										class="text-red-500 text-xs"
-									>
-										{{ errors.comment[0] }}
-									</p>
-								</div>
-
-								<button
-									@click="saveEditedApp"
-									:disabled="loadingEdit"
-									:class="{
-										'bg-blue-10 opacity-80':
-											loadingEdit,
-									}"
-									class="flex justify-center bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 border rounded-full text-sm font-bold px-4 mt-5 pt-1.5 pb-2 w-full"
-								>
-									<IconProcessing
-										class="fill-blue-10"
-										v-if="loadingEdit"
-									/>
-									<p v-else>Изменить</p>
-								</button>
-							</DialogPanel>
-						</TransitionChild>
-					</div>
-				</div>
-			</Dialog>
-		</TransitionRoot>
 	</section>
 </template>
