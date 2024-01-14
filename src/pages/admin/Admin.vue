@@ -2,7 +2,6 @@
 import { ref, computed } from 'vue';
 import axios from 'axios';
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
 import {
 	TransitionRoot,
 	TransitionChild,
@@ -12,14 +11,11 @@ import {
 import { notify } from '../../composables/notify';
 import AppInput from '../../components/ui/AppInput.vue';
 import BaseSelect from '../../components/ui/BaseSelect.vue';
-import IconLogout from '../../components/icons/IconLogout.vue';
 import IconExit from '../../components/icons/IconExit.vue';
-import IconLogo from '../../components/icons/IconLogo.vue';
 import IconProcessing from '../../components/icons/IconProcessing.vue';
 import { format } from 'date-fns';
 
 const store = useStore();
-const router = useRouter();
 const users = computed(() => store.state.users);
 
 const jobеtitles = [
@@ -151,14 +147,14 @@ async function deleteUser(userId) {
 			store.commit('deleteUser', userId);
 
 			if (store.state.users.length === 0) {
-				logOut();
+				store.commit('logout');
 			} else {
 				const adminUsers =
 					store.state.users.filter(
 						(user) => user.role === 'admin'
 					);
 				if (adminUsers.length === 0) {
-					logOut();
+					store.commit('logout');
 				}
 			}
 		} else {
@@ -226,7 +222,7 @@ function saveEditedUser() {
 				).length;
 
 				if (adminCount === 0) {
-					logOut();
+					store.commit('logout');
 				}
 			}
 		})
@@ -245,15 +241,6 @@ function cancelEdit() {
 	closeEditModal();
 }
 
-async function logOut() {
-	store.commit('logout');
-
-	await axios.post(
-		'http://127.0.0.1:8000/api/logout',
-		router.push('/register')
-	);
-}
-
 function formatDate(createdAt) {
 	return format(
 		new Date(createdAt),
@@ -268,24 +255,6 @@ function formatTime(createdAt) {
 
 <template>
 	<section class="bg-gray-50 w-full h-screen">
-		<div
-			class="bg-blue-10 flex items-center justify-between shadow-md px-4 py-4"
-		>
-			<IconLogo />
-
-			<div class="flex space-x-2 items-center">
-				<h2
-					class="border rounded-full text-blue-10 bg-white font-bold px-6 pb-1.5 pt-1"
-				>
-					Админ
-				</h2>
-
-				<button @click="logOut">
-					<IconLogout />
-				</button>
-			</div>
-		</div>
-
 		<!-- User list table -->
 		<div
 			class="inline-block min-w-full align-middle px-4 mt-6"
