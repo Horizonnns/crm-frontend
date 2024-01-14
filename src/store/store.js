@@ -16,14 +16,14 @@ const store = createStore({
 			) || [],
 
 		token:
-			localStorage.getItem('accessToken') || [],
+			localStorage.getItem('accessToken') || null,
 	},
 	mutations: {
 		setToken(state, token) {
 			state.token = token;
 
 			localStorage.setItem(
-				'token',
+				'accessToken',
 				JSON.stringify(token)
 			);
 		},
@@ -81,7 +81,9 @@ const store = createStore({
 		logout(state) {
 			state.user = null;
 			state.users = null;
-			localStorage.removeItem('token');
+			state.token = null;
+			state.applications = null;
+			localStorage.removeItem('accessToken');
 			localStorage.removeItem('user');
 			localStorage.removeItem('users');
 			localStorage.removeItem('applications');
