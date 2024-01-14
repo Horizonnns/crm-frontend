@@ -447,7 +447,10 @@ async function logOut() {
 				</div>
 
 				<div class="flex space-x-2 items-center">
-					<button @click="openSearch">
+					<button
+						@click="openSearch"
+						class="lg:hidden"
+					>
 						<svg
 							class="w-9 h-9 border rounded-full p-1.5 bg-gray-50 hover:bg-gray-100 active:bg-gray-200 duration-200"
 							aria-hidden="true"
