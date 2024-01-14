@@ -4,7 +4,7 @@ const store = createStore({
 	state: {
 		user:
 			JSON.parse(localStorage.getItem('user')) ||
-			null,
+			[],
 
 		users:
 			JSON.parse(localStorage.getItem('users')) ||
@@ -79,13 +79,13 @@ const store = createStore({
 		},
 
 		logout(state) {
-			state.user = null;
-			state.users = null;
+			state.user = [];
+			state.users = [];
 			state.token = null;
-			state.applications = null;
-			localStorage.removeItem('accessToken');
+			state.applications = [];
 			localStorage.removeItem('user');
 			localStorage.removeItem('users');
+			localStorage.removeItem('accessToken');
 			localStorage.removeItem('applications');
 		},
 	},
