@@ -10,8 +10,8 @@ import {
 	Dialog,
 	DialogPanel,
 } from '@headlessui/vue';
-import IconLogo from '../components/icons/IconLogo.vue';
 import AppInput from '../components/ui/AppInput.vue';
+import IconLogo from '../components/icons/IconLogo.vue';
 import IconLogout from '../components/icons/IconLogout.vue';
 
 const store = useStore();
@@ -399,8 +399,8 @@ async function logOut() {
 			<!-- Search apps -->
 			<div
 				v-if="user.role !== 'admin'"
-				class="relative"
 				@click="openSearch"
+				class="relative hidden lg:block"
 			>
 				<input
 					type="text"
@@ -431,7 +431,7 @@ async function logOut() {
 
 			<div class="flex space-x-2 items-center">
 				<div
-					class="border rounded-full text-blue-10 bg-white font-bold px-6 pb-1.5 pt-1"
+					class="border rounded-full text-blue-10 bg-white whitespace-nowrap font-bold px-2 sm:px-6 pb-1.5 pt-1"
 				>
 					<h2 v-if="user.role === 'admin'">
 						Админ
@@ -446,9 +446,29 @@ async function logOut() {
 					</h2>
 				</div>
 
-				<button @click="logOut">
-					<IconLogout />
-				</button>
+				<div class="flex space-x-2 items-center">
+					<button @click="openSearch">
+						<svg
+							class="w-9 h-9 border rounded-full p-1.5 bg-gray-50 hover:bg-gray-100 active:bg-gray-200 duration-200"
+							aria-hidden="true"
+							fill="none"
+							stroke-width="2"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<path
+								d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							></path>
+						</svg>
+					</button>
+
+					<button @click="logOut">
+						<IconLogout />
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
