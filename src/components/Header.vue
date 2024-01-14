@@ -60,6 +60,31 @@ const searchApplications = async () => {
 	}
 };
 
+async function deleteApp(appId) {
+	try {
+		const response = await fetch(
+			`http://127.0.0.1:8000/api/deleteApp/${appId}`,
+			{
+				method: 'DELETE',
+			}
+		);
+
+		if (response.ok) {
+			store.commit('deleteApp', appId);
+		} else {
+			console.error(
+				'Ошибка при удалении пользователя:',
+				response.statusText
+			);
+		}
+	} catch (error) {
+		console.error(
+			'Ошибка при удалении пользователя:',
+			error.message
+		);
+	}
+}
+
 async function logOut() {
 	store.commit('logout');
 
@@ -166,7 +191,7 @@ async function logOut() {
 
 											<th
 												scope="col"
-												class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right"
+												class="py-3.5 px-6 text-sm font-normal text-left rtl:text-right"
 											>
 												<button
 													class="flex items-center gap-x-3 focus:outline-none font-bold"
@@ -210,14 +235,14 @@ async function logOut() {
 
 											<th
 												scope="col"
-												class="px-6 py-3.5 text-sm text-left rtl:text-right font-bold"
+												class="px-8 py-3.5 text-sm text-left rtl:text-right font-bold"
 											>
 												Статус
 											</th>
 
 											<th
 												scope="col"
-												class="px-4 py-3.5 text-sm text-left rtl:text-right font-bold"
+												class="px-8 py-3.5 text-sm text-left rtl:text-right font-bold"
 											>
 												Специалист
 											</th>
@@ -238,7 +263,7 @@ async function logOut() {
 
 											<th
 												scope="col"
-												class="px-2 py-3.5 text-sm text-left rtl:text-right font-bold"
+												class="pl-6 pr-8 py-3.5 text-sm text-left rtl:text-right font-bold"
 											>
 												Редактировать
 											</th>
@@ -324,7 +349,7 @@ async function logOut() {
 
 											<td
 												scope="row"
-												class="pl-12 pr-4 py-4 whitespace-nowrap space-x-2"
+												class="px-2 py-4 whitespace-nowrap space-x-2"
 											>
 												<button
 													@click="
@@ -374,7 +399,7 @@ async function logOut() {
 			<!-- Search apps -->
 			<div
 				v-if="user.role !== 'admin'"
-				class="relative py-4"
+				class="relative"
 				@click="openSearch"
 			>
 				<input
@@ -384,7 +409,7 @@ async function logOut() {
 				/>
 
 				<button
-					class="absolute top-[23px] right-2.5"
+					class="absolute top-1.5 right-2.5"
 				>
 					<svg
 						class="w-6 h-6 border rounded-full p-1 bg-gray-50 hover:bg-gray-100 active:bg-gray-200 duration-200"
