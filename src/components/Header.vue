@@ -295,6 +295,26 @@ async function logOut() {
 		router.push('/register')
 	);
 }
+
+const getApplication = (app) => {
+	closeSearch();
+
+	router.push({
+		name: 'app',
+		params: { app: app.account_number },
+
+		query: {
+			id: app.id,
+			name: app.specialist_name,
+			topic: app.topic,
+			account_number: app.account_number,
+			status: app.status,
+			job_title: app.job_title,
+			phonenum: app.phonenum,
+			comment: app.comment,
+		},
+	});
+};
 </script>
 
 <template>
@@ -489,6 +509,9 @@ async function logOut() {
 												<tr
 													v-for="app in apps"
 													:key="app.id"
+													@click="
+														getApplication(app)
+													"
 													class="cursor-pointer hover:bg-gray-50 active:bg-gray-100 duration-100"
 												>
 													<td
@@ -583,7 +606,7 @@ async function logOut() {
 																user.role ===
 																'back-office'
 															"
-															@click="
+															@click.stop="
 																editApp(app.id)
 															"
 															title="Изменить заявку"
@@ -607,7 +630,7 @@ async function logOut() {
 														</button>
 
 														<button
-															@click="
+															@click.stop="
 																deleteApp(app.id)
 															"
 															title="Удалить заявку"
@@ -646,7 +669,10 @@ async function logOut() {
 												<tr
 													v-for="app in apps"
 													:key="app.id"
-													class="flex items-start justify-between p-3"
+													@click="
+														getApplication(app)
+													"
+													class="cursor-pointer hover:bg-gray-50 active:bg-gray-100 duration-100 flex items-start justify-between p-3"
 												>
 													<td
 														class="flex flex-col items-start space-y-8 font-bold"
@@ -714,7 +740,7 @@ async function logOut() {
 																		user.role ===
 																		'back-office'
 																	"
-																	@click="
+																	@click.stop="
 																		editApp(
 																			app.id
 																		)
@@ -725,7 +751,7 @@ async function logOut() {
 																</button>
 
 																<button
-																	@click="
+																	@click.stop="
 																		deleteApp(
 																			app.id
 																		)
@@ -1026,21 +1052,31 @@ async function logOut() {
 			</div>
 
 			<div class="flex space-x-2 items-center">
-				<div
-					class="border rounded-full text-blue-10 bg-white whitespace-nowrap font-bold px-2 sm:px-6 pb-1.5 pt-1"
+				<button
+					class="border rounded-full text-blue-10 hover:bg-gray-100 active:bg-gray-200 duration-100 bg-white whitespace-nowrap font-bold px-2 sm:px-6 pb-1.5 pt-1"
 				>
-					<h2 v-if="user.role === 'admin'">
-						Админ
-					</h2>
+					<router-link to="/admin">
+						<h2 v-if="user.role === 'admin'">
+							Админ
+						</h2>
+					</router-link>
 
-					<h2 v-if="user.role === 'front-office'">
-						Фронт-офис
-					</h2>
+					<router-link to="/frontoff">
+						<h2
+							v-if="user.role === 'front-office'"
+						>
+							Фронт-офис
+						</h2>
+					</router-link>
 
-					<h2 v-if="user.role === 'back-office'">
-						Бэк-офис
-					</h2>
-				</div>
+					<router-link to="/backoff">
+						<h2
+							v-if="user.role === 'back-office'"
+						>
+							Бэк-офис
+						</h2>
+					</router-link>
+				</button>
 
 				<div class="flex space-x-2 items-center">
 					<button
