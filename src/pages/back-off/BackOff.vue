@@ -820,6 +820,7 @@ const getApplication = (app) => {
 							<tr
 								v-for="app in applications"
 								:key="app.id"
+								@click="getApplication(app)"
 								class="cursor-pointer hover:bg-gray-50 active:bg-gray-100 duration-100"
 							>
 								<td
@@ -897,7 +898,7 @@ const getApplication = (app) => {
 									class="pl-12 pr-4 py-4 whitespace-nowrap space-x-2"
 								>
 									<button
-										@click="editApp(app.id)"
+										@click.stop="editApp(app.id)"
 										title="Изменить заявку"
 										class="rounded-lg text-red-500 p-2 bg-white hover:bg-gray-100 border"
 									>
@@ -919,7 +920,9 @@ const getApplication = (app) => {
 									</button>
 
 									<button
-										@click="deleteApp(app.id)"
+										@click.stop="
+											deleteApp(app.id)
+										"
 										title="Удалить заявку"
 										class="rounded-lg text-red-500 p-2 bg-white hover:bg-gray-100 border"
 									>
@@ -956,7 +959,8 @@ const getApplication = (app) => {
 							<tr
 								v-for="app in applications"
 								:key="app.id"
-								class="flex items-start justify-between p-3"
+								@click="getApplication(app)"
+								class="cursor-pointer hover:bg-gray-50 active:bg-gray-100 duration-100 flex items-start justify-between p-3"
 							>
 								<td
 									class="flex flex-col items-start space-y-8 font-bold"
@@ -1008,14 +1012,18 @@ const getApplication = (app) => {
 											class="flex flex-col items-end space-y-1"
 										>
 											<button
-												@click="editApp(app.id)"
+												@click.stop="
+													editApp(app.id)
+												"
 												class="hover:bg-gray-100 bg-yellow-100/60 text-yellow-500 border border-red-300 rounded-full font-medium text-sm px-2 py-1"
 											>
 												Изменить
 											</button>
 
 											<button
-												@click="deleteApp(app.id)"
+												@click.stop="
+													deleteApp(app.id)
+												"
 												class="hover:bg-gray-100 bg-red-100/60 text-red-500 border border-red-300 rounded-full font-medium text-sm px-3.5 py-1"
 											>
 												Удалить

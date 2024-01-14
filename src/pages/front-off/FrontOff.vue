@@ -2,6 +2,7 @@
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import {
 	TransitionRoot,
 	TransitionChild,
@@ -15,6 +16,7 @@ import IconExit from '../../components/icons/IconExit.vue';
 import IconProcessing from '../../components/icons/IconProcessing.vue';
 
 const store = useStore();
+const router = useRouter();
 const applications = computed(
 	() => store.state.applications
 );
@@ -198,6 +200,24 @@ function setCurrentDate() {
 		''
 	);
 }
+
+const getApplication = (app) => {
+	router.push({
+		name: 'app',
+		params: { app: app.account_number },
+
+		query: {
+			id: app.id,
+			name: app.specialist_name,
+			topic: app.topic,
+			account_number: app.account_number,
+			status: app.status,
+			job_title: app.job_title,
+			phonenum: app.phonenum,
+			comment: app.comment,
+		},
+	});
+};
 </script>
 
 <template>
@@ -500,6 +520,8 @@ function setCurrentDate() {
 							<tr
 								v-for="app in applications"
 								:key="app.id"
+								@click="getApplication(app)"
+								class="cursor-pointer hover:bg-gray-50 active:bg-gray-100 duration-100"
 							>
 								<td
 									class="px-4 py-4 whitespace-nowrap"
@@ -576,7 +598,9 @@ function setCurrentDate() {
 									class="pl-12 pr-4 py-4 whitespace-nowrap space-x-2"
 								>
 									<button
-										@click="deleteApp(app.id)"
+										@click.stop="
+											deleteApp(app.id)
+										"
 										title="Удалить пользователя"
 										class="rounded-lg text-red-500 p-2 bg-white hover:bg-gray-100 border"
 									>
@@ -613,7 +637,8 @@ function setCurrentDate() {
 							<tr
 								v-for="app in applications"
 								:key="app.id"
-								class="flex items-start justify-between p-3"
+								@click="getApplication(app)"
+								class="cursor-pointer hover:bg-gray-50 active:bg-gray-100 duration-100 flex items-start justify-between p-3"
 							>
 								<td
 									class="flex flex-col items-start space-y-8 font-bold"
@@ -661,7 +686,9 @@ function setCurrentDate() {
 									<div class="space-y-1">
 										<p>Редактировать</p>
 										<button
-											@click="deleteApp(app.id)"
+											@click.stop="
+												deleteApp(app.id)
+											"
 											class="hover:bg-gray-100 bg-red-100/60 text-red-500 border border-red-300 rounded-full font-medium text-sm px-3.5 py-1"
 										>
 											Удалить
