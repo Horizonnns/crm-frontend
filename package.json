@@ -12,6 +12,7 @@
     "@headlessui/vue": "^1.7.16",
     "axios": "^1.6.2",
     "class-variance-authority": "^0.7.0",
+    "date-fns": "^3.2.0",
     "maska": "^2.1.10",
     "vue": "^3.3.11",
     "vue-router": "^4.2.5",
