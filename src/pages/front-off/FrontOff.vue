@@ -680,7 +680,7 @@ const searchApplications = async () => {
 											</div>
 
 											<div
-												class="flex justify-between space-x-5 border-b-2 pb-5"
+												class="flex flex-col sm:flex-row justify-between sm:space-x-5 space-y-5 sm:space-y-0 border-b-2 pb-5"
 											>
 												<div
 													class="w-full space-y-4"
