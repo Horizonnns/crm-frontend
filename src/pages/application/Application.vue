@@ -13,7 +13,7 @@ const application = ref(
 		class="bg-gray-50 w-full h-screen overflow-scroll"
 	>
 		<div
-			class="bg-white border shadow rounded-lg flex flex-col items-center space-y-6 mt-6 py-5 mx-4"
+			class="bg-white border shadow rounded-lg flex flex-col items-center space-y-6 mt-6 pt-5 mx-4"
 		>
 			<span class="text-2xl font-bold">
 				Заявка №{{ application.id }}</span
@@ -24,66 +24,88 @@ const application = ref(
 			>
 				<div class="space-x-1.5">
 					<span
-						class="bg-gray-400 text-white pl-1 py-1"
+						class="bg-cyan-100/60 text-cyan-500 font-bold pl-1 py-1"
 					>
 						Лицевой счёт:
 					</span>
 
-					<span class="font-bold">
+					<span
+						class="bg-gray-100/60 -ml-2 px-2 py-1 w-fit rounded-full text-gray-500 text-sm font-medium"
+					>
 						{{ application.account_number }}
 					</span>
 				</div>
 
 				<div class="space-x-1.5">
 					<span
-						class="bg-gray-400 text-white pl-1 py-1"
+						class="bg-cyan-100/60 text-cyan-500 font-bold pl-1 py-1"
 					>
 						Имя клиента:
 					</span>
 
-					<span class="font-bold">
+					<span
+						class="bg-gray-100/60 -ml-2 px-2 py-1 w-fit rounded-full text-gray-500 text-sm font-medium"
+					>
 						{{ application.name }}
 					</span>
 				</div>
 
 				<div class="space-x-1.5">
 					<span
-						class="bg-gray-400 text-white pl-1 py-1"
+						class="bg-cyan-100/60 text-cyan-500 font-bold pl-1 py-1"
 					>
 						Номер телефона:
 					</span>
 
-					<span class="font-bold">
-						{{ application.phonenum }}
+					<span
+						class="bg-gray-100/60 -ml-2 px-2 py-1 w-fit rounded-full text-gray-500 text-sm font-medium"
+					>
+						+992-{{ application.phonenum }}
 					</span>
 				</div>
 
 				<div class="space-x-1.5">
 					<span
-						class="bg-gray-400 text-white pl-1 py-1"
+						class="bg-cyan-100/60 text-cyan-500 font-bold pl-1 py-1"
 					>
 						Тема заявки:
 					</span>
 
-					<span class="font-bold">
+					<span
+						class="bg-gray-100/60 -ml-2 px-2 py-1 w-fit rounded-full text-gray-500 text-sm font-medium"
+					>
 						{{ application.topic }}
 					</span>
 				</div>
 
 				<div class="space-x-1.5">
 					<span
-						class="bg-gray-400 text-white pl-1 py-1"
+						class="bg-cyan-100/60 text-cyan-500 font-bold pl-1 py-1"
 					>
 						Статус заявки:
 					</span>
 
-					<span class="font-bold">
+					<span
+						class="px-3 py-1 text-sm rounded-full font-medium"
+						:class="{
+							'bg-yellow-100/60 text-yellow-500':
+								application.status ==
+								'В процессе',
+
+							'bg-purple-100/60 text-secondary':
+								application.status ==
+								'Передан специалисту',
+
+							'bg-emerald-100/60 text-emerald-500':
+								application.status == 'Завершен',
+						}"
+					>
 						{{ application.status }}
 					</span>
 				</div>
 
 				<div class="space-y-1">
-					<div>
+					<div class="space-y-1">
 						<p
 							v-if="application.comment"
 							class="font-bold text-xl w-fit mx-auto"
@@ -93,7 +115,7 @@ const application = ref(
 
 						<p
 							v-if="application.comment"
-							class="text-gray-600 text-center px-5"
+							class="bg-gray-100/60 text-center p-4 text-gray-500 text-sm font-medium"
 						>
 							{{ application.comment }}
 						</p>
