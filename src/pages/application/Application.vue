@@ -6,6 +6,11 @@ const router = useRouter();
 const application = ref(
 	router.currentRoute.value.query
 );
+
+const isComment = ref(false);
+const writeCommnent = () => {
+	isComment.value = true;
+};
 </script>
 
 <template>
@@ -131,6 +136,41 @@ const application = ref(
 					>
 						Коментарии по заявке отсутствуют..
 					</p>
+				</div>
+
+				<div
+					class="flex flex-col items-center space-y-3"
+				>
+					<div>
+						<button
+							@click="writeCommnent"
+							type="submit"
+							class="bg-gray-100 hover:bg-gray-200 active:bg-gray-300 opacity-60 hover:opacity-100 duration-200 border rounded-full text-sm px-4 pt-1.5 pb-2"
+						>
+							Оставить коментарий
+						</button>
+					</div>
+
+					<div
+						v-if="isComment"
+						class="w-full space-y-3"
+					>
+						<div>
+							<textarea
+								class="w-full h-44 p-2 border text-sm rounded-lg outline-none focus:outline-none focus:ring-0 focus:border-blue-10"
+								placeholder="Оставить коментарий.."
+							></textarea>
+						</div>
+
+						<div class="text-end">
+							<button
+								type="submit"
+								class="bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 border rounded-full text-sm px-4 pt-1.5 pb-2"
+							>
+								Отправить
+							</button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
