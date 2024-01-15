@@ -691,7 +691,7 @@ const getApplication = (app) => {
 														<div>
 															<p>Тема заявки</p>
 															<p
-																class="bg-gray-100/60 px-2 py-1 rounded-full text-gray-500 w-fit text-sm font-normal"
+																class="truncate w-28 sm:w-full bg-gray-100/60 px-2 py-1 rounded-full text-gray-500 text-sm font-normal"
 															>
 																{{ app.topic }}
 															</p>
@@ -768,7 +768,7 @@ const getApplication = (app) => {
 														>
 															<p>Коментарии</p>
 															<p
-																class="bg-gray-100/60 text-gray-500 text-center text-sm font-normal -mr-2 px-2 py-1 rounded-full"
+																class="w-40 sm:w-64 truncate overflow-auto bg-gray-100/60 text-gray-500 text-center text-sm font-normal -mr-3 px-2 py-1 rounded-full"
 															>
 																{{ app.comment }}
 															</p>
