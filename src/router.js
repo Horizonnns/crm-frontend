@@ -66,12 +66,20 @@ router.beforeEach(async (to, from, next) => {
 			user.role === 'front-office' &&
 			to.name !== 'frontoff'
 		) {
-			next('/frontoff');
+			if (to.name !== 'app') {
+				next('/frontoff');
+			} else {
+				next();
+			}
 		} else if (
 			user.role === 'back-office' &&
 			to.name !== 'backoff'
 		) {
-			next('/backoff');
+			if (to.name !== 'app') {
+				next('/backoff');
+			} else {
+				next();
+			}
 		} else {
 			next();
 		}
