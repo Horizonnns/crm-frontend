@@ -196,54 +196,60 @@ async function editUser(userId) {
 	}
 }
 
-function saveEditedUser() {
-	fetch(
-		`http://127.0.0.1:8000/api/updateUser/${editingUser.value}`,
-		{
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(editedUser.value),
-		}
-	)
-		.then((response) => {
-			if (response.ok) {
-				return response.json();
-			} else {
-				console.error(
-					'Ошибка при редактировании пользователя:',
-					response.statusText
+async function saveEditedUser() {
+	try {
+		loading.value = true;
+
+		await axios
+			.put(
+				`http://127.0.0.1:8000/api/updateUser/${editingUser.value}`,
+				editedUser.value
+			)
+			.then((response) => {
+				console.log(response, 'response');
+
+				store.commit(
+					'setUsers',
+					response.data.users
 				);
-			}
-		})
-		.then((data) => {
-			store.commit('setUsers', data.users);
-			editingUser.value = null;
+				editingUser.value = null;
 
-			if (data.user.role !== 'admin') {
-				const adminCount = data.users.filter(
-					(user) => user.role === 'admin'
-				).length;
+				if (response.data.user.role !== 'admin') {
+					const adminCount =
+						response.data.users.filter(
+							(user) => user.role === 'admin'
+						).length;
 
-				if (adminCount === 0) {
-					store.commit('logout');
+					if (adminCount === 0) {
+						store.commit('logout');
+					}
 				}
-			}
-		})
-		.catch((error) => {
-			console.error(
-				'Ошибка при редактировании пользователя:',
-				error.message
-			);
-		});
 
-	closeEditModal();
+				notify(
+					'message',
+					'Менеджер успешно отредактирован!'
+				);
+				closeEditModal();
+				loading.value = false;
+			});
+	} catch (error) {
+		loading.value = false;
+
+		if (error.response.data.error) {
+			errors.value = error.response.data.error;
+
+			notify(
+				'error',
+				'Проверьте корректность введенных данных!'
+			);
+		}
+	}
 }
 
 function cancelEdit() {
 	editingUser.value = null;
 	closeEditModal();
+	resetModalApp();
 }
 
 function formatDate(createdAt) {
