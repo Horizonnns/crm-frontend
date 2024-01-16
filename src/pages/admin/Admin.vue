@@ -146,6 +146,11 @@ async function deleteUser(userId) {
 		if (response.ok) {
 			store.commit('deleteUser', userId);
 
+			notify(
+				'message',
+				'Менеджер успешно удален!'
+			);
+
 			if (store.state.users.length === 0) {
 				store.commit('logout');
 			} else {
@@ -164,9 +169,9 @@ async function deleteUser(userId) {
 			);
 		}
 	} catch (error) {
-		console.error(
-			'Ошибка при удалении пользователя:',
-			error.message
+		notify(
+			'error',
+			'Ошибка при удалении пользователя!'
 		);
 	}
 }
