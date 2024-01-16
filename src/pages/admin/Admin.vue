@@ -842,9 +842,11 @@ function formatTime(createdAt) {
 														type="text"
 														title="ФИО"
 														placeholder="Иван Иванов"
+														:disabled="loading"
 														v-model="
 															editedUser.name
 														"
+														:error="errors.name"
 													/>
 
 													<AppInput
@@ -852,19 +854,23 @@ function formatTime(createdAt) {
 														type="text"
 														title="Email"
 														placeholder="Введите email"
+														:disabled="loading"
 														v-model="
 															editedUser.email
 														"
+														:error="errors.email"
 													/>
 
 													<BaseSelect
 														:classes="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
+														:disabled="loading"
 														v-model="
 															editedUser.role
 														"
 														:options="
 															roleVariants
 														"
+														:error="errors.role"
 														placeholder="Выберите роль"
 													/>
 												</div>
@@ -878,17 +884,25 @@ function formatTime(createdAt) {
 														:maska="'#########'"
 														title="Номер телефона"
 														placeholder="901000801"
+														:disabled="loading"
 														v-model="
 															editedUser.phonenum
+														"
+														:error="
+															errors.phonenum
 														"
 													/>
 
 													<BaseSelect
 														:classes="'p-4 border w-full rounded-md focus:outline-none focus:ring-0 focus:border-blue-10'"
+														:disabled="loading"
 														v-model="
 															editedUser.job_title
 														"
 														:options="jobеtitles"
+														:error="
+															errors.job_title
+														"
 														placeholder="Выберите должность"
 													/>
 												</div>
@@ -897,10 +911,18 @@ function formatTime(createdAt) {
 
 										<button
 											@click="saveEditedUser"
-											type="submit"
-											class="bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 border rounded-full text-sm font-bold px-4 mt-5 pt-1.5 pb-2 w-full"
+											:disabled="loading"
+											:class="{
+												'bg-blue-10 opacity-80':
+													loading,
+											}"
+											class="flex justify-center bg-gray-100 hover:bg-gray-200 active:bg-gray-300 duration-200 border rounded-full text-sm font-bold px-4 mt-5 pt-1.5 pb-2 w-full"
 										>
-											Изменить
+											<IconProcessing
+												class="fill-blue-10"
+												v-if="loading"
+											/>
+											<p v-else>Изменить</p>
 										</button>
 									</DialogPanel>
 								</TransitionChild>
