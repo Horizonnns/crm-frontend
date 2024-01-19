@@ -76,6 +76,10 @@ function resetForm() {
 	};
 }
 
+const token = JSON.parse(
+	localStorage.getItem('accessToken')
+);
+
 const loading = ref(false);
 async function createApp() {
 	try {
@@ -84,7 +88,12 @@ async function createApp() {
 		await axios
 			.post(
 				'http://127.0.0.1:8000/api/createApp',
-				form.value
+				form.value,
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
 			)
 			.then((res) => {
 				console.log(res, 'res');
@@ -122,6 +131,9 @@ async function deleteApp(appId) {
 			`http://127.0.0.1:8000/api/deleteApp/${appId}`,
 			{
 				method: 'DELETE',
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
 			}
 		);
 
