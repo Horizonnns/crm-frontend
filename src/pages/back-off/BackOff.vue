@@ -23,7 +23,12 @@ const applications = computed(
 
 async function getApps() {
 	const applicationsResponse = await axios.get(
-		'http://127.0.0.1:8000/api/getAllApps'
+		'http://127.0.0.1:8000/api/getAllApps',
+		{
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		}
 	);
 
 	store.commit(
