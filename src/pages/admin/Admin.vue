@@ -53,6 +53,7 @@ function openModal() {
 const isEditOpen = ref(false);
 function closeEditModal() {
 	isEditOpen.value = false;
+	resetModalApp();
 }
 function openEditModal() {
 	isEditOpen.value = true;
@@ -101,15 +102,23 @@ const roleVariants = [
 	{ value: 'front-office', label: 'Фронт-офис' },
 ];
 
-const loading = ref(false);
+const token = JSON.parse(
+	localStorage.getItem('accessToken')
+);
 
+const loading = ref(false);
 async function authUser() {
 	try {
 		loading.value = true;
 
 		const response = await axios.post(
 			'http://127.0.0.1:8000/api/authUser',
-			form.value
+			form.value,
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
 		);
 
 		store.commit('setUsers', response.data.users);
@@ -140,6 +149,9 @@ async function deleteUser(userId) {
 			`http://127.0.0.1:8000/api/deleteUser/${userId}`,
 			{
 				method: 'DELETE',
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
 			}
 		);
 
@@ -203,7 +215,12 @@ async function saveEditedUser() {
 		await axios
 			.put(
 				`http://127.0.0.1:8000/api/updateUser/${editingUser.value}`,
-				editedUser.value
+				editedUser.value,
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
 			)
 			.then((response) => {
 				console.log(response, 'response');
@@ -265,6 +282,8 @@ function formatTime(createdAt) {
 </script>
 
 <template>
+	<p>{{ token }}</p>
+
 	<section class="bg-gray-50 w-full h-screen">
 		<!-- User list table -->
 		<div
