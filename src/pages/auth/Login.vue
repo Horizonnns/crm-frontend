@@ -42,14 +42,6 @@ async function login() {
 				response.data.accessToken
 			);
 
-			// save user data in store
-			store.commit('setUser', response.data.user);
-
-			store.commit(
-				'setUsers',
-				response.data.users
-			);
-
 			// redirect to page depending on role
 			const role = response.data.user.role;
 			if (role === 'admin') {
@@ -58,6 +50,16 @@ async function login() {
 				router.push('/frontoff');
 			} else if (role === 'back-office') {
 				router.push('/backoff');
+			}
+
+			// save user data in store
+			store.commit('setUser', response.data.user);
+
+			if (role === 'admin') {
+				store.commit(
+					'setUsers',
+					response.data.users
+				);
 			}
 		}
 
