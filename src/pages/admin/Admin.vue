@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import axios from 'axios';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import {
 	TransitionRoot,
 	TransitionChild,
@@ -16,6 +17,7 @@ import IconProcessing from '../../components/icons/IconProcessing.vue';
 import { format } from 'date-fns';
 
 const store = useStore();
+const router = useRouter();
 const users = computed(() => store.state.users);
 
 const jobеtitles = [
@@ -165,6 +167,7 @@ async function deleteUser(userId) {
 
 			if (store.state.users.length === 0) {
 				store.commit('logout');
+				router.push('/register');
 			} else {
 				const adminUsers =
 					store.state.users.filter(
@@ -172,6 +175,7 @@ async function deleteUser(userId) {
 					);
 				if (adminUsers.length === 0) {
 					store.commit('logout');
+					router.push('/register');
 				}
 			}
 		} else {
@@ -239,6 +243,7 @@ async function saveEditedUser() {
 
 					if (adminCount === 0) {
 						store.commit('logout');
+						router.push('/register');
 					}
 				}
 
