@@ -156,7 +156,12 @@ const searchApplications = async () => {
 
 		const response = await axios.post(
 			'http://127.0.0.1:8000/api/searchApps',
-			{ search_term: searchTerm.value }
+			{ search_term: searchTerm.value },
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
 		);
 		apps.value = response.data.applications;
 		notify('message', 'Заявка успешно найдена!');
@@ -263,6 +268,9 @@ async function deleteApp(appId) {
 			`http://127.0.0.1:8000/api/deleteApp/${appId}`,
 			{
 				method: 'DELETE',
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
 			}
 		);
 
@@ -288,12 +296,18 @@ async function deleteApp(appId) {
 }
 
 async function logOut() {
-	store.commit('logout');
-
 	await axios.post(
 		'http://127.0.0.1:8000/api/logout',
-		router.push('/register')
+		{},
+		{
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		}
 	);
+
+	store.commit('logout');
+	router.push('/register');
 }
 
 const getApplication = (app) => {

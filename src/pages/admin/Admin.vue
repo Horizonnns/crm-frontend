@@ -282,8 +282,6 @@ function formatTime(createdAt) {
 </script>
 
 <template>
-	<p>{{ token }}</p>
-
 	<section class="bg-gray-50 w-full h-screen">
 		<!-- User list table -->
 		<div
